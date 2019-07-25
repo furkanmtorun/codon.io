@@ -101,6 +101,17 @@ nav ul li:hover a:hover {color: #FFF;}
     height: 50px !important;
     width: 50px !important;
 }
+
+/* index.html > register form modal */
+.gender-radio {
+    float: left;
+    margin-right: 30px;
+}
+
+.gender-radio span {font-size: 22px !important;}
+
+/* Blur effect */
+
 .blur{ -webkit-filter: blur(3px); filter: blur(3px); }
 h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 
