@@ -1,11 +1,12 @@
 <!-- codon.io Menu Begins -->
+
 <!-- Sub-menu -->
 <ul id="sub_menu" class="dropdown-content">
     <li><a href="#" class="profile_name">Furkan</a></li>
     <li class="divider"></li>
-    <li><a href="#Profile">Profile</a></li>
-    <li><a href="#Settings">Settings</a></li>
-    <li><a href="#Logout">Log out</a></li>
+    <li><a href="profil">Profile</a></li>
+    <li><a href="settings">Settings</a></li>
+    <li><a href="logout">Log out</a></li>
 </ul>
 <!-- Fixed Header Menu -->
 <nav class="white lighten-1">
@@ -14,7 +15,7 @@
     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
         <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">
-            <img class="profile_button" src="files/img/furkan.jpg"><i class="material-icons right">arrow_drop_down</i></a></li>
+            <img class="profile_button" src="{{ url_for('static', filename='files/img/furkan.jpg') }}"><i class="material-icons right">arrow_drop_down</i></a></li>
     </ul>
     </div>
 </nav>
