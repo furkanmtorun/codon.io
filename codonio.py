@@ -13,5 +13,16 @@ def index():
 def home():
     return render_template("home.html")
 
+# Profil Page
+@app.route("/profile")
+def profil():
+    return render_template("profile.html")
+
+# Profil Page
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
+
+# codon.io
 if __name__ == "__main__":
     app.run(debug=True)
