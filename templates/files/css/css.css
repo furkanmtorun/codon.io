@@ -1,0 +1,125 @@
+/* Codon.io */
+
+body {background: #f2f2f2; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;}
+nav {position: fixed; height: 70px !important; z-index: 9999;}
+nav > .container {margin: 3px auto;}
+nav .brand-logo {color: #20AEF3 !important; margin-left: 40px;}
+nav ul li a {color: #20AEF3; background: #FFF;}
+nav ul li:hover {background: #20AEF3;}
+nav ul li:hover a:hover {color: #FFF;}
+.dropdown-content {top: 50px !important;}
+.dropdown-content li:hover {background: #20AEF3; color: #FFF;}
+.dropdown-trigger > i {margin-left: 1px}
+.sidenav-trigger {color: #20AEF3}
+.login_button {margin-left: 7px}
+.profile_button {height: 50px; width: 50px; margin: 0; margin-bottom: -20px; cursor: pointer;}
+.profile_name {color: #555 !important; font-weight: bold; }
+.profile_name:hover {color: #FFF !important}
+
+/* What is Codon.io? */
+.welcomePart {
+    height: 400px;
+    width: 100%;
+    background-image: url('../img/overlay.png');
+    background-color: #35b8f7;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.inner_welcomePart {
+    position: relative;
+    padding-top: 90px;
+    text-shadow: 0px 0px 1px #555;
+    font-family: "Arial" !important;
+    text-align: center;
+}
+
+/* Home Page IDK Part */
+.idk {
+    display: block;
+    width: 100%;
+    height: 60px;
+    margin-top: 49px;
+    background: #EC3636;
+    text-align: center;
+    color: #FFF;
+    padding-top: 7px;
+}
+
+/* Search part */
+.search_box {
+    width: 95% !important;
+    height: 50px !important; 
+    background: url('../img/ara.png') 97% center no-repeat #FFF !important; 
+    color: #555 !important; 
+    padding: 10px 25px !important;
+    font-size: 22px !important;
+    border: none !important;
+    outline: none !important;
+}
+.search_box:focus {box-shadow: 1px 1px 20px 2px #B5B2B2 !important;}
+
+/* Log in Modal */
+#modal2 {
+    background: url('../img/user.png') no-repeat 120% 35% #35B8F7;
+    color: #FFF;
+    cursor: default;
+    top: 15% !important;
+}
+.modal2_title {padding-left: 10px; font: 'Roboto';}
+.login_shell { width: 100%; margin: 35px auto; }
+
+.loginelement {
+    padding: 10px !important;
+    background: #FFF !important;
+    font-size:20px !important;
+    color: #35B8F7 !important;
+    border-radius: 10px !important;
+    width: 54% !important;
+}
+.login{
+    margin-left: 10px;
+    background: #35b8f7;
+    color: #FFF;
+    font-size: 17px;
+    padding: 5px;
+    height: 50px !important;
+    width: 95px !important;
+    border: 1px solid #FFF;
+}
+.login:hover {background: #FFF; color:#35b8f7}
+
+.forgetpass, .forgetpass:hover {
+    margin-left: 6px;
+    background: #ffe206;
+    color: #FFF;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 6px;
+    height: 50px !important;
+    width: 50px !important;
+}
+.blur{ -webkit-filter: blur(3px); filter: blur(3px); }
+h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
+
+/* home.html > People list */
+#people .card {
+    float: left !important;
+    margin: 15px !important;
+    max-width: 200px !important;
+}
+
+.card .card-title {font-size: 20px !important;}
+
+/* profile.html */
+.badges {margin-top: 20px;}
+
+.badges i {font-size: 40px !important; margin-right: 15px;}
+
+.status-circle {
+    vertical-align: bottom !important; 
+    margin-left: 10px; 
+    font-size: 17px !important;
+}
