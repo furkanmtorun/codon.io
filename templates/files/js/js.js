@@ -23,3 +23,5 @@ $('#people').hover(function(){ $('#people').removeClass('blur'); });
 
 //Tabs
 $(document).ready(function(){$('.tabs').tabs()});
+//Tooltips
+$(document).ready(function(){$('.tooltipped').tooltip()});

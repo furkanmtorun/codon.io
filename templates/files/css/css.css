@@ -111,6 +111,9 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     max-width: 200px !important;
 }
 
+#people .card-action {text-align: center !important;}
+#people .card-action a {margin: 0 !important;}
+
 .card .card-title {font-size: 20px !important;}
 .card i {cursor: default}
 
