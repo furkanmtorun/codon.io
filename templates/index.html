@@ -1,43 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="codon.io">
-    <meta name="author" content="codon.io">
-    <meta name="copyright" content= "codon.io">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link id="favicon" rel="shortcut icon" type="image/x-icon" href="files/img/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="files/css/materialize.min.css"  media="screen"/>
-    <link rel="stylesheet" type="text/css" href="files/css/css.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>codon.io</title>
-</head>
-<body>
+{% extends 'layout.html' %}
 
-    <!-- codon.io Menu Begins -->
-    <!-- Sub-menu -->
-    <ul id="sub_menu" class="dropdown-content">
-        <li><a href="#!">one</a></li>
-        <li><a href="#!">two</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">soon</a></li>
-    </ul>
-    <!-- Fixed Header Menu -->
-    <nav class="white lighten-1">
-        <div class="nav-wrapper container">
-        <a href="#!" class="brand-logo">codon.io</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-            <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">What is codon.io?<i class="material-icons right">arrow_drop_down</i></a></li>
-            <button data-target="modal2" class="waves-effect waves-light blue white-text login_button btn modal-trigger">Log in</button>
-        </ul>
-        </div>
-    </nav>
-    <!-- Mobil Menu -->
-    <ul class="sidenav" id="mobile-demo">
-        <li><a href="mobile.html">Mobile</a></li>
-    </ul>
+{% block content %}
 
     <!-- What is codon.io ? -->
     <div class="welcomePart">
@@ -63,71 +26,4 @@
         <br><hr><br>
     </div>
 
-    <!-- codon.io Footer begins -->
-    <footer class="page-footer blue">
-        <div class="container">
-        <div class="row">
-        <div class="col l6 s12">
-            <h5 class="white-text">codon.io!</h5>
-            <p class="grey-text text-lighten-4"> I am just tired! </p>
-        </div>
-        <div class="col l4 offset-l2 s12">
-            <h5 class="white-text">Get in touch with us</h5>
-            <ul>
-                <li><a class="grey-text text-lighten-3" href="#Furki">Furki</a></li>
-                <li><a class="grey-text text-lighten-3" href="#Emrah">Emrah</a></li>
-                <li><a class="grey-text text-lighten-3" href="#Bilal">Bilal</a></li>
-                <li><a class="grey-text text-lighten-3" href="#Site">codon.io</a></li>
-            </ul>
-        </div>
-        </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container"> 
-                made with brain! 
-                <button data-target="modal1" class="waves-effect waves-light blue right btn modal-trigger">Privacy and Policy</button>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- codon.io Kullanıcı Sözleşme Modal -->
-    <div id="modal1" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <h4>Privacy and Policy</h4>
-        <p>If you read means that you have already confirm that list.</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-light btn secondary-content blue">OK</a>
-    </div>
-    </div>
-    
-    <!-- codon.io Log in Modal -->
-    <div id="modal2" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <div class="login_shell">
-            <div class="row">
-            <form class="col s12">
-                <h5 class="modal2_title">Log in</h5>
-                <div class="row"><div class="input-field col s12">
-                    <input id="username" name="username" type="text" placeholder="Username" class="validate loginelement">
-                </div>
-                <div class="input-field col s12">
-                    <input id="password" name="password" type="password" placeholder="Password" class="validate loginelement">
-                </div></div>
-                <a class="waves-effect waves-light btn login">Log in</a>
-                <a class="btn-floating btn waves-effect waves-light forgetpass tooltipped" data-position="right" 
-                    data-delay="5" data-tooltip="Forget my password?"><i class="material-icons">lock_outline</i></a>
-            </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-    <a href="#!" class="modal-action modal-close waves-effect waves-light btn secondary-content red">Close</a>
-    </div>
-    </div>
-
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="files/js/materialize.min.js"></script>
-  <script type="text/javascript" src="files/js/js.js"></script>
-</body>
-</html>
+{% endblock %}
