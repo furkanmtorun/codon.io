@@ -139,7 +139,7 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     font-size: 17px !important;
 }
 
-/* Chat */
+/* Chat Panel */
 .chat-header{
     padding-left: 25px;
     padding-top: 10px;
