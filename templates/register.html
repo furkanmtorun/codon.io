@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% from 'includes/_formhelpers.html' import render_field %}
 
 {% block content %}
 
@@ -6,13 +7,14 @@
         <h5>Register</h5>
         <form action="" method="POST">
             {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
-            {{ form.username(class="login_element") }}
-            {{ form.email(class="login_element") }}
-            {{ form.password(class="login_element") }}
-            {{ form.confirm_password(class="login_element") }}
+            {{ render_field(form.username, class="login_element validate") }}
+            {{ render_field(form.email, class="login_element validate") }}
+            {{ render_field(form.password,class="login_element validate") }}
+            {{ render_field(form.confirm_password, class="login_element validate") }}
+            <br><br>
             {{ form.submit(class="btn blue white-text waves-effect waves-light") }}
         </form>
-
+        <br>
         <a href="{{ url_for('login') }}" class="btn green white-text">Already have an acoount? Login from here!</a>
         <!-- here in the href part, it will redirect to function in codonio.py not the name of the page -->
         <br><br>
