@@ -31,6 +31,11 @@ def profil():
 def settings():
     return render_template("settings.html")
 
+# Chat Page
+@app.route("/chat")
+def chat():
+    return render_template("chat.html")
+
 # Logout Page
 @app.route("/logout")
 def logout():

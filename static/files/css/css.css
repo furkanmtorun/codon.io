@@ -7,8 +7,8 @@ nav .brand-logo {color: #20AEF3 !important; margin-left: 40px;}
 nav ul li a {color: #20AEF3; background: #FFF;}
 nav ul li:hover {background: #20AEF3;}
 nav ul li:hover a:hover {color: #FFF;}
-.dropdown-content {top: 50px !important;}
-.dropdown-content li:hover {background: #20AEF3; color: #FFF;}
+#sub_menu {top: 50px !important;}
+.dropdown-content li:hover {background: #20AEF3; color: #FFF !important;}
 .dropdown-trigger > i {margin-left: 1px}
 .sidenav-trigger {color: #20AEF3}
 .login_button {margin-left: 7px}
@@ -129,7 +129,7 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 .card .card-title {font-size: 20px !important;}
 .card i {cursor: default}
 
-/* profile.html */
+/* Profile */
 .badges {margin-top: 20px;}
 .badges i {font-size: 40px !important; margin-right: 15px; cursor: default;}
 
@@ -138,3 +138,56 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     margin-left: 10px; 
     font-size: 17px !important;
 }
+
+/* Chat */
+.chat-header{
+    padding-left: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #35B8F7;
+}
+.chat-header h6 {font-size: 20px; color: #35B8F7} 
+.chat_menu_buttons > i {
+    font-size: 20px !important; 
+    background: #f2f2f2;
+    padding: 7px; 
+    border-radius: 50%;
+    margin-left: 3px;
+}
+.chat_menu_buttons > i:hover {background: #35B8F7; color: #FFF; }
+
+.chat-container {padding: 20px 50px; min-height: 650px; max-height: 650px !important; overflow-y: scroll;}
+.chat-box{
+    color: #FFF;
+    position: relative;
+    padding: 2%;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    max-width: 60%;
+    margin-bottom: 15px;
+}
+.chat-box:after, .chat-box:before {
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    position: absolute;
+    pointer-events: none;
+}
+.you {background: #c6c6c6; border: 5px solid #c6c6c6; float: left; text-align: left;}
+.you:after {
+    right: 100%;
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: #c6c6c6;
+    border-width: 15px;
+    margin-top: -20px;
+}
+.person {background: #35B8F7; border: 5px solid #35B8F7; float: right; text-align: right;}
+.person:before {
+    left: 100%;
+    border-color: rgba(136, 183, 213, 0);
+    border-left-color: #35B8F7;
+    border-width: 15px;
+    margin-top: -20px;
+}
+
