@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div id="container">
+        <h5>Register</h5>
+        <form action="" method="POST">
+            {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
+            {{ form.username(class="login_element") }}
+            {{ form.email(class="login_element") }}
+            {{ form.password(class="login_element") }}
+            {{ form.confirm_password(class="login_element") }}
+            {{ form.submit(class="btn blue white-text waves-effect waves-light") }}
+        </form>
+
+        <a href="{{ url_for('login') }}" class="btn green white-text">Already have an acoount? Login from here!</a>
+        <!-- here in the href part, it will redirect to function in codonio.py not the name of the page -->
+        <br><br>
+
+    </div>
+
+{% endblock %}
