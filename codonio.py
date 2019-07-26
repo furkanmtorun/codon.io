@@ -19,11 +19,13 @@ def index():
     return render_template("index.html")
 
 # Register Page
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
-    return render_template("index.html")
+    if form.validate_on_submit():
+        flash("Registration was completed successfuly.", msg_type_to_color["success"])
     return render_template("register.html", form=form, title="Register")
+    return redirect(url_for("login"))
 
 # Login Page
 @app.route("/login")
@@ -33,7 +35,6 @@ def login():
 
 # Home Page
 @app.route("/home")
-#@is_logged_in
 def home():
     return render_template("home.html")
 
