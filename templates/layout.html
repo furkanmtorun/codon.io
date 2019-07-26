@@ -11,7 +11,13 @@
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='files/css/css.css') }}" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>codon.io</title>
+    <title>
+        {% if title %}
+        {{title}} | codon.io    
+        {% else %}
+        codon.io
+        {% endif %}
+    </title>
 </head>
 <body>
 
