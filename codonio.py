@@ -18,6 +18,19 @@ msg_type_to_color = {
 def index():
     return render_template("index.html")
 
+# Register Page
+@app.route("/register")
+def register():
+    form = RegistrationForm()
+    return render_template("index.html")
+    return render_template("register.html", form=form, title="Register")
+
+# Login Page
+@app.route("/login")
+def login():
+    form = LoginForm()
+    return render_template("login.html", form=form, title="Login")
+
 # Home Page
 @app.route("/home")
 #@is_logged_in
@@ -27,17 +40,17 @@ def home():
 # Profil Page
 @app.route("/profile")
 def profil():
-    return render_template("profile.html")
+    return render_template("profile.html", title="Profile")
 
 # Profil Page
 @app.route("/settings")
 def settings():
-    return render_template("settings.html")
+    return render_template("settings.html", title="Settings")
 
 # Chat Page
 @app.route("/chat")
 def chat():
-    return render_template("chat.html")
+    return render_template("chat.html", title="Chat")
 
 # Logout Page
 @app.route("/logout")
