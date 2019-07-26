@@ -1,5 +1,8 @@
 from flask import Flask, render_template, url_for, redirect, flash
+from forms import RegistrationForm, LoginForm
+
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "157a6ca4d2e34d77a949d61f8724d8e878e51e66b2babe2adc"
 
 # Conversion from message type to color
 msg_type_to_color = {
@@ -44,5 +47,4 @@ def logout():
 
 # codon.io
 if __name__ == "__main__":
-    app.secret_key = "qYqDyVT^!2%qUsY=A@qb"
     app.run(debug=True)
