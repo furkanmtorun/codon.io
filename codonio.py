@@ -71,6 +71,8 @@ def login():
             data = cur.fetchone()
             password = data["password"]            
             if sha256_crypt.verify(form.password.data, password):
+                session['logged_in'] = True
+                session['username'] = form.username.data
                 flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
                 return redirect(url_for("home"))
             else:
@@ -128,6 +130,7 @@ def chat():
 @app.route("/logout")
 @is_logged_in
 def logout():
+    session.clear()
     flash("You logged out!", msg_type_to_color['success'])
     return redirect(url_for("home"))
 
