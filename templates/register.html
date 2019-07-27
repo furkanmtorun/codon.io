@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-{% from 'includes/_formhelpers.html' import render_field %}
 
 {% block content %}
 
@@ -11,20 +10,61 @@
                 <form action="" method="POST">
                     {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
                     <div class="row">
+
                         <div class="input-field col s12">
-                            {{ render_field(form.username, class="validate loginelement", placeholder="Username") }}
+                            {% if form.username.errors %}
+                                {{ form.username(class="validate loginelement", placeholder="Username") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.username(class="validate loginelement", placeholder="Username") }}
+                            {% endif %}
                         </div>
+
                         <div class="input-field col s12">
-                            {{ render_field(form.email, class="loginelement validate", placeholder="Email") }}
+                            {% if form.email.errors %}
+                            {{ form.email(class="validate loginelement", placeholder="Email") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                                {{ form.email(class="validate loginelement", placeholder="Email") }}
+                            {% endif %}
                         </div>
+
                         <div class="input-field col s12">
-                            {{ render_field(form.password,class="loginelement validate", placeholder="Password") }}
+                            {% if form.password.errors %}
+                            {{ form.password(class="validate loginelement", placeholder="Password") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                                {{ form.password(class="validate loginelement", placeholder="Password") }}
+                            {% endif %}
                         </div>
+
                         <div class="input-field col s12">
-                            {{ render_field(form.confirm_password, class="loginelement validate", placeholder="Confirm Password") }}
+                            {% if form.confirm_password.errors %}
+                            {{ form.confirm_password(class="validate loginelement", placeholder="Confirm Password") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.confirm_password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                                {{ form.confirm_password(class="validate loginelement", placeholder="Confirm Password") }}
+                            {% endif %}
                         </div>
+                        
                     </div>
-                    <a href="{{ url_for('register') }}" class="waves-effect waves-light btn login">Register</a>
+                    {{ form.submit(class="waves-effect waves-light btn login", value="Register") }}
                 </form>
             </div>
         </div>

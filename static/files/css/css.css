@@ -81,7 +81,7 @@ nav ul li:hover a:hover {color: #FFF;}
     border-radius: 10px !important;
     width: 54% !important;
 }
-.login{
+ .login{
     margin-left: 10px;
     background: #35b8f7;
     color: #FFF;
@@ -191,4 +191,3 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     border-width: 15px;
     margin-top: -20px;
 }
-
