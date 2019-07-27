@@ -61,13 +61,18 @@ def login():
 
         #MySQL Integration
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM users WHERE (username = %s OR email = %s) AND password = %s")
-
-        if form.username.data=="furkan" and form.password.data=="aksaray":
-            flash("Welcome Furkan!", msg_type_to_color["success"])
-            return redirect(url_for("home"))
+        result = cur.execute("SELECT * FROM users WHERE username = %s or email=%s", (form.username.data, form.username.data))
+        if result > 0:
+            data = cur.fetchone()
+            password = data["password"]            
+            if sha256_crypt.verify(form.password.data, password):
+                flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
+                return redirect(url_for("home"))
+            else:
+                flash("Invalid login!", msg_type_to_color["error"])
         else:
-            flash("Invalid login!", msg_type_to_color["error"])
+            flash("Username or email not found!", msg_type_to_color["error"])
+
     return render_template("login.html", form=form, title="Login")
 
 
