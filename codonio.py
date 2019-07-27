@@ -1,7 +1,8 @@
-from flask import Flask, render_template, url_for, redirect, flash
+from flask import Flask, render_template, url_for, redirect, flash, session
 from forms import RegistrationForm, LoginForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
+from functools import wraps
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "157a6ca4d2e34d77a949d61f8724d8e878e51e66b2babe2adc"
@@ -80,9 +81,20 @@ def login():
     return render_template("login.html", form=form, title="Login")
 
 
+def is_logged_in(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		if 'logged_in' in session:
+			return f(*args, **kwargs)
+		else:
+			flash("Unauthorized, please log in", msg_type_to_color["error"])
+			return redirect(url_for("login"))
+	return wrap
+
 
 # Home Page
 @app.route("/home")
+@is_logged_in
 def home():
     return render_template("home.html")
 
@@ -90,6 +102,7 @@ def home():
 
 # Profil Page
 @app.route("/profile")
+@is_logged_in
 def profil():
     return render_template("profile.html", title="Profile")
 
@@ -97,6 +110,7 @@ def profil():
 
 # Profil Page
 @app.route("/settings")
+@is_logged_in
 def settings():
     return render_template("settings.html", title="Settings")
 
@@ -104,6 +118,7 @@ def settings():
 
 # Chat Page
 @app.route("/chat")
+@is_logged_in
 def chat():
     return render_template("chat.html", title="Chat")
 
@@ -111,6 +126,7 @@ def chat():
 
 # Logout Page
 @app.route("/logout")
+@is_logged_in
 def logout():
     flash("You logged out!", msg_type_to_color['success'])
     return redirect(url_for("home"))
