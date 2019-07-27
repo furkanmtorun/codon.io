@@ -3,22 +3,32 @@
 
 {% block content %}
 
-    <div id="container">
-        <h5>Register</h5>
-        <form action="" method="POST">
-            {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
-            {{ render_field(form.username, class="login_element validate") }}
-            {{ render_field(form.email, class="login_element validate") }}
-            {{ render_field(form.password,class="login_element validate") }}
-            {{ render_field(form.confirm_password, class="login_element validate") }}
-            <br><br>
-            {{ form.submit(class="btn blue white-text waves-effect waves-light") }}
-        </form>
-        <br>
-        <a href="{{ url_for('login') }}" class="btn green white-text">Already have an acoount? Login from here!</a>
-        <!-- here in the href part, it will redirect to function in codonio.py not the name of the page -->
-        <br><br>
-
+    <br><br>
+    <div class="login_form container">
+        <div class="container">
+            <div class="row">
+                <h5 class="modal2_title">Register</h5>
+                <form action="" method="POST">
+                    {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
+                    <div class="row">
+                        <div class="input-field col s12">
+                            {{ render_field(form.username, class="validate loginelement", placeholder="Username") }}
+                        </div>
+                        <div class="input-field col s12">
+                            {{ render_field(form.email, class="loginelement validate", placeholder="Email") }}
+                        </div>
+                        <div class="input-field col s12">
+                            {{ render_field(form.password,class="loginelement validate", placeholder="Password") }}
+                        </div>
+                        <div class="input-field col s12">
+                            {{ render_field(form.confirm_password, class="loginelement validate", placeholder="Confirm Password") }}
+                        </div>
+                    </div>
+                    <a href="{{ url_for('register') }}" class="waves-effect waves-light btn login">Register</a>
+                </form>
+            </div>
+        </div>
     </div>
+    <br><br><br><br><br><br>
 
 {% endblock %}

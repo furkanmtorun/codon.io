@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% from 'includes/_formhelpers.html' import render_field %}
+
+{% block content %}
+
+<br><br>
+<div class="login_form container">
+    <br><br><br><br>
+    <div class="container">
+        <div class="row">
+            <h5 class="modal2_title">Log in</h5>
+            <form action="" method="POST">
+                {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
+                <div class="row">
+                    <div class="input-field col s12">
+                        {{ render_field(form.username, class="validate loginelement", placeholder="Username") }}
+                    </div>
+                    <div class="input-field col s12">
+                        {{ render_field(form.password,class="loginelement validate", placeholder="Password") }}
+                    </div>
+                </div>
+                <a href="{{ url_for('login') }}" class="waves-effect waves-light btn login">Log in</a>
+                <a class="btn-floating btn waves-effect waves-light forgetpass tooltipped" data-position="right" data-delay="5" data-tooltip="Forget my password?"><i class="material-icons">lock_outline</i></a>
+            </form>
+        </div>
+    </div>
+    <br><br><br>
+</div>
+<br><br><br><br><br><br>
+    
+{% endblock %}

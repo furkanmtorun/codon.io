@@ -62,13 +62,14 @@ nav ul li:hover a:hover {color: #FFF;}
 }
 .search_box:focus {box-shadow: 1px 1px 20px 2px #B5B2B2 !important;}
 
-/* Log in Modal */
-#modal2 {
-    background: url('../img/user.png') no-repeat 120% 35% #35B8F7;
+/* Log in */
+.login_form {
+    background: url('../img/user.png') no-repeat 112% bottom #35B8F7;
     color: #FFF;
     cursor: default;
-    top: 15% !important;
+    padding: 70px 0 !important;
 }
+.login_form label {display: none;}
 .modal2_title {padding-left: 10px; font: 'Roboto';}
 .login_shell { width: 100%; margin: 35px auto; }
 
