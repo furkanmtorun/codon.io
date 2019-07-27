@@ -66,7 +66,7 @@ def login():
 
         #MySQL Integration
         cur = mysql.connection.cursor()
-        result = cur.execute("SELECT * FROM users WHERE username = %s or email=%s", (form.username.data, form.username.data))
+        result = cur.execute("SELECT * FROM users WHERE username = %s OR email = %s", (form.username.data, form.username.data))
         if result > 0:
             data = cur.fetchone()
             password = data["password"]            
@@ -81,6 +81,7 @@ def login():
             flash("Username or email not found!", msg_type_to_color["error"])
 
     return render_template("login.html", form=form, title="Login")
+
 
 
 def is_logged_in(f):
