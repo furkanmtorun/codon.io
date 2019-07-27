@@ -42,7 +42,7 @@ def register():
         # MySQL Integration
             ## It is needed to check the username and email are already taken or not.
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users (username, email, password   ) VALUES (%s, %s, %s)", (form.username.data, form.email.data, form.password.data))  
+        cur.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (form.username.data, form.email.data, sha256_crypt.hash(str(form.password.data))))  
         mysql.connection.commit() 
         cur.close()
 
@@ -58,6 +58,11 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+
+        #MySQL Integration
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM users WHERE (username = %s OR email = %s) AND password = %s")
+
         if form.username.data=="furkan" and form.password.data=="aksaray":
             flash("Welcome Furkan!", msg_type_to_color["success"])
             return redirect(url_for("home"))
