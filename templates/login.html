@@ -3,7 +3,6 @@
 {% block content %}
 
 <div class="login_form container">
-    <br><br><br><br>
     <div class="container">
         <div class="row">
             <h5 class="modal2_title">Log in</h5>
@@ -29,22 +28,23 @@
                         {{ form.password(class="validate loginelement", placeholder="Password") }}
                         <div class="invalid-feedback">
                             {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
+                            <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                         {% else %}
-                            {{ form.password(class="validate loginelement", placeholder="Password") }}
+                        {{ form.password(class="validate loginelement", placeholder="Password") }}
                         {% endif %}
                     </div>
+
                 </div>
                 <input class="btn login" id="submit" name="submit" type="submit" value="Login">
                 
                 <a class="btn-floating btn waves-effect waves-light forgetpass tooltipped" data-position="right" data-delay="5" data-tooltip="Forget my password?"><i class="material-icons">lock_outline</i></a>
+                <br><br><a class="btn waves-effect waves-light white blue-text" href="register">Create a new account</a>
             </form>
         </div>
     </div>
-    <br><br><br>
 </div>
-<br><br><br><br><br><br>
+<br><br><br>
     
 {% endblock %}
