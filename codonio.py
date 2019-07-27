@@ -2,10 +2,12 @@ from flask import Flask, render_template, url_for, redirect, flash, session
 from forms import RegistrationForm, LoginForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
+from datetime import timedelta
 from functools import wraps
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "157a6ca4d2e34d77a949d61f8724d8e878e51e66b2babe2adc"
+app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=1)
 
 # Config MySQL
 #______________________________________________________________________
@@ -63,7 +65,8 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-
+        # Session timeout
+        session.permanent = True
         #MySQL Integration
         cur = mysql.connection.cursor()
         result = cur.execute("SELECT * FROM users WHERE username = %s OR email = %s", (form.username.data, form.username.data))
@@ -84,6 +87,7 @@ def login():
 
 
 
+# Logging
 def is_logged_in(f):
 	@wraps(f)
 	def wrap(*args, **kwargs):
