@@ -132,7 +132,7 @@ def chat():
 def logout():
     session.clear()
     flash("You logged out!", msg_type_to_color['success'])
-    return redirect(url_for("home"))
+    return redirect(url_for("index"))
 
 
 
