@@ -11,7 +11,7 @@ class RegistrationForm(FlaskForm):
     
     confirm_password = PasswordField('Password', validators=[DataRequired(), Length(min=3, max=100), EqualTo('password', message= 'Password do not match!')])
 
-    submit = SubmitField('Register')
+    #submit = SubmitField('Register')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -20,4 +20,4 @@ class LoginForm(FlaskForm):
 
     remember = BooleanField('Remember me')
 
-    submit = SubmitField('Login')
+    #submit = SubmitField('Login')
