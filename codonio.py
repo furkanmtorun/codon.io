@@ -44,7 +44,7 @@ def register():
         cur = mysql.connection.cursor()
 
         # Check the presnece of the username and email in the table
-        result = cur.execute("SELECT * FROM users WHERE username = %s or email=%s", (form.username.data, form.username.data))
+        result = cur.execute("SELECT * FROM users WHERE username = %s or email = %s", (form.username.data, form.email.data))
         if result > 0:
             flash("Username or email is already taken! Choose another one.", msg_type_to_color["error"])
         else:
