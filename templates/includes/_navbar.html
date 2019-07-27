@@ -2,20 +2,34 @@
 
 <!-- Sub-menu -->
 <ul id="sub_menu" class="dropdown-content">
-    <li><a href="#" class="profile_name">Furkan</a></li>
-    <li class="divider"></li>
-    <li><a href="profile">Profile</a></li>
-    <li><a href="settings">Settings</a></li>
-    <li><a href="logout">Log out</a></li>
+    {% if session.logged_in %}
+        <li><a href="#" class="profile_name">Furkan</a></li>
+        <li class="divider"></li>
+        <li><a href="profile">Profile</a></li>
+        <li><a href="settings">Settings</a></li>
+        <li><a href="logout">Log out</a></li>
+    {% else %}
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">soon</a></li>
+    {% endif %}
 </ul>
 <!-- Fixed Header Menu -->
 <nav class="white lighten-1">
     <div class="nav-wrapper container">
-    <a href="#!" class="brand-logo">codon.io</a>
-    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-    <ul class="right hide-on-med-and-down">
-        <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">
-            <img class="profile_button" src="{{ url_for('static', filename='files/img/furkan.jpg') }}"><i class="material-icons right">arrow_drop_down</i></a></li>
+        <a href="#!" class="brand-logo">codon.io</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+        {% if session.logged_in %}
+            <li><a href="home">Home</a></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">
+                <img class="profile_button" src="{{ url_for('static', filename='files/img/furkan.jpg') }}"><i class="material-icons right">arrow_drop_down</i></a>
+            </li>
+        {% else %}
+            <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">What is codon.io?<i class="material-icons right">arrow_drop_down</i></a></li>
+            <a href="login" class="waves-effect waves-light blue white-text login_button btn">Log in</a>
+        {% endif %}
     </ul>
     </div>
 </nav>
