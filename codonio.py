@@ -40,15 +40,19 @@ def register():
     if form.validate_on_submit():
         
         # MySQL Integration
-            ## It is needed to check the username and email are already taken or not.
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (form.username.data, form.email.data, sha256_crypt.hash(str(form.password.data))))  
-        mysql.connection.commit() 
-        cur.close()
 
-        # Message and redirection
-        flash("Registration was completed successfuly.", msg_type_to_color["success"])
-        return redirect(url_for("login"))        
+        # Check the presnece of the username and email in the table
+        result = cur.execute("SELECT * FROM users WHERE username = %s or email=%s", (form.username.data, form.username.data))
+        if result > 0:
+            flash("Username or email is already taken! Choose another one.", msg_type_to_color["error"])
+        else:
+            cur.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (form.username.data, form.email.data, sha256_crypt.hash(str(form.password.data))))  
+            mysql.connection.commit() 
+            cur.close()
+            # Message and redirection into login
+            flash("Registration was completed successfuly.", msg_type_to_color["success"])
+            return redirect(url_for("login"))        
     return render_template("register.html", form=form, title="Register")
 
 
