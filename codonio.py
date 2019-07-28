@@ -75,6 +75,8 @@ def login():
             if sha256_crypt.verify(form.password.data, password):
                 session['logged_in'] = True
                 session['username'] = form.username.data
+                # Get avatar_link
+                session['avatar_link'] = data["avatar_link"]
                 flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
                 return redirect(url_for("home"))
             else:
