@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, session
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, SettingsForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from datetime import timedelta
@@ -43,10 +43,8 @@ def index():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        
         # MySQL Integration
         cur = mysql.connection.cursor()
-
         # Check the presnece of the username and email in the table
         result = cur.execute("SELECT * FROM users WHERE username = %s or email = %s", (form.username.data, form.email.data))
         if result > 0:
@@ -110,18 +108,38 @@ def home():
 
 
 # Profil Page
-@app.route("/profile")
+@app.route("/profile/<string:username>")
 @is_logged_in
-def profil():
-    return render_template("profile.html", title="Profile")
+def profile(username):
+    # Retrieve user information
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
+    if result > 0:
+        profile_info = cur.fetchone()
+        return render_template("profile.html", title="Profile", profile_info=profile_info)
+    else:
+        flash("There is no such a user", msg_type_to_color["error"])
+        return redirect(url_for("home"))
+    
 
 
 
 # Profil Page
-@app.route("/settings")
+@app.route("/settings", methods=["GET", "POST"])
 @is_logged_in
 def settings():
-    return render_template("settings.html", title="Settings")
+    form = SettingsForm()
+    if form.validate_on_submit():
+        # MySQL Integration
+        cur = mysql.connection.cursor()
+        # Check the presnece of the username and email in the table
+        cur.execute("UPDATE users SET avatar_link = %s WHERE username = %s", (form.avatar_link.data, session["username"]))
+        mysql.connection.commit() 
+        cur.close()
+        # Message and redirection into login
+        flash("Account settings were changed successfuly.", msg_type_to_color["success"])
+        return redirect("profile/" + session["username"])        
+    return render_template("settings.html", form=form, title="Settings")
 
 
 
