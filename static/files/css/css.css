@@ -15,6 +15,20 @@ nav ul li:hover a:hover {color: #FFF;}
 .profile_button {height: 50px; width: 50px; margin: 0; margin-bottom: -20px; cursor: pointer;}
 .profile_name {color: #555 !important; font-weight: bold; }
 .profile_name:hover {color: #FFF !important}
+.notification-button > i  {text-align: center !important}
+.notification-badge {
+    position: relative;
+    top: -25px;
+    right: 5px;
+    margin: 0 -.8em;
+    padding: 0px 5px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #fff;
+    border-radius: 50%;
+    background-color: #ff4081;
+    -webkit-box-shadow: 0 0 10px 0 #ff4081;
+    box-shadow: 0 0 10px 0 #ff4081;
+}
 
 /* What is Codon.io? */
 .welcomePart {
