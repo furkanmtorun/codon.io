@@ -9,10 +9,10 @@
                 <!-- people card -->
                 <div class="card">
                     <div class="card-image">
-                        <img src="{{ url_for('static', filename='files/img/furkan.jpg') }}">
+                        <img src="{{ profile_info.avatar_link }}">
                     </div>
                     <div class="card-content">
-                        <span class="card-title valign-wrapper">Furkan Torun
+                        <span class="card-title valign-wrapper">{{profile_info.username}}
                             <i class="material-icons green-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Available Now !">brightness_1</i></span>
 
                         <div class="stars">
@@ -22,11 +22,13 @@
                             <i class="material-icons orange-text">star</i>
                             <i class="material-icons">star</i>
                         </div>
-                        <p>Here is some information about Furkan.</p>
+                        <p>{{profile_info.about}}.</p>
                     </div>
                 </div>
-
-                <a class="waves-effect blue btn"><i class="material-icons left">edit</i>edit</a>
+                
+                {% if session["username"] == profile_info.username %}
+                    <a class="waves-effect blue btn" href="{{ url_for('settings') }}"><i class="material-icons left">edit</i>Edit profile</a>
+                {% endif %}
 
             </div>
 
