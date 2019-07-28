@@ -26,16 +26,60 @@
                                 <div class="row">
                 
                                     <div class="input-field col s12">
-                                        {% if profileForm.avatar_link.errors %}
-                                            {{ profileForm.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
+                                        {% if profileForm.name.errors %}
+                                            {{ profileForm.name(class="validate", placeholder="Name") }}
                                             <div class="invalid-feedback">
+                                                {% for error in profileForm.name.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ profileForm.name(class="validate", placeholder="Name") }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="input-field col s12">
+                                        {% if profileForm.about.errors %}
+                                            {{ profileForm.about(class="validate materialize-textarea", placeholder="About me") }}
+                                            <div class="invalid-feedback">  
+                                                {% for error in profileForm.about.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ profileForm.about(class="validate materialize-textarea", placeholder="About me") }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="input-field col s12">
+                                        {% if profileForm.avatar_link.errors %}
+                                            {{ profileForm.avatar_link(class="validate", placeholder="Avatar link") }}
+                                            <div class="invalid-feedback">  
                                                 {% for error in profileForm.avatar_link.errors %}
                                                     <span>{{ error }}</span>
                                                 {% endfor %}
                                             </div>
                                         {% else %}
-                                            {{ profileForm.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
+                                            {{ profileForm.avatar_link(class="validate", placeholder="Avatar link") }}
                                         {% endif %}
+                                    </div>
+
+                                    <div class="col s12 gender-box">
+                                        <label>Gender</label>
+                                        <div>
+                                            <label>
+                                                <input id="gender-0" name="gender" type="radio" value="Female" required/>
+                                                <span>Female</span>
+                                            </label>
+                                            <label>
+                                                <input id="gender-1" name="gender" type="radio" value="Male" required/>
+                                                <span>Male</span>
+                                            </label>
+                                            <label>
+                                                <input id="gender-3" name="gender" type="radio" value="Do not prefer to say" required/>
+                                                <span>Do not prefer to say</span>
+                                            </label>
+                                        </div>
                                     </div>
                                                         
                                 </div>
@@ -58,40 +102,40 @@
                 
                                     <div class="input-field col s12">
                                         {% if changePasswordForm.old_password.errors %}
-                                            {{ changePasswordForm.old_password(class="validate loginelement", placeholder="Old Password") }}
+                                            {{ changePasswordForm.old_password(class="validate", placeholder="Old Password") }}
                                             <div class="invalid-feedback">
                                                 {% for error in changePasswordForm.old_password.errors %}
                                                     <span>{{ error }}</span>
                                                 {% endfor %}
                                             </div>
                                         {% else %}
-                                            {{ changePasswordForm.old_password(class="validate loginelement", placeholder="Old Password") }}
+                                            {{ changePasswordForm.old_password(class="validate", placeholder="Old Password") }}
                                         {% endif %}
                                     </div>
 
                                     <div class="input-field col s12">
                                         {% if changePasswordForm.password.errors %}
-                                            {{ changePasswordForm.password(class="validate loginelement", placeholder="New Password") }}
+                                            {{ changePasswordForm.password(class="validate", placeholder="New Password") }}
                                             <div class="invalid-feedback">
                                                 {% for error in changePasswordForm.password.errors %}
                                                     <span>{{ error }}</span>
                                                 {% endfor %}
                                             </div>
                                         {% else %}
-                                            {{ changePasswordForm.password(class="validate loginelement", placeholder="New Password") }}
+                                            {{ changePasswordForm.password(class="validate", placeholder="New Password") }}
                                         {% endif %}
                                     </div>
 
                                     <div class="input-field col s12">
                                         {% if changePasswordForm.confirm_password.errors %}
-                                            {{ changePasswordForm.confirm_password(class="validate loginelement", placeholder="Confirm New Password") }}
+                                            {{ changePasswordForm.confirm_password(class="validate", placeholder="Confirm New Password") }}
                                             <div class="invalid-feedback">
                                                 {% for error in changePasswordForm.confirm_password.errors %}
                                                     <span>{{ error }}</span>
                                                 {% endfor %}
                                             </div>
                                         {% else %}
-                                            {{ changePasswordForm.confirm_password(class="validate loginelement", placeholder="Confirm New Password") }}
+                                            {{ changePasswordForm.confirm_password(class="validate", placeholder="Confirm New Password") }}
                                         {% endif %}
                                     </div>
                                                         

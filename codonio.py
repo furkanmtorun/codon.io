@@ -133,7 +133,7 @@ def settings():
         # MySQL Integration
         cur = mysql.connection.cursor()
         # Check the presnece of the username and email in the table
-        cur.execute("UPDATE users SET avatar_link = %s WHERE username = %s", (profileForm.avatar_link.data, session["username"]))
+        cur.execute("UPDATE users SET name= % s, about = %s, avatar_link = %s, gender = %s WHERE username = %s", (profileForm.name.data, profileForm.about.data, profileForm.avatar_link.data, profileForm.gender.data, session["username"]))
         mysql.connection.commit() 
         cur.close()
         # Message and redirection into login
