@@ -4,19 +4,21 @@ from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from datetime import timedelta
 from functools import wraps
+import yaml
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "157a6ca4d2e34d77a949d61f8724d8e878e51e66b2babe2adc"
-app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=1)
 
-# Config MySQL
-#______________________________________________________________________
-# This part will be changed using YAML.
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "codon.io"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+# Set the configs
+with open("./configs.yml") as f:
+    configs = yaml.load(f)
+app.config["SECRET_KEY"] = configs["SECRET_KEY"]
+app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=1)
+# Config MySQL Connection
+app.config["MYSQL_HOST"] = configs["MYSQL_HOST"]
+app.config["MYSQL_USER"] = configs["MYSQL_USER"]
+app.config["MYSQL_PASSWORD"] = configs["MYSQL_PASSWORD"]
+app.config["MYSQL_DB"] = configs["MYSQL_DB"]
+app.config["MYSQL_CURSORCLASS"] = configs["MYSQL_CURSORCLASS"]
 #_______________________________________________________________________
 mysql = MySQL(app)
 
