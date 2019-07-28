@@ -7,6 +7,74 @@
 
         <!-- Settings page starts -->
         <h5><i class="material-icons">settings</i> Config your settings</h5><br>
+
+         <!-- Account Settings -->
+         <div class="row">
+                <div class="col s12 m4">
+                    <h5 class="light">Account Settings</h5>
+                    <p><i>It is about your account on codon.io</i></p>
+                </div>
+                <div class="col s12 m7">
+                    <ul class="collapsible">
+                    <li class="">
+                        <div class="collapsible-header" tabindex="0">
+                        <i class="material-icons">edit</i>Edit your profile</div>
+                        <div class="collapsible-body">
+                            <!-- Settings form begins -->
+                            <form action="" method="POST">
+                                    {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
+                                    <div class="row">
+                    
+                                        <div class="input-field col s12">
+                                            {% if form.avatar_link.errors %}
+                                                {{ form.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.avatar_link.errors %}
+                                                        <span>{{ error }}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                {{ form.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
+                                            {% endif %}
+                                        </div>
+                                                            
+                                    </div>
+                                    <input class="btn login" id="submit" name="submit" type="submit" value="Update">
+                                </form>
+                                <!-- Settings form ends -->
+                        </div>
+                    </li>
+                    <li class="">
+                        <div class="collapsible-header" tabindex="0">
+                        <i class="material-icons">person_pin</i>Authentication settings</div>
+                        <div class="collapsible-body">
+                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                            ex ea commodo consequat. </span>
+                        </div>
+                    </li>
+                    <li class="">
+                        <div class="collapsible-header" tabindex="0">
+                        <i class="material-icons">history</i>Last logins</div>
+                        <div class="collapsible-body">
+                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                            ex ea commodo consequat.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header red white-text" tabindex="0">
+                        <i class="material-icons">delete_forever</i>Delete my account</div>
+                        <div class="collapsible-body">
+                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                            ex ea commodo consequat.</span>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+        </div>
+
         <!-- Privacy Settings -->
         <div class="row">
             <div class="col s12 m4">
@@ -33,45 +101,6 @@
                             ex ea commodo consequat.</span>
                         </div>
                     </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Account Settings -->
-        <div class="row">
-            <div class="col s12 m4">
-                <h5 class="light">Account Settings</h5>
-                <p><i>It is about your account on codon.io</i></p>
-            </div>
-            <div class="col s12 m7">
-                <ul class="collapsible">
-                <li class="">
-                    <div class="collapsible-header" tabindex="0">
-                    <i class="material-icons">person_pin</i>Authentication settings</div>
-                    <div class="collapsible-body">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat. </span>
-                    </div>
-                </li>
-                <li class="">
-                    <div class="collapsible-header" tabindex="0">
-                    <i class="material-icons">history</i>Last logins</div>
-                    <div class="collapsible-body">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat.</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header red white-text" tabindex="0">
-                    <i class="material-icons">delete_forever</i>Delete my account</div>
-                    <div class="collapsible-body">
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat.</span>
-                    </div>
-                </li>
                 </ul>
             </div>
         </div>
