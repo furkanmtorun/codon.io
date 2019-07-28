@@ -63,27 +63,31 @@ def register():
 # Login Page
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        # Session timeout
-        session.permanent = True
-        #MySQL Integration
-        cur = mysql.connection.cursor()
-        result = cur.execute("SELECT * FROM users WHERE username = %s OR email = %s", (form.username.data, form.username.data))
-        if result > 0:
-            data = cur.fetchone()
-            password = data["password"]            
-            if sha256_crypt.verify(form.password.data, password):
-                session['logged_in'] = True
-                session['username'] = form.username.data
-                flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
-                return redirect(url_for("home"))
+    try:
+        if session["username"]:
+            return redirect(url_for("home"))
+    except KeyError:
+        form = LoginForm()
+        if form.validate_on_submit():
+            # Session timeout
+            session.permanent = True
+            #MySQL Integration
+            cur = mysql.connection.cursor()
+            result = cur.execute("SELECT * FROM users WHERE username = %s OR email = %s", (form.username.data, form.username.data))
+            if result > 0:
+                data = cur.fetchone()
+                password = data["password"]            
+                if sha256_crypt.verify(form.password.data, password):
+                    session['logged_in'] = True
+                    session['username'] = form.username.data
+                    flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
+                    return redirect(url_for("home"))
+                else:
+                    flash("Invalid login!", msg_type_to_color["error"])
             else:
-                flash("Invalid login!", msg_type_to_color["error"])
-        else:
-            flash("Username or email not found!", msg_type_to_color["error"])
+                flash("Username or email not found!", msg_type_to_color["error"])
 
-    return render_template("login.html", form=form, title="Login")
+        return render_template("login.html", form=form, title="Login")
 
 
 
