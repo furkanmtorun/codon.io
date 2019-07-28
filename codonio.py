@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, session
-from forms import RegistrationForm, LoginForm, SettingsForm
+from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from datetime import timedelta
@@ -19,7 +19,6 @@ app.config["MYSQL_USER"] = configs["MYSQL_USER"]
 app.config["MYSQL_PASSWORD"] = configs["MYSQL_PASSWORD"]
 app.config["MYSQL_DB"] = configs["MYSQL_DB"]
 app.config["MYSQL_CURSORCLASS"] = configs["MYSQL_CURSORCLASS"]
-#_______________________________________________________________________
 mysql = MySQL(app)
 
 # Conversion from message type to color
@@ -50,7 +49,7 @@ def register():
         if result > 0:
             flash("Username or email is already taken! Choose another one.", msg_type_to_color["error"])
         else:
-            cur.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (form.username.data, form.email.data, sha256_crypt.hash(str(form.password.data))))  
+            cur.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (form.username.data, form.email.data, sha256_crypt.hash(str(form.password.data))))
             mysql.connection.commit() 
             cur.close()
             # Message and redirection into login
@@ -123,23 +122,43 @@ def profile(username):
     
 
 
-
-# Profil Page
+# Settings Page
 @app.route("/settings", methods=["GET", "POST"])
 @is_logged_in
 def settings():
-    form = SettingsForm()
-    if form.validate_on_submit():
+    profileForm = ProfileForm()
+    changePasswordForm = ChangePasswordForm()
+
+    if profileForm.validate_on_submit():
         # MySQL Integration
         cur = mysql.connection.cursor()
         # Check the presnece of the username and email in the table
-        cur.execute("UPDATE users SET avatar_link = %s WHERE username = %s", (form.avatar_link.data, session["username"]))
+        cur.execute("UPDATE users SET avatar_link = %s WHERE username = %s", (profileForm.avatar_link.data, session["username"]))
         mysql.connection.commit() 
         cur.close()
         # Message and redirection into login
         flash("Account settings were changed successfuly.", msg_type_to_color["success"])
-        return redirect("profile/" + session["username"])        
-    return render_template("settings.html", form=form, title="Settings")
+        return redirect("profile/" + session["username"])
+
+    if changePasswordForm.validate_on_submit():
+        #MySQL Integration
+        cur = mysql.connection.cursor()
+        result = cur.execute("SELECT * FROM users WHERE username = %s", [(session['username'])])
+        if result > 0:
+            data = cur.fetchone()
+            password = data["password"]            
+            if sha256_crypt.verify(changePasswordForm.old_password.data, password):
+                cur.execute("UPDATE users SET password = %s WHERE username = %s", (sha256_crypt.hash(str(changePasswordForm.password.data)), session["username"]))
+                mysql.connection.commit()
+                cur.close()
+                # Message and redirection into login
+                flash("Account settings were changed successfuly.", msg_type_to_color["success"])
+                return redirect("profile/" + session["username"])
+            else:
+                flash("Invalid Password!", msg_type_to_color["error"])
+            
+    return render_template("settings.html", profileForm=profileForm, 
+                            changePasswordForm=changePasswordForm, title="Settings")
 
 
 

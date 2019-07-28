@@ -22,35 +22,82 @@
                         <div class="collapsible-body">
                             <!-- Settings form begins -->
                             <form action="" method="POST">
-                                    {{ form.hidden_tag() }} <!-- its related to secret key and protection-->
-                                    <div class="row">
-                    
-                                        <div class="input-field col s12">
-                                            {% if form.avatar_link.errors %}
-                                                {{ form.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
-                                                <div class="invalid-feedback">
-                                                    {% for error in form.avatar_link.errors %}
-                                                        <span>{{ error }}</span>
-                                                    {% endfor %}
-                                                </div>
-                                            {% else %}
-                                                {{ form.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
-                                            {% endif %}
-                                        </div>
-                                                            
+                                {{ profileForm.hidden_tag() }} <!-- its related to secret key and protection-->
+                                <div class="row">
+                
+                                    <div class="input-field col s12">
+                                        {% if profileForm.avatar_link.errors %}
+                                            {{ profileForm.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in profileForm.avatar_link.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ profileForm.avatar_link(class="validate loginelement", placeholder="Avatar link") }}
+                                        {% endif %}
                                     </div>
-                                    <input class="btn login" id="submit" name="submit" type="submit" value="Update">
-                                </form>
-                                <!-- Settings form ends -->
+                                                        
+                                </div>
+                                <input class="btn login" id="submit" name="submit" type="submit" value="Update">
+                            </form>
+                            <!-- Settings form ends -->
                         </div>
+
+                      
+
                     </li>
                     <li class="">
                         <div class="collapsible-header" tabindex="0">
                         <i class="material-icons">person_pin</i>Authentication settings</div>
                         <div class="collapsible-body">
-                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. </span>
+                            <!-- Authentication form begins -->
+                            <form action="" method="POST">
+                                {{ changePasswordForm.hidden_tag() }} <!-- its related to secret key and protection-->
+                                <div class="row">
+                
+                                    <div class="input-field col s12">
+                                        {% if changePasswordForm.old_password.errors %}
+                                            {{ changePasswordForm.old_password(class="validate loginelement", placeholder="Old Password") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in changePasswordForm.old_password.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ changePasswordForm.old_password(class="validate loginelement", placeholder="Old Password") }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="input-field col s12">
+                                        {% if changePasswordForm.password.errors %}
+                                            {{ changePasswordForm.password(class="validate loginelement", placeholder="New Password") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in changePasswordForm.password.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ changePasswordForm.password(class="validate loginelement", placeholder="New Password") }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="input-field col s12">
+                                        {% if changePasswordForm.confirm_password.errors %}
+                                            {{ changePasswordForm.confirm_password(class="validate loginelement", placeholder="Confirm New Password") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in changePasswordForm.confirm_password.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ changePasswordForm.confirm_password(class="validate loginelement", placeholder="Confirm New Password") }}
+                                        {% endif %}
+                                    </div>
+                                                        
+                                </div>
+                                <input class="btn login" id="submit" name="submit" type="submit" value="Update">
+                            </form>
                         </div>
                     </li>
                     <li class="">
