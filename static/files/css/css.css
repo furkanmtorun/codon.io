@@ -207,7 +207,14 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 }
 
 /* Authentication Settings Gender Radio Buttons */
-.gender-box {margin-top: 10px !important;}
-.gender-box div {margin: 20px 0 10px 0 !important;}
+.gender-box div {margin-top: 20px}
 .gender-box div label {margin-right: 20px;}
 .gender-box label {font-size: 16px !important;}
+
+/* Make buttons on the right side */
+.btn-box {position: relative; margin-bottom: 30px !important;}
+.btn-right {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}

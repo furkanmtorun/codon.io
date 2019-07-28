@@ -128,6 +128,11 @@ def profile(username):
 @app.route("/settings", methods=["GET", "POST"])
 @is_logged_in
 def settings():
+    # MySQL Integration
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM users WHERE username = %s", [(session['username'])])
+    profile_info = cur.fetchone()
+
     profileForm = ProfileForm()
     changePasswordForm = ChangePasswordForm()
 
@@ -160,7 +165,7 @@ def settings():
                 flash("Invalid Password!", msg_type_to_color["error"])
             
     return render_template("settings.html", profileForm=profileForm, 
-                            changePasswordForm=changePasswordForm, title="Settings")
+                            changePasswordForm=changePasswordForm, title="Settings", profile_info=profile_info)
 
 
 

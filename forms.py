@@ -14,11 +14,10 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember me')
 
 class ProfileForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
-    gender = RadioField('Gender', choices = [('Female','Female'), ('Male','Male'), ('Do not prefer to say','Do not prefer to say')], validators=[DataRequired()])
-    avatar_link = StringField('Profile Img Link', validators=[DataRequired(), Length(min=2, max=120)])
-    about = TextAreaField('About me', validators=[DataRequired(), Length(min=1, max=100)])
-
+    name = StringField('Name', validators=[Length(max=20)])
+    gender = RadioField('Gender', choices = [('Female','Female'), ('Male','Male'), ('Do not prefer to say','Do not prefer to say')])
+    avatar_link = StringField('Profile Img Link', validators=[Length(max=120)])
+    about = TextAreaField('About me', validators=[Length( max=100)])
 
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField('Old Password', validators=[DataRequired()])
