@@ -12,7 +12,7 @@ app = Flask(__name__)
 with open("./configs.yml") as f:
     configs = yaml.load(f)
 app.config["SECRET_KEY"] = configs["SECRET_KEY"]
-app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=1)
+app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=configs["PERMANENT_SESSION_LIFETIME"])
 # Config MySQL Connection
 app.config["MYSQL_HOST"] = configs["MYSQL_HOST"]
 app.config["MYSQL_USER"] = configs["MYSQL_USER"]
