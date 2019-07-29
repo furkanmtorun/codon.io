@@ -7,7 +7,8 @@ nav .brand-logo {color: #20AEF3 !important; margin-left: 40px;}
 nav ul li a {color: #20AEF3; background: #FFF;}
 nav ul li:hover {background: #20AEF3;}
 nav ul li:hover a:hover {color: #FFF;}
-#sub_menu {top: 50px !important;}
+#sub_menu {top: 50px !important}
+.dropdown-content {width: auto !important}
 .dropdown-content li:hover {background: #20AEF3; color: #FFF !important;}
 .dropdown-trigger > i {margin-left: 1px}
 .sidenav-trigger {color: #20AEF3}
