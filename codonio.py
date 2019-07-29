@@ -147,6 +147,7 @@ def settings():
         cur.execute("UPDATE users SET name= % s, about = %s, avatar_link = %s, gender = %s WHERE username = %s", (profileForm.name.data, profileForm.about.data, profileForm.avatar_link.data, profileForm.gender.data, session["username"]))
         mysql.connection.commit() 
         cur.close()
+        session["avatar_link"] = profileForm.avatar_link.data
         # Message and redirection into login
         flash("Account settings were changed successfuly.", msg_type_to_color["success"])
         return redirect(url_for("settings"))
