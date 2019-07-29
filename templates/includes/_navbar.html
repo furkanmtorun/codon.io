@@ -3,7 +3,7 @@
 <!-- Sub-menu -->
 <ul id="sub_menu" class="dropdown-content">
     {% if session.logged_in %}
-        <li><a href="#" class="profile_name">Furkan</a></li>
+        <li><a href="#" class="profile_name">{{ session['username'] }}</a></li>
         <li class="divider"></li>
         <li><a href="../profile/{{ session['username'] }}">Profile</a></li>
         <li><a href="{{ url_for('settings') }}">Settings</a></li>
@@ -25,7 +25,7 @@
             <li><a href="{{ url_for('home') }}">Home</a></li>
             <li><a class="waves-effect waves-block waves-light notification-button" href="#"><i class="material-icons">notifications_none<small class="notification-badge">5</small></i></a>
             <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">
-                <img class="profile_button" src="{{ url_for('static', filename='files/img/furkan.jpg') }}"><i class="material-icons right">arrow_drop_down</i></a>
+                <img class="profile_button" src="{{ session['avatar_link'] }}"><i class="material-icons right">arrow_drop_down</i></a>
             </li>
         {% else %}
             <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">What is codon.io?<i class="material-icons right">arrow_drop_down</i></a></li>
