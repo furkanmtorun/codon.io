@@ -149,7 +149,7 @@ def settings():
         cur.close()
         # Message and redirection into login
         flash("Account settings were changed successfuly.", msg_type_to_color["success"])
-        return redirect("profile/" + session["username"])
+        return redirect(url_for("settings"))
 
     if changePasswordForm.validate_on_submit():
         #MySQL Integration
@@ -164,9 +164,10 @@ def settings():
                 cur.close()
                 # Message and redirection into login
                 flash("Account settings were changed successfuly.", msg_type_to_color["success"])
-                return redirect("profile/" + session["username"])
+                return redirect(url_for("settings"))
             else:
                 flash("Invalid Old Password!", msg_type_to_color["error"])
+                return redirect(url_for("settings"))
             
     return render_template("settings.html", profileForm=profileForm, 
                             changePasswordForm=changePasswordForm, title="Settings", profile_info=profile_info)
