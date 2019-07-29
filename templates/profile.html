@@ -12,9 +12,10 @@
                         <img src="{{ profile_info.avatar_link }}">
                     </div>
                     <div class="card-content">
-                        <span class="card-title valign-wrapper">{{profile_info.username}}
-                            <i class="material-icons green-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Available Now !">brightness_1</i></span>
-
+                        <span class="card-title valign-wrapper">@{{ profile_info.username }}
+                            <i class="material-icons green-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Available Now !">brightness_1</i>
+                            <br>{{ profile_info.name }} 
+                        </span>
                         <div class="stars">
                             <i class="material-icons orange-text">star</i>
                             <i class="material-icons orange-text">star</i>
