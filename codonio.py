@@ -2,11 +2,17 @@ from flask import Flask, render_template, url_for, redirect, flash, session
 from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
-from datetime import timedelta
+from datetime import timedelta, datetime
 from functools import wraps
 import yaml
+# Necessary packages for Socket.io
+from flask_session import Session
+from flask_socketio import SocketIO, send, emit, join_room, leave_room, close_room
+import uuid, json
+from bson import json_util
 
 app = Flask(__name__)
+app.debug = True
 
 # Set the configs
 with open("./configs.yml") as f:
@@ -81,6 +87,8 @@ def login():
                     session['username'] = form.username.data
                     # Get avatar_link
                     session['avatar_link'] = data["avatar_link"]
+                    # Set room id
+                    session['room'] = str(uuid.uuid4()) + '-' + form.username.data
                     flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
                     return redirect(url_for("home"))
                 else:
@@ -108,7 +116,11 @@ def is_logged_in(f):
 @app.route("/home")
 @is_logged_in
 def home():
-    return render_template("home.html")
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM users WHERE room_id NOT LIKE '0'")
+    available_users = cur.fetchall()
+    cur.close()
+    return render_template("home.html",  users=available_users)
 
 
 
@@ -199,6 +211,128 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
+# Socket.io
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+socketio = SocketIO(app, manage_sessions=False)
+
+
+# Get users 
+def update_available_users():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM users WHERE room_id NOT LIKE '0'")
+    available_users = cur.fetchall()
+    available_users = json.dumps(available_users, default=json_util.default)
+    emit('update available users', available_users, broadcast=True)
+    cur.close()
+
+
+def make_unavailable(username):
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",('0', [username]))
+    mysql.connection.commit()
+    cur.close()
+
+
+# Join the personal room / It is mandatory that for every single request user will join the same room
+@socketio.on('join', namespace='/session')
+@is_logged_in
+def on_join(data):
+    join_room(session['room'])
+    cur = mysql.connection.cursor()
+    user = cur.execute("SELECT * FROM users WHERE username = %s", [session['username']])
+    user = cur.fetchone()
+    if user['room_id'] == '0':
+        cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(session['room'], session['username']))
+        mysql.connection.commit()
+        update_available_users()
+    cur.close()
+
+
+# Send chat request to the respondent
+@socketio.on('send request', namespace='/session')
+@is_logged_in
+def on_request(data):
+    # Get respondent's room_id
+    room = data['room']
+    # Get questioner's name
+    questioner = session['username']
+    # Close questioner's current room
+    close_room(session['room'])
+    # Find the respondent
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM users WHERE room_id = %s", [data['room']])
+    respondent = cur.fetchone()
+    # Make the questioner unavailable
+    make_unavailable(questioner)
+    # Make the respondent unavailable
+    make_unavailable(respondent['username'])
+    cur.close()
+    # Generate a new room id for private chat
+    room_id = str(uuid.uuid4()) + questioner
+    # Make questioner join the chat room
+    join_room(room_id)
+    # Send the chat request to respondent
+    emit('incoming request', {'questioner': questioner, 'respondent': respondent['username'], 'room': room_id}, room=room, include_self=False)
+    # To send messages, send the chat room's id to questioner
+    emit('receive room id', {'room': room_id}, room=room_id, broadcast=False)
+    # Update available users
+    update_available_users()
+
+
+# Join the chat room
+@socketio.on('join chat room', namespace='/session')
+@is_logged_in
+def join_chat_room(data):
+    room = data['room']
+    join_room(room)
+    emit('message', {'username': session['username'], 'message': session['username'] + ' joined the chat'}, room=room, include_self=False)
+
+
+# Send messages
+@socketio.on('send message', namespace='/session')
+@is_logged_in
+def send_message(data):
+    emit('message', {'username': session['username'], 'message': data['message']}, room=data['room'], include_self=False)
+
+
+# Decline the chat request
+@socketio.on('decline chat request', namespace='/session')
+@is_logged_in
+def decline_chat_request(data):
+    session['room'] = str(uuid.uuid4()) + '-' + session['username']
+    join_room(session['room'])
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(session['room'], session['username']))
+    mysql.connection.commit()
+    emit('request declined', {}, room=data['room'])
+    update_available_users()
+
+
+# Leave the chat
+@socketio.on('leave chat', namespace='/session')
+@is_logged_in
+def leave_chat(data):
+    emit('message', {'username': session['username'], 'message': session['username'] + ' left the chat'}, room=session['room'], include_self=False)
+    leave_room(session['room'])
+    session['room'] = str(uuid.uuid4()) + '-' + session['username']
+    join_room(session['room'])
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(session['room'], session['username']))
+    mysql.connection.commit()
+    update_available_users()
+
+
+# Logout
+@socketio.on('logout', namespace='/session')
+@is_logged_in
+def logout_socket(data):
+    make_unavailable(session['username'])
+    close_room(session['room'])
+    update_available_users()
+    return redirect(url_for('logout'))
+ 
+
 # codon.io
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app)

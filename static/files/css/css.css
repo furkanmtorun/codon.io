@@ -145,6 +145,8 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 .card .card-title {font-size: 20px !important;}
 .card i {cursor: default}
 
+.ask-question {cursor: pointer;}
+
 /* Profile */
 .badges {margin-top: 20px;}
 .badges i {font-size: 40px !important; margin-right: 15px; cursor: default;}
