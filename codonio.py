@@ -84,8 +84,8 @@ def login():
                 password = data["password"]            
                 if sha256_crypt.verify(form.password.data, password):
                     session['logged_in'] = True
+                    # Get user information
                     session['username'] = data["username"]
-                    # Get avatar_link
                     session['avatar_link'] = data["avatar_link"]
                     # Set room id
                     session['room'] = str(uuid.uuid4()) + '-' + form.username.data
@@ -117,7 +117,7 @@ def is_logged_in(f):
 @is_logged_in
 def home():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM users WHERE room_id NOT LIKE '0'")
+    cur.execute("SELECT * FROM users WHERE room_id != 0")
     available_users = cur.fetchall()
     cur.close()
     return render_template("home.html",  users=available_users)
@@ -172,7 +172,8 @@ def settings():
             data = cur.fetchone()
             password = data["password"]            
             if sha256_crypt.verify(changePasswordForm.old_password.data, password):
-                cur.execute("UPDATE users SET password = %s WHERE username = %s", (sha256_crypt.hash(str(changePasswordForm.password.data)), session["username"]))
+                cur.execute("UPDATE users SET password = %s WHERE username = %s", 
+                            (sha256_crypt.hash(str(changePasswordForm.password.data)), session["username"]))
                 mysql.connection.commit()
                 cur.close()
                 # Message and redirection into login
@@ -220,7 +221,7 @@ socketio = SocketIO(app, manage_sessions=False)
 # Get users 
 def update_available_users():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM users WHERE room_id NOT LIKE '0'")
+    cur.execute("SELECT * FROM users WHERE room_id != 0")
     available_users = cur.fetchall()
     available_users = json.dumps(available_users, default=json_util.default)
     emit('update available users', available_users, broadcast=True)
@@ -229,7 +230,7 @@ def update_available_users():
 
 def make_unavailable(username):
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",('0', [username]))
+    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(0, [username]))
     mysql.connection.commit()
     cur.close()
 
