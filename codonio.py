@@ -84,7 +84,7 @@ def login():
                 password = data["password"]            
                 if sha256_crypt.verify(form.password.data, password):
                     session['logged_in'] = True
-                    session['username'] = form.username.data
+                    session['username'] = data["username"]
                     # Get avatar_link
                     session['avatar_link'] = data["avatar_link"]
                     # Set room id
