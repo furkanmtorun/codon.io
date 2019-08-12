@@ -23,10 +23,19 @@
 <body>
 
     {% include 'includes/_navbar.html' %}
-    {% include 'includes/_messages.html' %}
+    
+    <div id="messages">
+        {% include 'includes/_messages.html' %}
+    </div>
 
-    {% block content %}
-    {% endblock %}
+    {% if session.logged_in %}
+        {% include 'includes/_chat.html' %}
+    {% endif %}
+    
+
+    <div class="main-container">
+        {% block content %}{% endblock %}
+    </div>
 
     {% include 'includes/_footer.html' %}
 
