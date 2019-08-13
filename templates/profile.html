@@ -28,29 +28,31 @@
                 </div>
                 
                 {% if session["username"] == profile_info.username %}
-                    <a class="waves-effect blue btn" href="{{ url_for('settings') }}"><i class="material-icons left">edit</i>Edit profile</a>
+                <a class="waves-effect blue btn" href="{{ url_for('settings') }}"><i class="material-icons left">edit</i>Edit profile</a>
                 {% endif %}
-
+                
             </div>
-
+            
             <div class="col s9">
-
+                
                 <div class="card blue">
                     <div class="card-tabs">
                         <ul class="tabs tabs-fixed-width tabs-transparent">
-                        <li class="tab"><a class="active" href="#card1">Interests</a></li>
-                        <li class="tab"><a class="active" href="#card2">Progress</a></li>
-                        <li class="tab"><a class="" href="#card3">Activity</a></li>
-                            </ul>
+                            <li class="tab"><a class="active" href="#card1">Interests</a></li>
+                            <li class="tab"><a class="active" href="#card2">Progress</a></li>
+                            <li class="tab"><a class="" href="#card3">Activity</a></li>
+                        </ul>
                     </div>
                     <div class="card-content white">
                         <div id="card1">
                             Here is the list of the programming languages and libraries that I'm fond of :)
                             <br><br>
                             {% for skill_info in skills_info %}
-                                <a href="#{{ skill_info.skill_name }}"><div class="chip"><img src="{{ skill_info.skill_logo }}" alt="{{ skill_info.skill_name }}">{{ skill_info.skill_name }}</div></a>
+                            <a href="#{{ skill_info.skill_name }}"><div class="chip"><img src="{{ skill_info.skill_logo }}" alt="{{ skill_info.skill_name }}">{{ skill_info.skill_name }}</div></a>
                             {% endfor %}
+                            {% if session["username"] == profile_info.username %}
                                 <a href="#chgSkills" id="chgSkills" class="btn btn-floating blue white-text tooltipped" data-position="right" data-tooltip="Add a new skill"><i class="material-icons">add</i></a>
+                            {% endif %}
                             </div>
                         <div id="card2" class="row">
                             <div class="center col s4">
