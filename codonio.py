@@ -134,10 +134,7 @@ def profile(username):
     if result > 0:
         profile_info = cur.fetchone()
         skill_result = cur.execute("SELECT skill_name, skill_logo FROM skills INNER JOIN users ON users.username=%s INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE skills.user_id=users.id", [username])
-        if skill_result > 0:
-            skills_info = cur.fetchall()
-        else:
-            skills_info = "Not declared yet :( But, we are looking forward them!"
+        skills_info = cur.fetchall()
         return render_template("profile.html", title="Profile", profile_info=profile_info, skills_info=skills_info)
     else:
         flash("There is no such a user", msg_type_to_color["error"])
