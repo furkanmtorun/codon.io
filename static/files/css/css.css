@@ -157,6 +157,8 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     margin-left: 10px; 
     font-size: 17px !important;
 }
+.chip:focus {background: #20aef3;}
+.autocomplete-content .dropdown-content li>a, .dropdown-content li>span {color: #d2cbcb;}
 
 /* Chat Panel */
 .chat-header{
