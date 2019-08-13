@@ -45,7 +45,8 @@
                     </div>
                     <div class="card-content white">
                         <div id="card1">
-                            <b>Here is the list of the programming languages and libraries that {{profile_info.name}} fonds of :</b>
+                            <b>Here is the list of the programming languages and libraries that 
+                                <i>{{ profile_info.name if profile_info.name else profile_info.username }}</i> is interested in:</b>
                             <br><br>
                             {% if skills_info %}
                                 {% for skill_info in skills_info %}
