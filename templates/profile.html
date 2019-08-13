@@ -53,13 +53,14 @@
                                 <a href="#{{ skill_info.skill_name }}"><div class="chip"><img src="{{ skill_info.skill_logo }}" alt="{{ skill_info.skill_name }}">{{ skill_info.skill_name }}</div></a>
                                 {% endfor %}
                                 {% if session["username"] == profile_info.username %}
-                                    <a href="#chgSkills" id="chgSkills" class="btn btn-floating blue white-text tooltipped" data-position="right" data-tooltip="Add a new skill"><i class="material-icons">add</i></a>
+                                    <a href="#" id="changeSkills" class="btn btn-floating blue white-text tooltipped" data-position="right" data-tooltip="Add new skills"><i class="material-icons">add</i></a>
+                                    <div id="addingSkill" class="chips chips-autocomplete hide"></div>
                                 {% endif %}
                             {% else %}
                                 Not declared yet :( We are looking forward to see them!
                             {% endif %}
 
-                            </div>
+                        </div>
                         <div id="card2" class="row">
                             <div class="center col s4">
                                 <h3 class="green-text accent-3">95</h3>

@@ -150,8 +150,8 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 /* Profile */
 .badges {margin-top: 20px;}
 .badges i {font-size: 40px !important; margin-right: 15px; cursor: default;}
-#chgSkills i {cursor: pointer !important;}
-
+#changeSkills i {cursor: pointer !important;}
+.chips .input {width: 180px !important}
 .status-circle {
     vertical-align: bottom !important; 
     margin-left: 10px; 

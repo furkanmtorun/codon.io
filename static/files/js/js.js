@@ -6,16 +6,40 @@ $(document).ready(function(){
     $(".dropdown-trigger").dropdown();
     $('.sidenav').sidenav();
     $('.modal').modal();
-    $('select').material_select();    
 });
 
+
+// Tabs
+$(document).ready(function () { $('.tabs').tabs() });
+// Tooltips
+$(document).ready(function () { $('.tooltipped').tooltip() });
+// Skills
+$(document).ready(function () { 
+    $('.chips').chips();
+    $('.chips-autocomplete').chips({
+        placeholder: 'Type a language/library',
+        secondaryPlaceholder: '+Add',
+        autocompleteOptions: {
+            data: {
+                'Flask': null,
+                'PHP': null,
+                'JavaScript': null
+            },
+            limit: Infinity,
+            minLength: 1
+        }
+    });
+});
+
+// Adding Skill Button
+$('#changeSkills').click(function() {
+    $("#addingSkill").removeClass("hide");
+});
+
+// Home Page
 $('.search_box').hover(function(){ $('#people').addClass('blur'); }); 
 $('#people').hover(function(){ $('#people').removeClass('blur'); });
 
-// Tabs
-$(document).ready(function(){$('.tabs').tabs()});
-// Tooltips
-$(document).ready(function(){$('.tooltipped').tooltip()});
 
 // Socket.io
 
