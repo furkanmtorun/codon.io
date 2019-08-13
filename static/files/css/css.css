@@ -3,7 +3,7 @@
 body {background: #f2f2f2; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;}
 nav {position: fixed; height: 70px !important; z-index: 9999;}
 nav > .container {margin: 3px auto;}
-nav .brand-logo {color: #20AEF3 !important; margin-left: 40px;}
+nav .brand-logo {color: #20AEF3 !important;}
 nav ul li a {color: #20AEF3; background: #FFF;}
 nav ul li:hover {background: #20AEF3;}
 nav ul li:hover a:hover {color: #FFF;}
@@ -220,4 +220,25 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     position: absolute;
     right: 10px;
     top: 5px;
+}
+
+/* Chat Page*/
+.chat-window {display: none;}
+.request-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.btn-request {
+    margin-left: 15px;
+}
+
+.message-input-box {
+    margin: auto;
+}
+
+.send_message {
+    float: right !important;
 }

@@ -1,0 +1,44 @@
+<!-- Body Main Part Begins-->
+<div class="container white z-depth-4 chat-window">
+
+    <!-- Chat panel starts -->
+
+    <!-- Sub-menu -->
+    <ul id="chat_menu" class="dropdown-content">
+        <li><a href="#" class="profile_name">Menu</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Item1</a></li>
+        <li><a href="#">Item2</a></li>
+    </ul>
+
+    <div class="row chat-header">
+        <div class="col s2 m2 l1"><a href="profile" target="_blank"><img class="circle z-depth-2 responsive-img" src="{{ url_for('static', filename='files/img/furkan.jpg') }}"></a></div>
+        <div class="col s7 m7 l9"><a href="profile" target="_blank"><h6 id="questioner"></h6></a></div>
+        <div class="col s3 m3 l2">
+            <a class="chat_menu_buttons" href="#change_color_theme"><i class="material-icons">brightness_6</i></a>
+            <a class="chat_menu_buttons" href="#abuse"><i class="material-icons">feedback</i></a>
+            <a class="dropdown-trigger chat_menu_buttons" href="#!" data-target="chat_menu"><i class="material-icons">more_vert</i></a>
+        </div>
+        <div class="col s7 m7 l8">let's dive into dreams and bring them to life</div>
+    </div>
+
+    <div class="row chat-container"></div>
+    
+    <div class="row">
+        <div class="container">
+            <div class="col s12">
+                <div class="input-field col s11 message-input-box">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea id="message_input" class="materialize-textarea"></textarea>
+                    <label for="message_input">Type your message</label>
+                </div>
+                <div class="col s1">
+                    <a id="send_message" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">send</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<br>
+</div> <!-- ends for container -->
+<br><br>
