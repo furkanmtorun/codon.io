@@ -16,8 +16,7 @@ $(document).ready(function () { $('.tooltipped').tooltip() });
 
 // Ajax for getting skills
 $(document).ready(function() {
-    $.getJSON('http://127.0.0.1:5000/get-skills',
-    function(data) {
+    $.getJSON('/get-skills', function(data) {
         // Create skills object to hold skill names
         var skills = new Object();
         data.forEach(function(skill_list) {
@@ -47,12 +46,23 @@ $('#changeSkills').click(function() {
 
 // Update Skill Button
 $("#updateSkillsBtn").click(function() {
-    skill_list = [];
+    skills_list = [];
     var list_of_chips = $("#addingSkill").children(".chip");
     for (var i = 0; i < list_of_chips.length; i++) {
-        skill_list.push(list_of_chips[i].firstChild.textContent);
+        skills_list.push(list_of_chips[i].firstChild.textContent);
     }
-    alert(skill_list);
+    alert(skills_list);
+
+    $.ajax({
+        url: "/update_skills",
+        type: "POST", 
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        accepts: {json: "application/json"},
+        // data: { jsdata: skills_list },
+        data: JSON.stringify(skills_list)
+    });
+
 });
 
 
