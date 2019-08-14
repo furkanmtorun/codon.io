@@ -149,9 +149,6 @@ def profile(username):
         cur.execute("SELECT skill_name, skill_logo FROM skills INNER JOIN users ON users.username=%s INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE skills.user_id=users.id", [username])
         skills_info = cur.fetchall()
         #if skillsForm.validate_on_submit():
-            # cur.execute("INSERT INTO skills (user_id, skill_id) VALUES (%s, %s, %s)", (form.username.data, form.email.data, sha256_crypt.hash(str(form.password.data))))
-            # mysql.connection.commit()
-            # cur.close()
         #    flash("New skills have been added successfuly.", msg_type_to_color["success"])
         #    return redirect("../profile/" + username)
         return render_template("profile.html", title="Profile", skillsForm=skillsForm, profile_info=profile_info, skills_info=skills_info)
@@ -160,6 +157,17 @@ def profile(username):
         return redirect(url_for("home"))
     
     
+
+
+# Adding new skills
+@app.route("/update_skills", methods=["GET", "POST"])
+def update_skills():
+    cur = mysql.connection.cursor()
+    #json_dict = request.get_json()
+    cur.execute("INSERT INTO skills (user_id, skill_id) VALUES (12, 11)")
+    mysql.connection.commit()
+    flash("New skills have been added successfuly.", msg_type_to_color["success"])
+    return redirect(url_for("home"))
        
     
 
