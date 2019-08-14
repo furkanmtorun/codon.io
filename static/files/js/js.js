@@ -16,8 +16,8 @@ $(document).ready(function () { $('.tooltipped').tooltip() });
 
 // Ajax for getting skills
 $(document).ready(function() {
-        $.getJSON('http://127.0.0.1:5000/get-skills', {
-        }, function(data) {
+        $.getJSON('http://127.0.0.1:5000/get-skills',
+        function(data) {
             // Create skills object to hold skill names
             var skills = new Object();
             data.forEach(function(skill_list) {
