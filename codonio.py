@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, session
-from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm
+from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm, SkillsForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from datetime import timedelta, datetime
@@ -128,9 +128,10 @@ def home():
 
 
 # Profil Page
-@app.route("/profile/<string:username>")
+@app.route("/profile/<string:username>", methods=["GET", "POST"])
 @is_logged_in
 def profile(username):
+    skillsForm = SkillsForm()
     # Retrieve user information
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
@@ -138,11 +139,20 @@ def profile(username):
         profile_info = cur.fetchone()                                                                                                       
         cur.execute("SELECT skill_name, skill_logo FROM skills INNER JOIN users ON users.username=%s INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE skills.user_id=users.id", [username])
         skills_info = cur.fetchall()
-        return render_template("profile.html", title="Profile", profile_info=profile_info, skills_info=skills_info)
+        #if skillsForm.validate_on_submit():
+            # cur.execute("INSERT INTO skills (user_id, skill_id) VALUES (%s, %s, %s)", (form.username.data, form.email.data, sha256_crypt.hash(str(form.password.data))))
+            # mysql.connection.commit()
+            # cur.close()
+        #    flash("New skills have been added successfuly.", msg_type_to_color["success"])
+        #    return redirect("../profile/" + username)
+        return render_template("profile.html", title="Profile", skillsForm=skillsForm, profile_info=profile_info, skills_info=skills_info)
     else:
         flash("There is no such a user", msg_type_to_color["error"])
         return redirect(url_for("home"))
-
+    
+    
+       
+    
 
         
 # Settings Page
