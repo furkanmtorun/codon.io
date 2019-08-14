@@ -23,3 +23,6 @@ class ChangePasswordForm(FlaskForm):
     old_password = PasswordField('Old Password', validators=[DataRequired()])
     password = PasswordField('New Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), Length(min=3, max=100), EqualTo('password', message= 'Password do not match!')])
+
+class SkillsForm(FlaskForm):
+    skills_input = StringField("Skills", validators=[DataRequired()])
