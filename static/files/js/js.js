@@ -38,9 +38,25 @@ $('#changeSkills').click(function() {
     $("#changeSkills").addClass("hide");
 });
 
+// Update Skill Button
+$("#updateSkillsBtn").click(function() {
+    skill_list = [];
+    var list_of_chips = $("#addingSkill").children(".chip");
+    for (var i = 0; i < list_of_chips.length; i++) {
+        skill_list.push(list_of_chips[i].firstChild.textContent);
+    }
+    alert(skill_list);
+});
+
+
+
+
 // Home Page
 $('.search_box').hover(function(){ $('#people').addClass('blur'); }); 
 $('#people').hover(function(){ $('#people').removeClass('blur'); });
+
+
+
 
 
 // Socket.io
