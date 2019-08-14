@@ -117,7 +117,7 @@ $(document).ready(function() {
     //The request is declined
     socket.on('request declined', function() {
         alert('Your request has been declined.')
-        window.location.replace("http://127.0.0.1:5000/ask");
+        window.location.replace("http://127.0.0.1:5000/home");
     });
     //Update available users
     socket.on('update available users', function(data) {
