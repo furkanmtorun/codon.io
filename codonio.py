@@ -37,6 +37,9 @@ msg_type_to_color = {
 
 # Index Page
 @app.route("/")
+def redirect_home():
+    return redirect(url_for("index"))
+
 @app.route("/index")
 def index():
     return render_template("index.html")
@@ -132,16 +135,16 @@ def profile(username):
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
     if result > 0:
-        profile_info = cur.fetchone()
-        skill_result = cur.execute("SELECT skill_name, skill_logo FROM skills INNER JOIN users ON users.username=%s INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE skills.user_id=users.id", [username])
+        profile_info = cur.fetchone()                                                                                                       
+        cur.execute("SELECT skill_name, skill_logo FROM skills INNER JOIN users ON users.username=%s INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE skills.user_id=users.id", [username])
         skills_info = cur.fetchall()
         return render_template("profile.html", title="Profile", profile_info=profile_info, skills_info=skills_info)
     else:
         flash("There is no such a user", msg_type_to_color["error"])
         return redirect(url_for("home"))
-    
 
 
+        
 # Settings Page
 @app.route("/settings", methods=["GET", "POST"])
 @is_logged_in
