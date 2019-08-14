@@ -16,26 +16,26 @@ $(document).ready(function () { $('.tooltipped').tooltip() });
 
 // Ajax for getting skills
 $(document).ready(function() {
-        $.getJSON('http://127.0.0.1:5000/get-skills',
-        function(data) {
-            // Create skills object to hold skill names
-            var skills = new Object();
-            data.forEach(function(skill_list) {
-                skills[skill_list.skill_name] = null;
-            });
-            // Skills autocomplete
-            $('.chips').chips();
-            $('.chips-autocomplete').chips({
-                placeholder: 'Type a language/library',
-                secondaryPlaceholder: '+Add',
-                autocompleteOptions: {
-                    data: skills,
-                    limit: Infinity,
-                    minLength: 1
-                }
-            });
+    $.getJSON('http://127.0.0.1:5000/get-skills',
+    function(data) {
+        // Create skills object to hold skill names
+        var skills = new Object();
+        data.forEach(function(skill_list) {
+            skills[skill_list.skill_name] = null;
         });
-        return false;
+        // Skills autocomplete
+        $('.chips').chips();
+        $('.chips-autocomplete').chips({
+            placeholder: 'Type a language/library',
+            secondaryPlaceholder: '+Add',
+            autocompleteOptions: {
+                data: skills,
+                limit: Infinity,
+                minLength: 1
+            }
+        });
+    });
+    return false;
 });
 
 // Adding Skill Button
