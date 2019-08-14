@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, flash, session
+from flask import Flask, render_template, url_for, redirect, flash, session, jsonify
 from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm, SkillsForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
@@ -43,6 +43,15 @@ def redirect_home():
 @app.route("/index")
 def index():
     return render_template("index.html")
+
+
+# Get whole list of skills for auto-complete in the profile page
+@app.route("/get-skills")
+def get_skills():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM skill_list")
+    skills = cur.fetchall()
+    return jsonify(skills)
 
 
 
