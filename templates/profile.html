@@ -53,8 +53,21 @@
                                 <a href="#{{ skill_info.skill_name }}"><div class="chip"><img src="{{ skill_info.skill_logo }}" alt="{{ skill_info.skill_name }}">{{ skill_info.skill_name }}</div></a>
                                 {% endfor %}
                                 {% if session["username"] == profile_info.username %}
+                                    <!-- Adding New Skills -->
                                     <a href="#" id="changeSkills" class="btn btn-floating blue white-text tooltipped" data-position="right" data-tooltip="Add new skills"><i class="material-icons">add</i></a>
                                     <div id="addingSkill" class="chips chips-autocomplete hide"></div>
+                                    <form class="" action="" method="POST">
+                                        {{ skillsForm.hidden_tag() }}
+                                        {% if skillsForm.skills_input.errors %}
+                                            {{ skillsForm.skills_input(class="validate", type="text", id="skills_input") }}
+                                            {% for error in skillsForm.skills_input.errors %}
+                                                <span class="helper-text">{{ error }}</span>
+                                            {% endfor %}
+                                        {% else %}
+                                            {{ skillsForm.skills_input(class="validate", type="text", id="skills_input") }}
+                                        {% endif %}
+                                        <button id="updateSkillsBtn" class="waves-effect waves-light btn green white-text hide" type="submit">Update Your Skills</button>
+                                    </form>
                                 {% endif %}
                             {% else %}
                                 Not declared yet :( We are looking forward to see them!
