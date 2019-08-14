@@ -34,6 +34,8 @@ $(document).ready(function () {
 // Adding Skill Button
 $('#changeSkills').click(function() {
     $("#addingSkill").removeClass("hide");
+    $("#updateSkillsBtn").removeClass("hide");
+    $("#changeSkills").addClass("hide");
 });
 
 // Home Page
