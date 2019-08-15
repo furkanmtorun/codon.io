@@ -227,7 +227,7 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 }
 
 /* Chat Page*/
-.chat-window {display: none;}
+.chat-window {display: none; margin-bottom: 100px;}
 .request-box {
     display: flex;
     justify-content: space-between;
