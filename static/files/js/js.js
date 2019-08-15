@@ -51,8 +51,7 @@ $("#updateSkillsBtn").click(function() {
     for (var i = 0; i < list_of_chips.length; i++) {
         skills_list.push(list_of_chips[i].firstChild.textContent);
     }
-    alert(skills_list);
-
+    
     $.ajax({
         url: "/update_skills",
         type: "POST", 
@@ -61,6 +60,9 @@ $("#updateSkillsBtn").click(function() {
         accepts: {json: "application/json"},
         // data: { jsdata: skills_list },
         data: JSON.stringify(skills_list)
+    })
+    .done(function(data) {
+        location.reload();
     });
 
 });

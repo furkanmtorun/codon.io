@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, flash, session, jsonify
+from flask import Flask, render_template, url_for, redirect, flash, session, jsonify, request
 from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm, SkillsForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
@@ -98,6 +98,7 @@ def login():
                     session['logged_in'] = True
                     # Get user information
                     session['username'] = data["username"]
+                    session['user_id'] = data["id"]
                     session['avatar_link'] = data["avatar_link"]
                     # Set room id
                     session['room'] = str(uuid.uuid4()) + '-' + form.username.data
@@ -163,12 +164,14 @@ def profile(username):
 @app.route("/update_skills", methods=["GET", "POST"])
 def update_skills():
     cur = mysql.connection.cursor()
-    #json_dict = request.get_json()
-    cur.execute("INSERT INTO skills (user_id, skill_id) VALUES (12, 11)")
-    mysql.connection.commit()
-    flash("New skills have been added successfuly.", msg_type_to_color["success"])
-    return redirect(url_for("home"))
-       
+    skills = request.get_json()
+    for skill in skills:
+        cur.execute("SELECT * FROM skill_list WHERE skill_name = %s", [skill])
+        skill = cur.fetchone()
+        skill_id = skill['id']
+        cur.execute("INSERT INTO skills (user_id, skill_id) VALUES (%s, %s)", (session['user_id'], skill_id))
+        mysql.connection.commit()
+    return jsonify()
     
 
         
