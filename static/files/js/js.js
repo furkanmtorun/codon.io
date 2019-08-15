@@ -41,6 +41,7 @@ $(document).ready(function() {
 $('#changeSkills').click(function() {
     $("#addingSkill").removeClass("hide");
     $("#updateSkillsBtn").removeClass("hide");
+    $(".removeSkillBtn").removeClass("hide");
     $("#changeSkills").addClass("hide");
 });
 

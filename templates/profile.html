@@ -50,14 +50,19 @@
                             <br><br>
                             {% if skills_info %}
                                 {% for skill_info in skills_info %}
-                                <a href="#{{ skill_info.skill_name }}"><div class="chip"><img src="{{ skill_info.skill_logo }}" alt="{{ skill_info.skill_name }}">{{ skill_info.skill_name }}</div></a>
+                                <a href="#{{ skill_info.skill_name }}">
+                                    <div class="chip">
+                                        <img src="{{ skill_info.skill_logo }}" alt="{{ skill_info.skill_name }}">{{ skill_info.skill_name }}
+                                        <i id="removeSkillBtn" class="material-icons hide removeSkillBtn right">close</i>
+                                    </div>
+                                </a>
                                 {% endfor %}
                             {% else %}
                                 Not declared yet :( We are looking forward to see them!
                             {% endif %}
                             {% if session["username"] == profile_info.username %}
                                 <!-- Adding New Skills -->
-                                <a href="#" id="changeSkills" class="btn btn-floating blue white-text tooltipped" data-position="right" data-tooltip="Add new skills"><i class="material-icons">add</i></a>
+                                <a href="#" id="changeSkills" class="btn btn-floating blue white-text tooltipped" data-position="right" data-tooltip="Add or remove skills"><i class="material-icons">edit</i></a>
                                 <div id="addingSkill" class="chips chips-autocomplete hide"></div>
                                 <button id="updateSkillsBtn" class="waves-effect waves-light btn green white-text hide" type="submit">Update Your Skills</button>
                             {% endif %}

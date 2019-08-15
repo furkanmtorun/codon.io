@@ -151,6 +151,7 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 .badges {margin-top: 20px;}
 .badges i {font-size: 40px !important; margin-right: 15px; cursor: default;}
 #changeSkills i {cursor: pointer !important;}
+#removeSkillBtn {line-height: 1.25; cursor: pointer !important;}
 .chips .input {width: 180px !important}
 .status-circle {
     vertical-align: bottom !important; 

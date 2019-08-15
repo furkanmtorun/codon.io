@@ -160,7 +160,7 @@ def profile(username):
     
 
 
-# Adding new skills
+# Adding new skills | INNER JOIN Bakalim
 @app.route("/update_skills", methods=["GET", "POST"])
 def update_skills():
     cur = mysql.connection.cursor()
