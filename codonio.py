@@ -130,7 +130,7 @@ def is_logged_in(f):
 @is_logged_in
 def home():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM users WHERE room_id != 0")
+    cur.execute("SELECT * FROM users WHERE room_id != '0'")
     available_users = cur.fetchall()
     cur.close()
     return render_template("home.html",  users=available_users)
@@ -259,7 +259,7 @@ socketio = SocketIO(app, manage_sessions=False)
 # Get users 
 def update_available_users():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM users WHERE room_id != 0")
+    cur.execute("SELECT * FROM users WHERE room_id != '0'")
     available_users = cur.fetchall()
     available_users = json.dumps(available_users, default=json_util.default)
     emit('update available users', available_users, broadcast=True)
