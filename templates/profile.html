@@ -53,7 +53,7 @@
                                 <a href="#{{ skill_info.skill_name }}">
                                     <div class="chip">
                                         <img src="{{ skill_info.skill_logo }}" alt="{{ skill_info.skill_name }}">{{ skill_info.skill_name }}
-                                        <i id="removeSkillBtn" class="material-icons hide removeSkillBtn right">close</i>
+                                        <i id="removeSkillBtn" class="material-icons hide removeSkillBtn right" data-skill_name="{{ skill_info.skill_name }}">close</i>
                                     </div>
                                 </a>
                                 {% endfor %}

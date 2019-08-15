@@ -59,7 +59,6 @@ $("#updateSkillsBtn").click(function() {
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         accepts: {json: "application/json"},
-        // data: { jsdata: skills_list },
         data: JSON.stringify(skills_list)
     })
     .done(function(data) {
@@ -68,7 +67,21 @@ $("#updateSkillsBtn").click(function() {
 
 });
 
-
+// Remove Skills
+$(".removeSkillBtn").click(function() {
+    skill = this.dataset.skill_name;
+    $.ajax({
+        url: "/remove_skills",
+        type: "POST", 
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        accepts: {json: "application/json"},
+        data: JSON.stringify(skill)
+    })
+    .done(function(data) {
+        location.reload();
+    });
+});
 
 
 // Home Page

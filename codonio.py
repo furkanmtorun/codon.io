@@ -172,9 +172,24 @@ def update_skills():
         cur.execute("INSERT INTO skills (user_id, skill_id) VALUES (%s, %s)", (session['user_id'], skill_id))
         mysql.connection.commit()
     return jsonify()
+
     
 
-        
+# Removing skills
+@app.route("/remove_skills", methods=["GET", "POST"])
+def remove_skills():
+    cur = mysql.connection.cursor()
+    skill = request.get_json()
+    cur.execute("SELECT * FROM skill_list WHERE skill_name = %s", [skill])
+    skill = cur.fetchone()
+    skill_id = skill['id']
+    print(skill_id)
+    cur.execute("DELETE FROM skills WHERE user_id = %s AND skill_id = %s", (session['user_id'], skill_id))
+    mysql.connection.commit()
+    return jsonify()
+
+
+
 # Settings Page
 @app.route("/settings", methods=["GET", "POST"])
 @is_logged_in
