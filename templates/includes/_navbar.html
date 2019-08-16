@@ -3,7 +3,7 @@
 <!-- Sub-menu -->
 <ul id="sub_menu" class="dropdown-content">
     {% if session.logged_in %}
-        <li><a href="#" class="profile_name">{{ session['username'] }}</a></li>
+        <li><a href="#" id="profile_name" class="profile_name">{{ session['username'] }}</a></li>
         <li class="divider"></li>
         <li><a href="../profile/{{ session['username'] }}">Profile</a></li>
         <li><a href="{{ url_for('settings') }}">Settings</a></li>

@@ -130,7 +130,7 @@ def is_logged_in(f):
 @is_logged_in
 def home():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM users WHERE room_id != '0'")
+    cur.execute("SELECT username, name, avatar_link, about, room_id, GROUP_CONCAT(skill_list.skill_name) as skill_name FROM users INNER JOIN skills ON users.id=skills.user_id INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE room_id != '0' GROUP BY username")
     available_users = cur.fetchall()
     cur.close()
     return render_template("home.html",  users=available_users)
@@ -179,7 +179,6 @@ def remove_skills():
     cur.execute("SELECT * FROM skill_list WHERE skill_name = %s", [skill])
     skill = cur.fetchone()
     skill_id = skill['id']
-    print(skill_id)
     cur.execute("DELETE FROM skills WHERE user_id = %s AND skill_id = %s", (session['user_id'], skill_id))
     mysql.connection.commit()
     return jsonify()
@@ -259,7 +258,7 @@ socketio = SocketIO(app, manage_sessions=False)
 # Get users 
 def update_available_users():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM users WHERE room_id != '0'")
+    cur.execute("SELECT username, name, avatar_link, about, room_id, GROUP_CONCAT(skill_list.skill_name) as skills FROM users INNER JOIN skills ON users.id=skills.user_id INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE room_id != '0' GROUP BY username")    
     available_users = cur.fetchall()
     available_users = json.dumps(available_users, default=json_util.default)
     emit('update available users', available_users, broadcast=True)
@@ -276,7 +275,7 @@ def make_unavailable(username):
 # Join the personal room / It is mandatory that for every single request user will join the same room
 @socketio.on('join', namespace='/session')
 @is_logged_in
-def on_join(data):
+def on_join():
     join_room(session['room'])
     cur = mysql.connection.cursor()
     user = cur.execute("SELECT * FROM users WHERE username = %s", [session['username']])
@@ -370,7 +369,13 @@ def logout_socket(data):
     close_room(session['room'])
     update_available_users()
     return redirect(url_for('logout'))
- 
+
+
+# Get available coders
+@socketio.on('get available coders', namespace='/session')
+@is_logged_in
+def get_available_coders():
+    update_available_users()
 
 # codon.io
 if __name__ == "__main__":

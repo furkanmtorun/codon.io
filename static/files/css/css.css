@@ -66,14 +66,15 @@ nav ul li:hover a:hover {color: #FFF;}
 
 /* Search part */
 .search_box {
-    width: 95% !important;
-    height: 50px !important; 
+    width: 100% !important;
+    height: 70px !important; 
     background: url('../img/ara.png') 97% center no-repeat #FFF !important; 
     color: #555 !important; 
     padding: 10px 25px !important;
     font-size: 22px !important;
     border: none !important;
     outline: none !important;
+    box-sizing: border-box !important;
 }
 .search_box:focus {box-shadow: 1px 1px 20px 2px #B5B2B2 !important;}
 

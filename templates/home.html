@@ -5,49 +5,20 @@
     <!-- Body Main Part Begins-->
     <div class="container">
         <!-- Search part begins -->
-        <form action="" method="POST"> 
-            <input class="search_box autocomplete" id="lang-search" name="search" type="text" placeholder="Type your favorite language" maxlength="30" required=""> 
-        </form>
+        <div>
+            <form id="searchCoders"> 
+                <input class="search_box autocomplete" id="lang-search" name="search" type="text" placeholder="What is your question?" maxlength="140" required> 
+                <div id="addingSkill" class="chips chips-autocomplete"></div>
+                <button class="waves-effect waves-light btn green white-text" type="submit">search coders</button>
+            </form>
+        </div>
 
-        <!-- codon.io Middle segment begins -->
+        <!-- Coders are listed here -->
         <div id="people" class="col s12 m12 l12">
-            <h5><i class="material-icons">code</i> who code in {searchTerms}</h5>
+            <div class="people-container"></div>
+        </div>
 
-            <div class="people-container">
-                {% for user in users %}
-                    <!-- people card -->
-                    <div class="card sticky-action">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="{{ user.avatar_link }}">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4">{{ user.username }}<i class="material-icons right">more_vert</i></span>
-
-                            <div class="stars">
-                                <i class="material-icons" style="color: orange">star</i>
-                                <i class="material-icons" style="color: orange">star</i>
-                                <i class="material-icons" style="color: orange">star</i>
-                                <i class="material-icons" style="color: orange">star</i>
-                                <i class="material-icons">star</i>
-                            </div>
-
-                            <p><a href="profile/{{user.username}}">Show profile</a></p>
-                        </div>
-
-                        <div class="card-action">
-                            <a class="blue-text ask-question" data-room="{{ user.room_id }}" data-username="{{ user.username }}">ask a question</a>
-                        </div>
-
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">{{ user.username}}'s Bio<i class="material-icons right">close</i></i></span>
-                            <p>{{ user.about }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-
-            </div>
-        </div> <!-- ends for people list -->
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    </div> <!-- ends for container -->
+    </div>
 
 {% endblock %}
