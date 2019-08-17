@@ -70,6 +70,8 @@ $("#updateSkillsBtn").click(function() {
 // Remove Skills
 $(".removeSkillBtn").click(function() {
     skill = this.dataset.skill_name;
+    let chip = $(this).parent().parent();
+
     $.ajax({
         url: "/remove_skills",
         type: "POST", 
@@ -79,7 +81,7 @@ $(".removeSkillBtn").click(function() {
         data: JSON.stringify(skill)
     })
     .done(function(data) {
-        location.reload();
+        chip.remove();
     });
 });
 
