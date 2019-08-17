@@ -100,23 +100,6 @@ $(document).ready(function() {
     //Everyone joins the personal room
     socket.emit('join')
     
-    //Questioner sends the chat request and joins the chat room
-    $('.ask-question').on('click', function(e) {
-        e.preventDefault();
-        let room = this.dataset.room;
-        socket.emit('send request', {'room': room});
-        //Open the chat window
-        $('.request-box').remove();
-        $('.main-container').hide();
-        // Get questioner's username
-        let questionerUsername = this.dataset.username;
-        $('#questioner').html(questionerUsername);
-        // Get questioner's avatar
-        let questionerAvatarLink = this.dataset.avatar_link;
-        $('#questioner').html(questionerAvatarLink);
-        $('.chat-window').show();
-    });
-    
     //Receive room id
     socket.on('receive room id', function(data) {
         //Send message
@@ -142,6 +125,12 @@ $(document).ready(function() {
             //Open the chat window
             $('.request-box').remove();
             $('.main-container').hide();
+            // Get questioner's username
+            $('#questioner').html(data.questioner);
+            // Get questioner's avatar
+            $("#chat_avatar").attr("src", data.avatar_link);
+            // Get questioner's bio
+            $('#chat_about').html(data.about);
             $('.chat-window').show();
             //Send message
             $('#send_message').on('click', function() {
@@ -188,8 +177,9 @@ $(document).ready(function() {
                     $('.people-container').html('');
                     $('.people-container').append('<h5><i class="material-icons">code</i> who code in ' + skills.join(', ') + '</h5>');
                     users.forEach(function(user) {
-                    $('.people-container').append('<div class="card sticky-action"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' + user.avatar_link + '") }}"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' + user.username + '<i class="material-icons right">more_vert</i></span><div class="stars"><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons">star</i></div><p><a href="profile/' + user.username + '">Show profile</a></p></div><div class="card-action"><a class="blue-text ask-question" data-room="' + user.room_id + '" data-username="' + user.username + '">ask a question</a></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">' + user.username + "'s Bio" + '<i class="material-icons right">close</i></i><span><p>' + user.about + '</p></div></div>');
-                    $('.ask-question').on('click', function(e) {
+                        $('.people-container').append('<div class="card sticky-action"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' + user.avatar_link + '") }}"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' + user.username + '<i class="material-icons right">more_vert</i></span><div class="stars"><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons">star</i></div><p><a href="profile/' + user.username + '">Show profile</a></p></div><div class="card-action"><a class="blue-text ask-question" data-room="' + user.room_id + '" data-username="' + user.username + '" data-avatar_link="' + user.avatar_link + '" data-about="' + user.about + '">ask a question</a></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">' + user.username + "'s Bio" + '<i class="material-icons right">close</i></i><span><p>' + user.about + '</p></div></div>');
+                        //Questioner sends the chat request and joins the chat room
+                        $('.ask-question').on('click', function(e) {
                             e.preventDefault();
                             let room = this.dataset.room;
                             socket.emit('send request', {'room': room});
@@ -197,8 +187,11 @@ $(document).ready(function() {
                             $('.request-box').remove();
                             $('.main-container').hide();
                             // Get questioner's username
-                            let questioner = this.dataset.username;
-                            $('#questioner').html(questioner);
+                            $('#questioner').html(this.dataset.username);
+                            // Get questioner's avatar
+                            $("#chat_avatar").attr("src", this.dataset.avatar_link);
+                            // Get questioner's bio
+                            $('#chat_about').html(this.dataset.about);
                             $('.chat-window').show();
                         });
                     });

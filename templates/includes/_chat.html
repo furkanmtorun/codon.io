@@ -12,14 +12,14 @@
     </ul>
 
     <div class="row chat-header">
-        <div class="col s2 m2 l1"><a href="profile" target="_blank"><img class="circle z-depth-2 responsive-img" src="{{ url_for('static', filename='files/img/furkan.jpg') }}"></a></div>
+        <div class="col s2 m2 l1"><a href="profile" target="_blank"><img id="chat_avatar" class="circle z-depth-2 responsive-img" src="{{ url_for('static', filename='files/img/furkan.jpg') }}"></a></div>
         <div class="col s7 m7 l9"><a href="profile" target="_blank"><h6 id="questioner"></h6></a></div>
         <div class="col s3 m3 l2">
             <a class="chat_menu_buttons" href="#change_color_theme"><i class="material-icons">brightness_6</i></a>
             <a class="chat_menu_buttons" href="#abuse"><i class="material-icons">feedback</i></a>
             <a class="dropdown-trigger chat_menu_buttons" href="#!" data-target="chat_menu"><i class="material-icons">more_vert</i></a>
         </div>
-        <div class="col s7 m7 l8">let's dive into dreams and bring them to life</div>
+        <div id="chat_about" class="col s7 m7 l8">let's dive into dreams and bring them to life</div>
     </div>
 
     <div class="row chat-container"></div>

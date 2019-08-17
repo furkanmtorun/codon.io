@@ -295,10 +295,16 @@ def on_request(data):
     room = data['room']
     # Get questioner's name
     questioner = session['username']
+    # Get questioner's avatar_link    
+    avatar_link = session['avatar_link']
+    # Get questioner's bio    
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT about FROM users WHERE username = %s",[questioner])
+    about = cur.fetchone()
+    about = about['about']
     # Close questioner's current room
     close_room(session['room'])
     # Find the respondent
-    cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM users WHERE room_id = %s", [data['room']])
     respondent = cur.fetchone()
     # Make the questioner unavailable
@@ -311,7 +317,7 @@ def on_request(data):
     # Make questioner join the chat room
     join_room(room_id)
     # Send the chat request to respondent
-    emit('incoming request', {'questioner': questioner, 'respondent': respondent['username'], 'room': room_id}, room=room, include_self=False)
+    emit('incoming request', {'questioner': questioner, 'respondent': respondent['username'], 'room': room_id, 'avatar_link': avatar_link, 'about' : about}, room=room, include_self=False)
     # To send messages, send the chat room's id to questioner
     emit('receive room id', {'room': room_id}, room=room_id, broadcast=False)
     # Update available users
