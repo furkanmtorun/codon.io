@@ -330,7 +330,7 @@ def on_request(data):
 def join_chat_room(data):
     room = data['room']
     join_room(room)
-    emit('message', {'username': session['username'], 'avatar_link': session['avatar_link'], 'message': session['username'] + ' joined the chat'}, room=room, include_self=False)
+    emit('respondent joined', {'respondent': session['username']}, room=room, include_self=False)
 
 
 # Send messages

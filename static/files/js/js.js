@@ -140,6 +140,8 @@ $(document).ready(function() {
                             // Get questioner's bio
                             $('#chat_about').html(this.dataset.about);
                             // Open the chat window
+                            $('.chat_notification').removeClass("hide");
+                            $('.chat_notification').html("Waiting for " + this.dataset.username + "'s response...")
                             $('.main-container').hide();
                             $('.chat-window').show();
                         });
@@ -165,6 +167,12 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Respondent joined the chat
+    socket.on('respondent joined', function(data) {
+        $('.chat_notification').removeClass("hide");        
+        $('.chat_notification').html(data.respondent + " joined the chat")
+    });
     
     // Show incoming request
     socket.on('incoming request', function(data) {
@@ -184,6 +192,8 @@ $(document).ready(function() {
             // Get the question
             $('#chat_question').html(data.question);
             // Open the chat window
+            $('.chat_notification').removeClass("hide");        
+            $('.chat_notification').html("You joined the chat")
             $('.main-container').hide();
             $('.chat-window').show();
             // Send message

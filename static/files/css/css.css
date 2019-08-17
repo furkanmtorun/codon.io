@@ -185,6 +185,16 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     line-height: 40px;
     text-align: center;
 }
+.chat_notification {
+    border: solid #35B8F7 1px;
+    border-radius: 8px;
+    color: #35B8F7;
+    font-size: 15px;
+    width: 300px;
+    margin: auto;
+    padding: 7px;
+    text-align: center;
+}
 .chat-container {padding: 20px 50px; height: calc(100vh - 420px) !important; overflow-y: scroll;}
 .chat-box{
     color: #FFF;
