@@ -317,7 +317,7 @@ def on_request(data):
     # Make questioner join the chat room
     join_room(room_id)
     # Send the chat request to respondent
-    emit('incoming request', {'questioner': questioner, 'respondent': respondent['username'], 'room': room_id, 'avatar_link': avatar_link, 'about' : about}, room=room, include_self=False)
+    emit('incoming request', {'questioner': questioner, 'room': room_id, 'avatar_link': avatar_link, 'about' : about, 'question': data['question']}, room=room, include_self=False)
     # To send messages, send the chat room's id to questioner
     emit('receive room id', {'room': room_id}, room=room_id, broadcast=False)
     # Update available users

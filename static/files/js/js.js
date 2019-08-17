@@ -117,7 +117,7 @@ $(document).ready(function() {
     
     //Show incoming request
     socket.on('incoming request', function(data) {
-        $('#messages').html('<div class="message-bar green lighten-1"><div class="container request-box"><p class="flow-text">Hey ' + data.respondent + '! ' + data.questioner + ' want to ask you a question.</p><div><button id="accept_request" class="btn lime darken-1 btn-request">Accept</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Decline</button></div></div></div>');
+        $('#messages').html('<div class="message-bar green lighten-1"><div class="container request-box"><p class="flow-text">' + data.questioner + ': ' + data.question + '</p><div><button id="accept_request" class="btn lime darken-1 btn-request">Answer</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Dismiss</button></div></div></div>');
         //Respondent accepts the request
         $('#accept_request').on('click', function() {
             //Respondent joins the chat room
@@ -182,7 +182,9 @@ $(document).ready(function() {
                         $('.ask-question').on('click', function(e) {
                             e.preventDefault();
                             let room = this.dataset.room;
-                            socket.emit('send request', {'room': room});
+                            //Get the question
+                            let question = $('#skill-search').val();
+                            socket.emit('send request', {'room': room, 'question': question});
                             //Open the chat window
                             $('.request-box').remove();
                             $('.main-container').hide();
