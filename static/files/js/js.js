@@ -176,33 +176,35 @@ $(document).ready(function() {
         for (var i = 0; i < chips.length; i++) {
             skills.push(chips[i].firstChild.textContent);
         }
-        socket.emit('get available coders');
-        socket.on('update available users', function(data) {
-            let users = JSON.parse(data);
-            users = users.filter(users => users.username != $('#profile_name').text() && skills.every(element => users.skills.indexOf(element) > -1));
-            if (users.length === 0) {
-                $('.people-container').html('');
-                $('.people-container').append('<h5><i class="material-icons">code</i> No available user found who code in ' + skills.join(', ') + '</h5>');
-            } else {
-                $('.people-container').html('');
-                $('.people-container').append('<h5><i class="material-icons">code</i> who code in ' + skills.join(', ') + '</h5>');
-                users.forEach(function(user) {
-                $('.people-container').append('<div class="card sticky-action"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' + user.avatar_link + '") }}"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' + user.username + '<i class="material-icons right">more_vert</i></span><div class="stars"><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons">star</i></div><p><a href="profile/' + user.username + '">Show profile</a></p></div><div class="card-action"><a class="blue-text ask-question" data-room="' + user.room_id + '" data-username="' + user.username + '">ask a question</a></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">' + user.username + "'s Bio" + '<i class="material-icons right">close</i></i><span><p>' + user.about + '</p></div></div>');
-                $('.ask-question').on('click', function(e) {
-                        e.preventDefault();
-                        let room = this.dataset.room;
-                        socket.emit('send request', {'room': room});
-                        //Open the chat window
-                        $('.request-box').remove();
-                        $('.main-container').hide();
-                        // Get questioner's username
-                        let questioner = this.dataset.username;
-                        $('#questioner').html(questioner);
-                        $('.chat-window').show();
+        if (skills.length > 0) {
+            socket.emit('get available coders');
+            socket.on('update available users', function(data) {
+                let users = JSON.parse(data);
+                users = users.filter(users => users.username != $('#profile_name').text() && skills.every(element => users.skills.indexOf(element) > -1));
+                if (users.length === 0) {
+                    $('.people-container').html('');
+                    $('.people-container').append('<h5><i class="material-icons">code</i> No available user found who code in ' + skills.join(', ') + '</h5>');
+                } else {
+                    $('.people-container').html('');
+                    $('.people-container').append('<h5><i class="material-icons">code</i> who code in ' + skills.join(', ') + '</h5>');
+                    users.forEach(function(user) {
+                    $('.people-container').append('<div class="card sticky-action"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' + user.avatar_link + '") }}"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' + user.username + '<i class="material-icons right">more_vert</i></span><div class="stars"><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons">star</i></div><p><a href="profile/' + user.username + '">Show profile</a></p></div><div class="card-action"><a class="blue-text ask-question" data-room="' + user.room_id + '" data-username="' + user.username + '">ask a question</a></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">' + user.username + "'s Bio" + '<i class="material-icons right">close</i></i><span><p>' + user.about + '</p></div></div>');
+                    $('.ask-question').on('click', function(e) {
+                            e.preventDefault();
+                            let room = this.dataset.room;
+                            socket.emit('send request', {'room': room});
+                            //Open the chat window
+                            $('.request-box').remove();
+                            $('.main-container').hide();
+                            // Get questioner's username
+                            let questioner = this.dataset.username;
+                            $('#questioner').html(questioner);
+                            $('.chat-window').show();
+                        });
                     });
-                });
-            }
-        });
+                }
+            }); 
+        }
     });
     
     //The request is declined
