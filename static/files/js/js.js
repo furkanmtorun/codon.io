@@ -123,7 +123,7 @@ $(document).ready(function() {
             //Respondent joins the chat room
             socket.emit('join chat room', {'room': data.room});
             //Open the chat window
-            $('.request-box').remove();
+            $('#messages').html("<br><br><br><br>");
             $('.main-container').hide();
             // Get questioner's username
             $('#questioner').html(data.questioner);
