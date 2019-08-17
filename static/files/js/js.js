@@ -94,75 +94,13 @@ $('#people').hover(function(){ $('#people').removeClass('blur'); });
 // Socket.io
 $(document).ready(function() {
 
-    //Connect to the socket
+    // Connect to the socket
     let socket = io.connect('http://127.0.0.1:5000/session');
     
-    //Everyone joins the personal room
+    // Everyone joins the personal room
     socket.emit('join')
     
-    //Receive room id
-    socket.on('receive room id', function(data) {
-        //Send message
-        $('#send_message').on('click', function() {
-            let message = $('#message_input').val().trim();
-            if (message != '') {
-                socket.emit('send message', {'message': message, 'room': data.room});
-                //Get avatar link from navbar
-                let avatar = $('.profile_button').attr('src');
-                $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
-                $('#message_input').val('');
-                $('#message_input').focus();
-                scrollDown();
-            }
-        });
-    });
-    
-    //Show incoming request
-    socket.on('incoming request', function(data) {
-        $('#messages').html('<div class="message-bar green lighten-1"><div class="container request-box"><p class="flow-text">' + data.questioner + ': ' + data.question + '</p><div><button id="accept_request" class="btn lime darken-1 btn-request">Answer</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Dismiss</button></div></div></div>');
-        //Respondent accepts the request
-        $('#accept_request').on('click', function() {
-            //Respondent joins the chat room
-            socket.emit('join chat room', {'room': data.room});
-            // Clear messages
-            $('#messages').html("<br><br><br><br>");
-            // Get questioner's username
-            $('#questioner').html(data.questioner);
-            // Get questioner's avatar
-            $("#chat_avatar").attr("src", data.avatar_link);
-            // Get questioner's bio
-            $('#chat_about').html(data.about);
-            //Open the chat window
-            $('.main-container').hide();
-            $('.chat-window').show();
-            //Send message
-            $('#send_message').on('click', function() {
-                let message = $('#message_input').val().trim();
-                if (message != '') {
-                    socket.emit('send message', {'message': message, 'room': data.room});
-                    //Get avatar link from navbar
-                    let avatar = $('.profile_button').attr('src');
-                    $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
-                    $('#message_input').val('');
-                    $('#message_input').focus();
-                    scrollDown();
-                }
-            });
-        });
-        //Decline the request
-        $('#decline_request').on('click', function() {
-            socket.emit('decline chat request', {'room': data.room});
-            $('.request-box').remove();
-        });
-    });
-    
-    //Get messages
-    socket.on('message', function(data) {
-        $('.chat-container').append('<div id="chatblock" class="row"><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + data.avatar_link + '" alt="' + data.username + '"></div><div class="col s10 m10 l11"><div class="chat-box you">' + data.message + '</div></div></div>');
-        scrollDown();
-    });
-    
-    //Search coders
+    // Search coders - Send chat request
     $('#searchCoders').on("submit", function(e) {
         e.preventDefault();
         skills = [];
@@ -183,12 +121,14 @@ $(document).ready(function() {
                     $('.people-container').append('<h5><i class="material-icons">code</i> who code in ' + skills.join(', ') + '</h5>');
                     users.forEach(function(user) {
                         $('.people-container').append('<div class="card sticky-action"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="' + user.avatar_link + '") }}"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' + user.username + '<i class="material-icons right">more_vert</i></span><div class="stars"><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons" style="color: orange">star</i><i class="material-icons">star</i></div><p><a href="profile/' + user.username + '">Show profile</a></p></div><div class="card-action"><a class="blue-text ask-question" data-room="' + user.room_id + '" data-username="' + user.username + '" data-avatar_link="' + user.avatar_link + '" data-about="' + user.about + '">ask a question</a></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">' + user.username + "'s Bio" + '<i class="material-icons right">close</i></i><span><p>' + user.about + '</p></div></div>');
-                        //Questioner sends the chat request and joins the chat room
+                        // Questioner sends the chat request and joins the chat room
                         $('.ask-question').on('click', function(e) {
                             e.preventDefault();
+                            // Get the room id
                             let room = this.dataset.room;
-                            //Get the question
+                            // Get the question
                             let question = $('#skill-search').val();
+                            // Send the room id and question
                             socket.emit('send request', {'room': room, 'question': question});
                             // Clear messages
                             $('#messages').html("<br><br><br><br>");
@@ -198,7 +138,7 @@ $(document).ready(function() {
                             $("#chat_avatar").attr("src", this.dataset.avatar_link);
                             // Get questioner's bio
                             $('#chat_about').html(this.dataset.about);
-                            //Open the chat window
+                            // Open the chat window
                             $('.main-container').hide();
                             $('.chat-window').show();
                         });
@@ -207,26 +147,88 @@ $(document).ready(function() {
             }); 
         }
     });
+
+    // Receive room id
+    socket.on('receive room id', function(data) {
+        // Send message
+        $('#send_message').on('click', function() {
+            let message = $('#message_input').val().trim();
+            if (message != '') {
+                socket.emit('send message', {'message': message, 'room': data.room});
+                // Get avatar link from navbar
+                let avatar = $('.profile_button').attr('src');
+                $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
+                $('#message_input').val('');
+                $('#message_input').focus();
+                scrollDown();
+            }
+        });
+    });
     
-    //The request is declined
+    // Show incoming request
+    socket.on('incoming request', function(data) {
+        $('#messages').html('<div class="message-bar green lighten-1"><div class="container request-box"><p class="flow-text">' + data.questioner + ': ' + data.question + '</p><div><button id="accept_request" class="btn lime darken-1 btn-request">Answer</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Dismiss</button></div></div></div>');
+        // Respondent accepts the request
+        $('#accept_request').on('click', function() {
+            // Respondent joins the chat room
+            socket.emit('join chat room', {'room': data.room});
+            // Clear messages
+            $('#messages').html("<br><br><br><br>");
+            // Get questioner's username
+            $('#questioner').html(data.questioner);
+            // Get questioner's avatar
+            $("#chat_avatar").attr("src", data.avatar_link);
+            // Get questioner's bio
+            $('#chat_about').html(data.about);
+            // Open the chat window
+            $('.main-container').hide();
+            $('.chat-window').show();
+            // Send message
+            $('#send_message').on('click', function() {
+                let message = $('#message_input').val().trim();
+                if (message != '') {
+                    socket.emit('send message', {'message': message, 'room': data.room});
+                    // Get avatar link from navbar
+                    let avatar = $('.profile_button').attr('src');
+                    $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
+                    $('#message_input').val('');
+                    $('#message_input').focus();
+                    scrollDown();
+                }
+            });
+        });
+        // Decline the request
+        $('#decline_request').on('click', function() {
+            socket.emit('decline chat request', {'room': data.room});
+            $('.request-box').remove();
+        });
+    });
+    
+    // Get messages
+    socket.on('message', function(data) {
+        $('.chat-container').append('<div id="chatblock" class="row"><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + data.avatar_link + '" alt="' + data.username + '"></div><div class="col s10 m10 l11"><div class="chat-box you">' + data.message + '</div></div></div>');
+        scrollDown();
+    });
+    
+    // The request is declined
     socket.on('request declined', function() {
         alert('Your request has been declined.')
         window.location.replace("http://127.0.0.1:5000/home");
     });
     
-    //Logout
+    // Logout
     $('#logout').on('click', function() {
         socket.emit('logout', {});
     });
 
-    //Set enter key to send message
+    // Set enter key to send message
     $('#message_input').on('keyup', function(event) {
         if (event.keyCode === 13) {
             $("#send_message").click();
         }
     });
     
-    //Scroll down
+    // Scroll down
     function scrollDown() {
         $('.chat-container').stop().animate({
             scrollTop: $('.chat-container')[0].scrollHeight
