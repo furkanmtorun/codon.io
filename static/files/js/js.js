@@ -180,7 +180,7 @@ $(document).ready(function() {
         // Respondent accepts the request
         $('#accept_request').on('click', function() {
             // Respondent joins the chat room
-            socket.emit('join chat room', {'room': data.room});
+            socket.emit('join chat room', {'room': data.room, 'topic': data.question});
             // Clear messages
             $('#messages').html("<br><br><br><br>");
             // Get questioner's username

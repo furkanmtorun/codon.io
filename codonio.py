@@ -258,16 +258,16 @@ socketio = SocketIO(app, manage_sessions=False)
 # Get users 
 def update_available_users():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT username, name, avatar_link, about, room_id, GROUP_CONCAT(skill_list.skill_name) as skills FROM users INNER JOIN skills ON users.id=skills.user_id INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE room_id != '0' GROUP BY username")    
+    cur.execute("SELECT username, name, avatar_link, about, room_id, GROUP_CONCAT(skill_list.skill_name) as skills FROM users INNER JOIN skills ON users.id=skills.user_id INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE status_id = 1 GROUP BY username")    
     available_users = cur.fetchall()
     available_users = json.dumps(available_users, default=json_util.default)
     emit('update available users', available_users, broadcast=True)
     cur.close()
 
 
-def make_unavailable(username):
+def change_user_status(username, status, room_id):
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(0, [username]))
+    cur.execute("UPDATE users SET status_id = %s, room_id = %s WHERE username = %s",(status, room_id, [username]))
     mysql.connection.commit()
     cur.close()
 
@@ -280,11 +280,10 @@ def on_join():
     cur = mysql.connection.cursor()
     user = cur.execute("SELECT * FROM users WHERE username = %s", [session['username']])
     user = cur.fetchone()
-    if user['room_id'] == '0':
-        cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(session['room'], session['username']))
-        mysql.connection.commit()
-        update_available_users()
     cur.close()
+    if user['status_id'] != '1':
+        change_user_status(session['username'], 1, session['room'])
+        update_available_users()
 
 
 # Send chat request to the respondent
@@ -307,15 +306,15 @@ def on_request(data):
     # Find the respondent
     cur.execute("SELECT * FROM users WHERE room_id = %s", [data['room']])
     respondent = cur.fetchone()
-    # Make the questioner unavailable
-    make_unavailable(questioner)
-    # Make the respondent unavailable
-    make_unavailable(respondent['username'])
     cur.close()
     # Generate a new room id for private chat
-    room_id = str(uuid.uuid4()) + questioner
+    room_id = str(uuid.uuid4()) + questioner + respondent['username']
     # Make questioner join the chat room
     join_room(room_id)
+    # Change questioner's status to 'asking' : '3'
+    change_user_status(questioner, 3, room_id)
+    # Change respondent's status to 'answering' : '4'
+    change_user_status(respondent['username'], 4, 0)
     # Send the chat request to respondent
     emit('incoming request', {'questioner': questioner, 'room': room_id, 'avatar_link': avatar_link, 'about' : about, 'question': data['question']}, room=room, include_self=False)
     # To send messages, send the chat room's id to questioner
@@ -324,10 +323,19 @@ def on_request(data):
     update_available_users()
 
 
-# Join the chat room
+# Respondent joins the chat room
 @socketio.on('join chat room', namespace='/session')
 @is_logged_in
 def join_chat_room(data):
+    cur = mysql.connection.cursor()
+    # Get questioner's id
+    cur.execute("SELECT * FROM users WHERE room_id = %s", [data['room']])
+    questionerId = cur.fetchone()
+    questionerId = questionerId['id']
+    # Save the conversation in DB
+    cur.execute("INSERT INTO conversation_logs(topic, questioner_id, respondent_id) VALUES(%s, %s, %s)", (data['topic'], questionerId, session['user_id']))
+    mysql.connection.commit()
+    cur.close()    
     room = data['room']
     join_room(room)
     emit('respondent joined', {'respondent': session['username']}, room=room, include_self=False)
@@ -371,7 +379,8 @@ def leave_chat(data):
 @socketio.on('logout', namespace='/session')
 @is_logged_in
 def logout_socket(data):
-    make_unavailable(session['username'])
+    # Change user's status to 'unavailable' : '2'    
+    change_user_status(session['username'], 2, 0)
     close_room(session['room'])
     update_available_users()
     return redirect(url_for('logout'))
