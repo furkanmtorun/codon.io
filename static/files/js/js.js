@@ -104,14 +104,16 @@ $(document).ready(function() {
     socket.on('receive room id', function(data) {
         //Send message
         $('#send_message').on('click', function() {
-            let message = $('#message_input').val();
-            socket.emit('send message', {'message': message, 'room': data.room});
-            //Get avatar link from navbar
-            let avatar = $('.profile_button').attr('src');
-            $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
-            $('#message_input').val('');
-            $('#message_input').focus();
-            scrollDown();
+            let message = $('#message_input').val().trim();
+            if (message != '') {
+                socket.emit('send message', {'message': message, 'room': data.room});
+                //Get avatar link from navbar
+                let avatar = $('.profile_button').attr('src');
+                $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
+                $('#message_input').val('');
+                $('#message_input').focus();
+                scrollDown();
+            }
         });
     });
     
@@ -122,26 +124,29 @@ $(document).ready(function() {
         $('#accept_request').on('click', function() {
             //Respondent joins the chat room
             socket.emit('join chat room', {'room': data.room});
-            //Open the chat window
+            // Clear messages
             $('#messages').html("<br><br><br><br>");
-            $('.main-container').hide();
             // Get questioner's username
             $('#questioner').html(data.questioner);
             // Get questioner's avatar
             $("#chat_avatar").attr("src", data.avatar_link);
             // Get questioner's bio
             $('#chat_about').html(data.about);
+            //Open the chat window
+            $('.main-container').hide();
             $('.chat-window').show();
             //Send message
             $('#send_message').on('click', function() {
-                let message = $('#message_input').val();
-                socket.emit('send message', {'message': message, 'room': data.room});
-                //Get avatar link from navbar
-                let avatar = $('.profile_button').attr('src');
-                $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
-                $('#message_input').val('');
-                $('#message_input').focus();
-                scrollDown();
+                let message = $('#message_input').val().trim();
+                if (message != '') {
+                    socket.emit('send message', {'message': message, 'room': data.room});
+                    //Get avatar link from navbar
+                    let avatar = $('.profile_button').attr('src');
+                    $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
+                    $('#message_input').val('');
+                    $('#message_input').focus();
+                    scrollDown();
+                }
             });
         });
         //Decline the request
@@ -185,15 +190,16 @@ $(document).ready(function() {
                             //Get the question
                             let question = $('#skill-search').val();
                             socket.emit('send request', {'room': room, 'question': question});
-                            //Open the chat window
-                            $('.request-box').remove();
-                            $('.main-container').hide();
+                            // Clear messages
+                            $('#messages').html("<br><br><br><br>");
                             // Get questioner's username
                             $('#questioner').html(this.dataset.username);
                             // Get questioner's avatar
                             $("#chat_avatar").attr("src", this.dataset.avatar_link);
                             // Get questioner's bio
                             $('#chat_about').html(this.dataset.about);
+                            //Open the chat window
+                            $('.main-container').hide();
                             $('.chat-window').show();
                         });
                     });

@@ -179,7 +179,7 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 }
 .chat_menu_buttons > i:hover {background: #35B8F7; color: #FFF; }
 
-.chat-container {padding: 20px 50px; min-height: 650px; max-height: 650px !important; overflow-y: scroll;}
+.chat-container {padding: 20px 50px; height: calc(100vh - 400px) !important; overflow-y: scroll;}
 .chat-box{
     color: #FFF;
     position: relative;
