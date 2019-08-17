@@ -306,7 +306,6 @@ def on_request(data):
     # Find the respondent
     cur.execute("SELECT * FROM users WHERE room_id = %s", [data['room']])
     respondent = cur.fetchone()
-    cur.close()
     # Generate a new room id for private chat
     room_id = str(uuid.uuid4()) + questioner + respondent['username']
     # Make questioner join the chat room
@@ -316,11 +315,12 @@ def on_request(data):
     # Change respondent's status to 'answering' : '4'
     change_user_status(respondent['username'], 4, 0)
     # Send the chat request to respondent
-    emit('incoming request', {'questioner': questioner, 'room': room_id, 'avatar_link': avatar_link, 'about' : about, 'question': data['question']}, room=room, include_self=False)
+    emit('incoming request', {'questioner': questioner, 'room': room_id, 'avatar_link': avatar_link, 'about' : about, 'question': data['question'], 'skills': data['skills']}, room=room, include_self=False)
     # To send messages, send the chat room's id to questioner
     emit('receive room id', {'room': room_id}, room=room_id, broadcast=False)
     # Update available users
     update_available_users()
+    cur.close()
 
 
 # Respondent joins the chat room
@@ -335,6 +335,17 @@ def join_chat_room(data):
     # Save the conversation in DB
     cur.execute("INSERT INTO conversation_logs(topic, questioner_id, respondent_id) VALUES(%s, %s, %s)", (data['topic'], questionerId, session['user_id']))
     mysql.connection.commit()
+    # Get the conversation id as the last row's id
+    conversation_id = cur.lastrowid
+    # Save skills in DB
+    for skill in data['skills']:
+        #  Get skill ids
+        cur.execute("SELECT * FROM skill_list WHERE skill_name = %s", [skill])
+        skill_id = cur.fetchone()
+        skill_id = skill_id['id']
+        # Save the skill into conversation_skills
+        cur.execute("INSERT INTO conversation_skills(conversation_id, skill_id) VALUES(%s, %s)", (conversation_id, skill_id))
+        mysql.connection.commit()
     cur.close()    
     room = data['room']
     join_room(room)

@@ -130,7 +130,7 @@ $(document).ready(function() {
                             let question = $('#skill-search').val().trim();
                             $('#chat_question').html(question);
                             // Send the room id and question
-                            socket.emit('send request', {'room': room, 'question': question});
+                            socket.emit('send request', {'room': room, 'question': question, 'skills': skills});
                             // Clear messages
                             $('#messages').html("<br><br><br><br>");
                             // Get questioner's username
@@ -167,12 +167,6 @@ $(document).ready(function() {
             }
         });
     });
-
-    // Respondent joined the chat
-    socket.on('respondent joined', function(data) {
-        $('.chat_notification').removeClass("hide");        
-        $('.chat_notification').html(data.respondent + " joined the chat")
-    });
     
     // Show incoming request
     socket.on('incoming request', function(data) {
@@ -180,7 +174,7 @@ $(document).ready(function() {
         // Respondent accepts the request
         $('#accept_request').on('click', function() {
             // Respondent joins the chat room
-            socket.emit('join chat room', {'room': data.room, 'topic': data.question});
+            socket.emit('join chat room', {'room': data.room, 'topic': data.question, 'skills': data.skills});
             // Clear messages
             $('#messages').html("<br><br><br><br>");
             // Get questioner's username
@@ -215,6 +209,12 @@ $(document).ready(function() {
             socket.emit('decline chat request', {'room': data.room});
             $('.request-box').remove();
         });
+    });
+
+    // Respondent joined the chat
+    socket.on('respondent joined', function(data) {
+        $('.chat_notification').removeClass("hide");        
+        $('.chat_notification').html(data.respondent + " joined the chat")
     });
     
     // Get messages
