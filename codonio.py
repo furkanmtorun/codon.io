@@ -100,6 +100,7 @@ def login():
                     session['username'] = data["username"]
                     session['user_id'] = data["id"]
                     session['avatar_link'] = data["avatar_link"]
+                    session['conversation_id'] = 0
                     # Set room id
                     session['room'] = str(uuid.uuid4()) + '-' + form.username.data
                     flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
@@ -337,6 +338,7 @@ def join_chat_room(data):
     mysql.connection.commit()
     # Get the conversation id as the last row's id
     conversation_id = cur.lastrowid
+    session['conversation_id'] = conversation_id
     # Save skills in DB
     for skill in data['skills']:
         #  Get skill ids
@@ -356,6 +358,12 @@ def join_chat_room(data):
 @socketio.on('send message', namespace='/session')
 @is_logged_in
 def send_message(data):
+    # Get the conversation id
+    # Save the message in DB
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO messages(user_id, conversation_id, message) VALUES(%s, %s, %s)", (session['user_id'], session['conversation_id'], data['message']))
+    mysql.connection.commit()
+    cur.close()
     emit('message', {'username': session['username'], 'avatar_link': session['avatar_link'], 'message': data['message']}, room=data['room'], include_self=False)
 
 
