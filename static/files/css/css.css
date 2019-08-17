@@ -166,8 +166,7 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 .chat-header{
     padding-left: 25px;
     padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #35B8F7;
+    margin-bottom: 10px !important;
 }
 .chat-header h6 {font-size: 20px; color: #35B8F7} 
 .chat_menu_buttons > i {
@@ -178,7 +177,14 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
     margin-left: 3px;
 }
 .chat_menu_buttons > i:hover {background: #35B8F7; color: #FFF; }
-
+.chat_question {
+    background: #35B8F7;
+    color: #FFF;
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
 .chat-container {padding: 20px 50px; height: calc(100vh - 400px) !important; overflow-y: scroll;}
 .chat-box{
     color: #FFF;

@@ -127,7 +127,8 @@ $(document).ready(function() {
                             // Get the room id
                             let room = this.dataset.room;
                             // Get the question
-                            let question = $('#skill-search').val();
+                            let question = $('#skill-search').val().trim();
+                            $('#chat_question').html(question);
                             // Send the room id and question
                             socket.emit('send request', {'room': room, 'question': question});
                             // Clear messages
@@ -180,6 +181,8 @@ $(document).ready(function() {
             $("#chat_avatar").attr("src", data.avatar_link);
             // Get questioner's bio
             $('#chat_about').html(data.about);
+            // Get the question
+            $('#chat_question').html(data.question);
             // Open the chat window
             $('.main-container').hide();
             $('.chat-window').show();
