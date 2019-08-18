@@ -172,13 +172,27 @@
                         <div class="collapsible-header red white-text" tabindex="0">
                         <i class="material-icons">delete_forever</i>Delete my account</div>
                         <div class="collapsible-body">
-                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat.</span>
+                        <span>You cannot undo this event. </span><br><br>
+                        <a href="#deleteMyAccount" class="btn red white-text modal-trigger">Delete my account</a>
                         </div>
                     </li>
                     </ul>
                 </div>
+        </div>
+
+
+        <!-- Delete my account -->
+        <div id="deleteMyAccount" class="modal">
+            <div class="modal-content">
+                <h4>Delete my account</h4>
+                <p>Please, be aware that you cannot undo this event.</p>
+                <form action="{{ url_for('delete_account') }}" method="POST">
+                    <button id="deleteMyAccount" class="btn red white-text waves-effect waves-light" type="submit">Delete my account</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect blue white-text btn-flat">Cancel</a>
+            </div>
         </div>
 
         <!-- Privacy Settings -->

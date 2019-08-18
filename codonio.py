@@ -244,6 +244,21 @@ def logout():
 
 
 
+# Delete account
+@app.route("/delete_account", methods=["GET", "POST"])
+@is_logged_in
+def delete_account():
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM users WHERE id = %s", [session['user_id']])
+    mysql.connection.commit()
+    cur.close()
+    session.clear()
+    flash("Your account has been deleted. We've started to miss you now!", msg_type_to_color["warning"])
+    return redirect(url_for("index"))
+
+
+
+
 # 404 Error Page
 @app.errorhandler(404)
 def page_not_found(e):
