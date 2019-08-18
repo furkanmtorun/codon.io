@@ -229,7 +229,7 @@ $(document).ready(function() {
     
     // The request is declined
     socket.on('request declined', function() {
-        alert('Your request has been declined.')
+        alert('Your request has been declined.');
         window.location.replace("http://127.0.0.1:5000/home");
     });
     
