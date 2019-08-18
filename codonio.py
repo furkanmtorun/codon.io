@@ -381,9 +381,8 @@ def send_message(data):
 def decline_chat_request(data):
     session['room'] = str(uuid.uuid4()) + '-' + session['username']
     join_room(session['room'])
-    cur = mysql.connection.cursor()
-    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(session['room'], session['username']))
-    mysql.connection.commit()
+    # Change respondent's status to 'available' : '1' again
+    change_user_status(session['username'], 1, session['room'])
     emit('request declined', {}, room=data['room'])
     update_available_users()
 
