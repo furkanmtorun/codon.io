@@ -134,7 +134,7 @@ $(document).ready(function() {
                             $('#chat_question').html(question);
                             // Send the room id and question
                             socket.emit('send request', {'room': room, 'question': question, 'skills': skills});
-                            // Clear messages
+                            // Clear messages (flash)
                             $('#messages').html("<br><br><br><br>");
                             // Get questioner's username
                             $('#questioner').html(this.dataset.username);
@@ -178,7 +178,7 @@ $(document).ready(function() {
         $('#accept_request').on('click', function() {
             // Respondent joins the chat room
             socket.emit('join chat room', {'room': data.room, 'topic': data.question, 'skills': data.skills});
-            // Clear messages
+            // Clear messages (flash)
             $('#messages').html("<br><br><br><br>");
             // Get questioner's username
             $('#questioner').html(data.questioner);
@@ -210,7 +210,8 @@ $(document).ready(function() {
         // Decline the request
         $('#decline_request').on('click', function() {
             socket.emit('decline chat request', {'room': data.room});
-            $('.request-box').remove();
+            // Clear messages (flash)
+            $('#messages').html("<br><br><br><br>");
         });
     });
 
@@ -229,8 +230,9 @@ $(document).ready(function() {
     
     // The request is declined
     socket.on('request declined', function() {
-        alert('Your request has been declined.');
-        window.location.replace("http://127.0.0.1:5000/home");
+        $('.chat-container').append("<div class='chat_notification' style='margin-top: 20px'>Your request has been declined<br>Redirecting to home page...</div>");
+        setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
+
     });
     
     // Logout
