@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 17 Ağu 2019, 22:57:19
+-- Üretim Zamanı: 18 Ağu 2019, 10:40:43
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.10
 
@@ -60,6 +60,7 @@ CREATE TABLE `conversation_logs` (
   `topic` varchar(140) NOT NULL,
   `questioner_id` int(11) NOT NULL,
   `respondent_id` int(11) NOT NULL,
+  `room_id` varchar(255) NOT NULL,
   `started_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `finished_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `privacy` tinyint(1) NOT NULL DEFAULT '0'
@@ -709,7 +710,7 @@ ALTER TABLE `error_reports`
 --
 ALTER TABLE `messages`
   ADD CONSTRAINT `messages_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `messages_fk1` FOREIGN KEY (`conversation_id`) REFERENCES `conversation_logs` (`id`);
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `conversation_logs` (`id`);
 
 --
 -- Tablo kısıtlamaları `ranking_logs`
