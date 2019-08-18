@@ -163,9 +163,19 @@
                         <div class="collapsible-header" tabindex="0">
                         <i class="material-icons">history</i>Last logins</div>
                         <div class="collapsible-body">
-                        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat.</span>
+                        <span><b>codon.io</b> project only hosts your IP adress and the time you signed in. Here is the table: </span><br><br>
+                        <div style="max-height: 450px; overflow-y: scroll;"><table>
+                            <tr>
+                                <th>Time you signed in</th>
+                                <th>IP Adress</th>
+                            </tr>
+                            {% for user_log_info in user_logs_info %}
+                                <tr>
+                                    <td>{{ user_log_info.logined_at }}</td>
+                                    <td>{{ user_log_info.ip }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table></div>
                         </div>
                     </li>
                     <li>

@@ -104,6 +104,8 @@ def login():
                     # Set room id
                     session['room'] = str(uuid.uuid4()) + '-' + form.username.data
                     flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
+                    cur.execute("INSERT INTO user_logs (user_id,ip) VALUES (%s, %s)", [session['user_id'], request.remote_addr])
+                    mysql.connection.commit()
                     return redirect(url_for("home"))
                 else:
                     flash("Invalid login!", msg_type_to_color["error"])
@@ -194,6 +196,8 @@ def settings():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s", [(session['username'])])
     profile_info = cur.fetchone()
+    cur.execute("SELECT * FROM user_logs WHERE user_id = %s", [(session['user_id'])])
+    user_logs_info = cur.fetchall()
 
     profileForm = ProfileForm()
     changePasswordForm = ChangePasswordForm()
@@ -202,7 +206,8 @@ def settings():
         # MySQL Integration
         cur = mysql.connection.cursor()
         # Check the presnece of the username and email in the table
-        cur.execute("UPDATE users SET name= % s, about = %s, avatar_link = %s, gender = %s WHERE username = %s", (profileForm.name.data, profileForm.about.data, profileForm.avatar_link.data, profileForm.gender.data, session["username"]))
+        cur.execute("UPDATE users SET name= % s, about = %s, avatar_link = %s, gender = %s WHERE username = %s", 
+                    (profileForm.name.data, profileForm.about.data, profileForm.avatar_link.data, profileForm.gender.data, session["username"]))
         mysql.connection.commit() 
         cur.close()
         session["avatar_link"] = profileForm.avatar_link.data
@@ -230,7 +235,7 @@ def settings():
                 return redirect(url_for("settings"))
             
     return render_template("settings.html", profileForm=profileForm, 
-                            changePasswordForm=changePasswordForm, title="Settings", profile_info=profile_info)
+                           changePasswordForm=changePasswordForm, title="Settings", profile_info=profile_info, user_logs_info=user_logs_info)
 
 
 
