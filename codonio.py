@@ -328,13 +328,14 @@ def on_request(data):
 @socketio.on('join chat room', namespace='/session')
 @is_logged_in
 def join_chat_room(data):
+    room = data['room']
     cur = mysql.connection.cursor()
     # Get questioner's id
     cur.execute("SELECT * FROM users WHERE room_id = %s", [data['room']])
     questionerId = cur.fetchone()
     questionerId = questionerId['id']
     # Save the conversation in DB
-    cur.execute("INSERT INTO conversation_logs(topic, questioner_id, respondent_id) VALUES(%s, %s, %s)", (data['topic'], questionerId, session['user_id']))
+    cur.execute("INSERT INTO conversation_logs(topic, questioner_id, respondent_id, room_id) VALUES(%s, %s, %s, %s)", (data['topic'], questionerId, session['user_id'], room))
     mysql.connection.commit()
     # Get the conversation id as the last row's id
     conversation_id = cur.lastrowid
@@ -349,9 +350,8 @@ def join_chat_room(data):
         cur.execute("INSERT INTO conversation_skills(conversation_id, skill_id) VALUES(%s, %s)", (conversation_id, skill_id))
         mysql.connection.commit()
     cur.close()    
-    room = data['room']
     join_room(room)
-    emit('respondent joined', {'respondent': session['username']}, room=room, include_self=False)
+    emit('respondent joined', {'respondent': session['username'], 'conversation_id': conversation_id}, room=room, include_self=False)
 
 
 # Send messages
@@ -359,9 +359,17 @@ def join_chat_room(data):
 @is_logged_in
 def send_message(data):
     # Get the conversation id
-    # Save the message in DB
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO messages(user_id, conversation_id, message) VALUES(%s, %s, %s)", (session['user_id'], session['conversation_id'], data['message']))
+    if session['conversation_id'] == 0:
+        cur.execute("SELECT * FROM conversation_logs WHERE room_id = %s", [data['room']])
+        room_id = cur.fetchone()
+        room_id = room_id['room_id']
+        if room_id == data['room']:
+            conversation_id = data['conversation_id']
+    else:
+        conversation_id = session['conversation_id']
+    # Save the message in DB
+    cur.execute("INSERT INTO messages(user_id, conversation_id, message) VALUES(%s, %s, %s)", (session['user_id'], conversation_id, data['message']))
     mysql.connection.commit()
     cur.close()
     emit('message', {'username': session['username'], 'avatar_link': session['avatar_link'], 'message': data['message']}, room=data['room'], include_self=False)

@@ -97,6 +97,9 @@ $(document).ready(function() {
     // Connect to the socket
     let socket = io.connect('http://127.0.0.1:5000/session');
     
+    // Create the conversation id variable
+    let conversation_id;
+
     // Everyone joins the personal room
     socket.emit('join')
     
@@ -151,13 +154,13 @@ $(document).ready(function() {
         }
     });
 
-    // Receive room id
+    // Questioner receives room id
     socket.on('receive room id', function(data) {
-        // Send message
+        // Questioner sends message
         $('#send_message').on('click', function() {
             let message = $('#message_input').val().trim();
             if (message != '') {
-                socket.emit('send message', {'message': message, 'room': data.room});
+                socket.emit('send message', {'message': message, 'room': data.room, 'conversation_id' : conversation_id});
                 // Get avatar link from navbar
                 let avatar = $('.profile_button').attr('src');
                 $('.chat-container').append('<div id="chatblock" class="row"><div class="col s10 m10 l11"><div class="chat-box person">' + message + '</div></div><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + avatar + '" alt="Furkan Torun"></div></div>');
@@ -190,7 +193,7 @@ $(document).ready(function() {
             $('.chat_notification').html("You joined the chat")
             $('.main-container').hide();
             $('.chat-window').show();
-            // Send message
+            // Respondent sends message
             $('#send_message').on('click', function() {
                 let message = $('#message_input').val().trim();
                 if (message != '') {
@@ -213,8 +216,9 @@ $(document).ready(function() {
 
     // Respondent joined the chat
     socket.on('respondent joined', function(data) {
-        $('.chat_notification').removeClass("hide");        
-        $('.chat_notification').html(data.respondent + " joined the chat")
+        $('.chat_notification').removeClass("hide");
+        $('.chat_notification').html(data.respondent + " joined the chat");
+        conversation_id = data.conversation_id;
     });
     
     // Get messages
