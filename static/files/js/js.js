@@ -230,7 +230,7 @@ $(document).ready(function() {
     
     // The request is declined
     socket.on('request declined', function() {
-        $('.chat-container').append("<div class='chat_notification' style='margin-top: 20px'>Your request has been declined<br>Redirecting to home page...</div>");
+        $('.chat-container').append("<div class='chat_notification'>Your request has been declined<br>Redirecting to home page...</div>");
         setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
 
     });
