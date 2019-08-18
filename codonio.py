@@ -201,7 +201,7 @@ def settings():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s", [(session['username'])])
     profile_info = cur.fetchone()
-    cur.execute("SELECT * FROM user_logs WHERE user_id = %s", [(session['user_id'])])
+    cur.execute("SELECT * FROM user_logs WHERE user_id = %s ORDER BY id DESC", [(session['user_id'])])
     user_logs_info = cur.fetchall()
 
     profileForm = ProfileForm()
@@ -239,8 +239,8 @@ def settings():
                 flash("Invalid Old Password!", msg_type_to_color["error"])
                 return redirect(url_for("settings"))
             
-    return render_template("settings.html", profileForm=profileForm, 
-                           changePasswordForm=changePasswordForm, title="Settings", profile_info=profile_info, user_logs_info=user_logs_info)
+    return render_template("settings.html", profileForm=profileForm, changePasswordForm=changePasswordForm, 
+                            title="Settings", profile_info=profile_info, user_logs_info=user_logs_info)
 
 
 
