@@ -155,7 +155,7 @@ def profile(username):
         # User statistics
         number_of_question = cur.execute("SELECT id FROM conversation_logs WHERE questioner_id = %s", [session['user_id']])
         number_of_answer = cur.execute("SELECT id FROM conversation_logs WHERE respondent_id = %s", [session['user_id']])
-        user_stats = (number_of_question, number_of_answer, int(number_of_question) + int(number_of_answer))
+        user_stats = (number_of_question, number_of_answer, "#", "%")
         return render_template("profile.html", title="Profile", profile_info=profile_info, skills_info=skills_info, user_stats=user_stats)
     else:
         flash("There is no such a user", msg_type_to_color["error"])
@@ -266,6 +266,8 @@ def delete_account():
     flash("Your account has been deleted. We've started to miss you now!", msg_type_to_color["warning"])
     return redirect(url_for("index"))
 
+
+# Scoring event
 
 
 

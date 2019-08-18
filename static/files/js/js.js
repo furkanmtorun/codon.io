@@ -155,6 +155,14 @@ $(document).ready(function() {
         }
     });
 
+
+    // Change color theme
+    $("#change_color_theme").click(function() {
+        $("#chat-header").addClass("night-mode");
+    });
+
+    
+
     // Questioner receives room id
     socket.on('receive room id', function(data) {
         // Questioner sends message

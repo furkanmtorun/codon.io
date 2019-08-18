@@ -272,3 +272,9 @@ h1 > i, h2 > i, h3 > i, h4 > i, h5 > i, h6 > i {vertical-align: middle;}
 .send_message {
     float: right !important;
 }
+
+a > i {cursor: pointer !important;}
+.night-mode {
+    background: #555 !important;
+    color: #efefef !important;
+}
