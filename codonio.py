@@ -151,7 +151,12 @@ def profile(username):
         profile_info = cur.fetchone()                                                                                                       
         cur.execute("SELECT skill_name, skill_logo FROM skills INNER JOIN users ON users.username=%s INNER JOIN skill_list ON skills.skill_id=skill_list.id WHERE skills.user_id=users.id", [username])
         skills_info = cur.fetchall()
-        return render_template("profile.html", title="Profile", profile_info=profile_info, skills_info=skills_info)
+
+        # User statistics
+        number_of_question = cur.execute("SELECT id FROM conversation_logs WHERE questioner_id = %s", [session['user_id']])
+        number_of_answer = cur.execute("SELECT id FROM conversation_logs WHERE respondent_id = %s", [session['user_id']])
+        user_stats = (number_of_question, number_of_answer, int(number_of_question) + int(number_of_answer))
+        return render_template("profile.html", title="Profile", profile_info=profile_info, skills_info=skills_info, user_stats=user_stats)
     else:
         flash("There is no such a user", msg_type_to_color["error"])
         return redirect(url_for("home"))
