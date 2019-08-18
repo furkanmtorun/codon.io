@@ -104,7 +104,8 @@ $(document).ready(function() {
     socket.emit('join')
     
     // Search coders - Send chat request
-    $('#searchCoders').on("submit", function(e) {
+    // $('#searchCoders').on("submit", function(e) {
+    $("#skill-search").on("keyup", function(e) {
         e.preventDefault();
         skills = [];
         let chips = $("#addingSkill").children(".chip");        

@@ -65,7 +65,7 @@ nav ul li:hover a:hover {color: #FFF;}
 }
 
 /* Search part */
-.search_box {
+.search_box, .lang_search_box {
     width: 100% !important;
     height: 70px !important; 
     background: url('../img/ara.png') 97% center no-repeat #FFF !important; 
@@ -77,6 +77,13 @@ nav ul li:hover a:hover {color: #FFF;}
     box-sizing: border-box !important;
 }
 .search_box:focus {box-shadow: 1px 1px 20px 2px #B5B2B2 !important;}
+.lang_search_box {
+    margin-bottom: 7px !important;
+    height: 55px !important;
+    background: #8c8c8c !important;
+    padding: 5px 25px !important;
+    border-radius: 45px;
+}
 
 /* Log in */
 .login_form {

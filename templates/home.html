@@ -6,10 +6,11 @@
     <div class="container">
         <!-- Search part begins -->
         <div>
-            <form id="searchCoders"> 
+            <form id="searchCoders" autocomplete="off"> 
+                <div id="addingSkill" class="lang_search_box chips chips-autocomplete"></div>
                 <input class="search_box autocomplete" id="skill-search" name="search" type="text" placeholder="What is your question?" maxlength="140" required> 
-                <div id="addingSkill" class="chips chips-autocomplete"></div>
-                <button class="waves-effect waves-light btn green white-text" type="submit">search coders</button>
+                <span>*It automatically finds when you finish typing your question.</span>
+                <!-- <button class="waves-effect waves-light btn green white-text" type="submit">search coders</button> -->
             </form>
         </div>
 
