@@ -16,7 +16,7 @@ app.debug = True
 
 # Set the configs
 with open("./configs.yml") as f:
-    configs = yaml.load(f)
+    configs = yaml.load(f, Loader=yaml.SafeLoader)
 app.config["SECRET_KEY"] = configs["SECRET_KEY"]
 app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=configs["PERMANENT_SESSION_LIFETIME"])
 # Config MySQL Connection
