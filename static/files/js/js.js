@@ -230,7 +230,7 @@ $(document).ready(function() {
     // Respondent joined the chat
     socket.on('respondent joined', function(data) {
         $('.chat_notification').removeClass("hide");
-        $('#end_conversation').removeClass("hide");
+        $('#end_conversation_btn').removeClass("hide");
         $('.chat_notification').html(data.respondent + " joined the chat");
         conversation_id = data.conversation_id;
     });
@@ -269,6 +269,11 @@ $(document).ready(function() {
         $('.chat-container').append("<div class='chat_notification'>Your request has been declined<br>Redirecting to home page...</div>");
         setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
 
+    });
+
+    // End the conversation
+    $('#end_conversation').on('click', function() {
+        
     });
     
     // Logout
