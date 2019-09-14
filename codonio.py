@@ -162,6 +162,16 @@ def profile(username):
         return redirect(url_for("home"))
     
     
+# Report abuse
+@app.route("/report_abuse", methods=["GET", "POST"])
+def report_abuse():
+    cur = mysql.connection.cursor()
+    muid = request.get_json()
+    cur.execute("SELECT id FROM messages WHERE mes_uniq_id= %s", [muid])
+    message_id = cur.fetchone()
+    cur.execute("INSERT INTO abuse_allegations (message_id, complained_by) VALUES (%s, %s)", (message_id, session['user_id']))
+    mysql.connection.commit()
+    return jsonify()
 
 
 # Adding new skills | INNER JOIN Bakalim
