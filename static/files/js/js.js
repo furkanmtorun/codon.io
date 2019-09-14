@@ -242,7 +242,7 @@ $(document).ready(function() {
     
     // Get messages
     socket.on('message', function(data) {
-        $('.chat-container').append('<div id="chatblock" class="row"><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + data.avatar_link + '" alt="' + data.username + '"></div><div class="col s10 m10 l11"><div class="chat-box person" data_muid="' + data.message_id + '">' + data.message + '</div></div></div>');
+        $('.chat-container').append('<div id="chatblock" class="row"><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + data.avatar_link + '" alt="' + data.username + '"></div><div class="col s10 m10 l11"><div class="chat-box you" data-muid="' + data.message_id + '">' + data.message + '</div></div></div>');
         scrollDown();
     });
     
