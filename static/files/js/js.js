@@ -254,7 +254,9 @@ $(document).ready(function() {
     });
 
     // End the conversation
-    
+    $('#end_conversation').on('click', function() {
+        
+    });
     
     // Logout
     $('#logout').on('click', function() {
