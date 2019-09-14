@@ -91,6 +91,12 @@ $('.search_box').hover(function(){ $('#people').addClass('blur'); });
 $('#people').hover(function(){ $('#people').removeClass('blur'); });
 
 
+// Abuse alert event
+$(".chat-box.person").dblclick(function() {
+    $("#abuse_modal").modal('open');
+})
+
+
 // Socket.io
 $(document).ready(function() {
 
@@ -139,6 +145,8 @@ $(document).ready(function() {
                             $('#messages').html("<br><br><br><br>");
                             // Get questioner's username
                             $('#questioner').html(this.dataset.username);
+                            // Set user's profile link
+                            $('.questioner_links').attr("href", "profile/"+this.dataset.username);
                             // Get questioner's avatar
                             $("#chat_avatar").attr("src", this.dataset.avatar_link);
                             // Get questioner's bio
