@@ -396,10 +396,12 @@ def send_message(data):
     else:
         conversation_id = session['conversation_id']
     # Save the message in DB
-    cur.execute("INSERT INTO messages(user_id, conversation_id, message) VALUES(%s, %s, %s)", (session['user_id'], conversation_id, data['message']))
+    message_id = str(uuid.uuid4()) + '_' + str(datetime.now().day) + str(datetime.now().month) + str(datetime.now().year)
+    cur.execute("INSERT INTO messages(mes_uniq_id, user_id, conversation_id, message) VALUES(%s, %s, %s, %s)", 
+                    (message_id, session['user_id'], conversation_id, data['message']))
     mysql.connection.commit()
     cur.close()
-    emit('message', {'username': session['username'], 'avatar_link': session['avatar_link'], 'message': data['message']}, room=data['room'], include_self=False)
+    emit('message', {'username': session['username'], 'avatar_link': session['avatar_link'], 'message_id': message_id, 'message': data['message']}, room=data['room'], include_self=False)
 
 
 # Decline the chat request

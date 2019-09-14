@@ -190,7 +190,7 @@ $(document).ready(function() {
     
     // Show incoming request
     socket.on('incoming request', function(data) {
-        $('#messages').html('<div class="message-bar green lighten-1"><div class="container request-box"><p class="flow-text">' + data.questioner + ': ' + data.question + '</p><div><button id="accept_request" class="btn lime darken-1 btn-request">Answer</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Dismiss</button></div></div></div>');
+        $('#messages').html('<div class="message-bar blue lighten-1"><div class="container request-box"><p class="flow-text">' + data.questioner + ': ' + data.question + '</p><div><button id="accept_request" class="btn green darken-1 btn-request">Answer</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Dismiss</button></div></div></div>');
         // Respondent accepts the request
         $('#accept_request').on('click', function() {
             // Respondent joins the chat room
@@ -241,7 +241,7 @@ $(document).ready(function() {
     
     // Get messages
     socket.on('message', function(data) {
-        $('.chat-container').append('<div id="chatblock" class="row"><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + data.avatar_link + '" alt="' + data.username + '"></div><div class="col s10 m10 l11"><div class="chat-box you">' + data.message + '</div></div></div>');
+        $('.chat-container').append('<div id="chatblock" class="row"><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + data.avatar_link + '" alt="' + data.username + '"></div><div class="col s10 m10 l11"><div class="chat-box person" data_muid="' + data.message_id + '">' + data.message + '</div></div></div>');
         scrollDown();
     });
     
