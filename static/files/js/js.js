@@ -92,11 +92,30 @@ $('#people').hover(function(){ $('#people').removeClass('blur'); });
 
 
 // Abuse alert event
-$(".chat-box.person").dblclick(function() {
-    $("#abuse_modal").modal('open');
-})
-
-
+$(document).ready(function () {
+    $(".chat-box.you").dblclick(function() {
+        let muid = this.dataset.muid;
+        $("#abuse_modal").attr('data-muid', muid);
+        $("#abuse_modal").modal('open');
+        console.log(muid);
+    });
+    
+    $("#report_abuse_btn").click(function() {
+        temp_muid = $("#abuse_modal").attr("data-muid");
+        $.ajax({
+            url: "/report_abuse",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            accepts: { json: "application/json" },
+            data: JSON.stringify(temp_muid)
+        })
+        .done(function(data) {
+            alert("Abusement has been reported.");
+        });
+    });
+});
+    
 // Socket.io
 $(document).ready(function() {
 
@@ -190,7 +209,7 @@ $(document).ready(function() {
     
     // Show incoming request
     socket.on('incoming request', function(data) {
-        $('#messages').html('<div class="message-bar blue lighten-1"><div class="container request-box"><p class="flow-text">' + data.questioner + ': ' + data.question + '</p><div><button id="accept_request" class="btn green darken-1 btn-request">Answer</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Dismiss</button></div></div></div>');
+        $('#messages').html('<div class="message-bar blue lighten-1"><div class="container request-box"><p class="flow-text">' + data.questioner + ': ' + data.question + '</p><div><button id="accept_request" class="btn white blue-text darken-1 btn-request">Answer</button><button id="decline_request" class="btn deep-orange accent-3 btn-request">Dismiss</button></div></div></div>');
         // Respondent accepts the request
         $('#accept_request').on('click', function() {
             // Respondent joins the chat room
