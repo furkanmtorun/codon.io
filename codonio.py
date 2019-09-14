@@ -495,7 +495,7 @@ def rating_system():
         cur.execute("INSERT INTO ranking_logs (user_id, ranking_type) VALUES (%s, %s)", (user_id_month, rating_type_month))
         mysql.connection.commit()
 
-    return render_template("rating.html", winners_of_the_month=winners_of_the_month, winners_of_the_week=winners_of_the_week)
+    return render_template("ranking.html", winners_of_the_month=winners_of_the_month, winners_of_the_week=winners_of_the_week)
 
     
 
