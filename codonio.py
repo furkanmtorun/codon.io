@@ -465,7 +465,7 @@ def get_available_coders():
 
 
 # Finding out the bests of the week and month periodically
-@app.route("/rating")
+@app.route("/ranking")
 def rating_system():
     # Parameters and variables
     now = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
