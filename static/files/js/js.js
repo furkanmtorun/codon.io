@@ -235,6 +235,7 @@ $(document).ready(function() {
     // Respondent joined the chat
     socket.on('respondent joined', function(data) {
         $('.chat_notification').removeClass("hide");
+        $('#end_conversation').removeClass("hide");
         $('.chat_notification').html(data.respondent + " joined the chat");
         conversation_id = data.conversation_id;
     });
