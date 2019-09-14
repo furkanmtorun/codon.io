@@ -91,31 +91,7 @@ $('.search_box').hover(function(){ $('#people').addClass('blur'); });
 $('#people').hover(function(){ $('#people').removeClass('blur'); });
 
 
-// Abuse alert event
-$(document).ready(function () {
-    $(".chat-box.you").dblclick(function() {
-        let muid = this.dataset.muid;
-        $("#abuse_modal").attr('data-muid', muid);
-        $("#abuse_modal").modal('open');
-        console.log(muid);
-    });
-    
-    $("#report_abuse_btn").click(function() {
-        temp_muid = $("#abuse_modal").attr("data-muid");
-        $.ajax({
-            url: "/report_abuse",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json; charset=UTF-8",
-            accepts: { json: "application/json" },
-            data: JSON.stringify(temp_muid)
-        })
-        .done(function(data) {
-            alert("Abusement has been reported.");
-        });
-    });
-});
-    
+
 // Socket.io
 $(document).ready(function() {
 
@@ -263,6 +239,29 @@ $(document).ready(function() {
     socket.on('message', function(data) {
         $('.chat-container').append('<div id="chatblock" class="row"><div class="col s2 m2 l1"><img class="circle responsive-img" src="' + data.avatar_link + '" alt="' + data.username + '"></div><div class="col s10 m10 l11"><div class="chat-box you" data-muid="' + data.message_id + '">' + data.message + '</div></div></div>');
         scrollDown();
+        
+        // Abuse alert event
+        $(".chat-box.you").dblclick(function () {
+            let muid = this.dataset.muid;
+            $("#abuse_modal").attr('data-muid', muid);
+            $("#abuse_modal").modal('open');
+            console.log(muid);
+        });
+
+        $("#report_abuse_btn").click(function () {
+            temp_muid = $("#abuse_modal").attr("data-muid");
+            $.ajax({
+                url: "/report_abuse",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=UTF-8",
+                accepts: { json: "application/json" },
+                data: JSON.stringify(temp_muid)
+            })
+                .done(function (data) {
+                    alert("Abusement has been reported.");
+                });
+        });
     });
     
     // The request is declined
