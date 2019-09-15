@@ -281,7 +281,6 @@ $(document).ready(function() {
             let muid = this.dataset.muid;
             $("#abuse_modal").attr('data-muid', muid);
             $("#abuse_modal").modal('open');
-            console.log(muid);
         });
         
     });

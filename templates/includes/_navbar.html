@@ -24,9 +24,16 @@
         <ul class="right hide-on-med-and-down">
         {% if session.logged_in %}
             <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a class="waves-effect waves-block waves-light notification-button" href="#"><i class="material-icons">notifications_none<small class="notification-badge">5</small></i></a>
-            <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">
-                <img class="profile_button" src="{{ session['avatar_link'] }}"><i class="material-icons right">arrow_drop_down</i></a>
+            <li>
+                <a class="waves-effect waves-block waves-light notification-button" onclick="M.toast({html: 'Coming soon!'})">
+                    <i class="material-icons">notifications_none<small class="notification-badge">1</small></i>
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-trigger" href="#!" data-target="sub_menu">
+                    <img class="profile_button" src="{{ session['avatar_link'] }}">
+                    <i class="material-icons right">arrow_drop_down</i>
+                </a>
             </li>
         {% else %}
             <li><a class="dropdown-trigger" href="#!" data-target="sub_menu">What is codon.io?<i class="material-icons right">arrow_drop_down</i></a></li>
