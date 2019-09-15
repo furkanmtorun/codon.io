@@ -37,6 +37,10 @@
         {% block content %}{% endblock %}
     </div>
 
+    {% if session.logged_in %}
+        {% include 'includes/_feedback.html' %}
+    {% endif %}
+
     {% include 'includes/_footer.html' %}
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -161,8 +161,33 @@ def profile(username):
         flash("There is no such a user", msg_type_to_color["error"])
         return redirect(url_for("home"))
     
+
+
+# Get the rate types for rating answers
+@app.route("/get-rate-types")
+def get_rate_types():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT id, name FROM rating_types")
+    rating_types = cur.fetchall()
+    return jsonify(rating_types)
+
+
     
-    
+# Rate the answer
+@app.route("/rate-answer", methods=["GET", "POST"])
+def rate_answer():
+    cur = mysql.connection.cursor()
+    data = request.get_json()
+    # Get the respondent id
+    cur.execute("SELECT respondent_id FROM conversation_logs WHERE id = %s", [data['conversation_id']])
+    rated_about = cur.fetchone()
+    # Insert the rate into the DB
+    cur.execute("INSERT INTO rating_logs (rated_by, rated_about, rate_type_id) VALUES (%s, %s, %s)", (session['user_id'], rated_about['respondent_id'], data['rate_type_id']))
+    mysql.connection.commit()
+    return jsonify() 
+
+
+
 # Report abuse
 @app.route("/report_abuse", methods=["GET", "POST"])
 def report_abuse():
@@ -173,6 +198,18 @@ def report_abuse():
     message_id = mes_info['id']
     cur.execute("INSERT INTO abuse_allegations (message_id, complained_by) VALUES (%s, %s)", (message_id, session['user_id']))
     mysql.connection.commit()
+    return jsonify()
+
+
+
+# Give feedback
+@app.route("/give-feedback", methods=["GET", "POST"])
+def give_feedback():
+    cur = mysql.connection.cursor()
+    feedback = request.get_json()
+    cur.execute("INSERT INTO feedbacks (reported_by, feedback) VALUES (%s, %s)", (session['user_id'], feedback))
+    mysql.connection.commit()
+    cur.close()
     return jsonify()
 
 
@@ -433,10 +470,10 @@ def decline_chat_request(data):
 @socketio.on('leave chat', namespace='/session')
 @is_logged_in
 def leave_chat(data):
-    emit('message', {'username': session['username'], 'message': session['username'] + ' left the chat'}, room=session['room'], include_self=False)
-    leave_room(session['room'])
+    emit('questioner ends chat', {'questioner': session['username']}, room=data['room'], include_self=False)
+    leave_room(data['room'])
     session['room'] = str(uuid.uuid4()) + '-' + session['username']
-    join_room(session['room'])
+    join_room(session['room'])  
     cur = mysql.connection.cursor()
     cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(session['room'], session['username']))
     mysql.connection.commit()

@@ -181,6 +181,39 @@ $(document).ready(function() {
                 scrollDown();
             }
         });
+
+        // End the conversation
+        $('#end_conversation').on('click', function() {
+            // Leave the chat room and inform the respondent 
+            socket.emit('leave chat', {'room': data.room, 'conversation_id' : conversation_id});
+            // Get the rate types with Ajax
+            $(document).ready(function() {
+                $.getJSON('/get-rate-types', function(data) {
+                    data.forEach(function(rate_type) {
+                        $('#rate_types').append('<p><label><input name="group1" type="radio" data-rate_type_id="'+ rate_type.id +'" /><span>' + rate_type.name + '</span></label></p>');
+                    });
+                });
+                return false;
+            });
+            $("#rate_answer_modal").modal('open');
+            // Rate the answer
+            $('#rate_answer').on('click', function() {
+                let rate = {'conversation_id' : conversation_id, 'rate_type_id' : $("input[type='radio'][name='group1']:checked").data('rate_type_id')};
+                $.ajax({
+                    url: "/rate-answer",
+                    type: "POST", 
+                    dataType: "json",
+                    contentType: "application/json; charset=UTF-8",
+                    accepts: {json: "application/json"},
+                    data: JSON.stringify(rate)
+                })
+                .done(function(data) {
+                    $("#rating_thanks_modal").modal('open');s
+                    setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 2000);
+                });
+            });
+
+        });
     });
     
     // Show incoming request
@@ -266,14 +299,15 @@ $(document).ready(function() {
     
     // The request is declined
     socket.on('request declined', function() {
-        $('.chat-container').append("<div class='chat_notification'>Your request has been declined<br>Redirecting to home page...</div>");
+        $('.chat-container').append("<div class='chat_notification'>Your request has been declined<br>Redirecting to the home page...</div>");
         setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
 
     });
 
-    // End the conversation
-    $('#end_conversation').on('click', function() {
-        
+    // The questioner ends the chat
+    socket.on('questioner ends chat', function(data) {
+        $('.chat-container').append("<div class='chat_notification'>" + data.questioner + " has ended the conversation<br>Redirecting to the home page...</div>");
+        setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
     });
     
     // Logout
@@ -294,4 +328,21 @@ $(document).ready(function() {
             scrollTop: $('.chat-container')[0].scrollHeight
         }, 800);
     }
+});
+
+
+// Send Feedback
+$('#send_feedback').on('click', function() {
+    let feedback = $('#feedback').val();
+    $.ajax({
+        url: "/give-feedback",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        accepts: { json: "application/json" },
+        data: JSON.stringify(feedback)
+    })
+        .done(function (data) {
+            $("#feedback_thanks_modal").modal('open');
+        });
 });

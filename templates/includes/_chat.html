@@ -15,27 +15,19 @@
         <div class="col s2 m2 l1"><a href="" class="questioner_links" target="_blank"><img id="chat_avatar" class="circle z-depth-2 responsive-img" src=""></a></div>
         <div class="col s7 m7 l9"><a href="" class="questioner_links" target="_blank"><h6 id="questioner"></h6></a></div>
         <div class="col s3 m3 l2">
-            <a class="chat_menu_buttons modal-trigger hide" href="#end_conversation_modal" id="end_conversation_btn"><i class="material-icons">call_end</i></a>
+            <a class="chat_menu_buttons modal-trigger hide" href="#end_conversation_modal" id="end_conversation_btn"><i class="material-icons">speaker_notes_off</i></a>
             <a class="chat_menu_buttons" id="change_color_theme"><i class="material-icons">brightness_6</i></a>
+            <!--
             <a class="chat_menu_buttons" href="#abuse"><i class="material-icons">feedback</i></a>
             <a class="dropdown-trigger chat_menu_buttons" href="#!" data-target="chat_menu"><i class="material-icons">more_vert</i></a>
+            -->
         </div>
         <div id="chat_about" class="col s7 m7 l8"></div>
     </div>
-
-    <!-- Warning - End the Conversation -->
-    <div id="end_conversation_modal" class="modal">
-        <div class="modal-content">
-            <h5>Are you sure to end the conversation?</h5>
-        </div>
-        <div class="modal-footer">
-            <a id="end_conversation" class="modal-close waves-effect waves-green btn-flat">Yes</a>
-            <a id="#!" class="modal-close waves-effect waves-green btn-flat">No</a>
-        </div>
-    </div>
-
+    
+    
     <div id="chat_question" class="chat_question"></div>
-
+    
     <div class="row chat-container">
         <div class="chat_notification hide"></div>
     </div>
@@ -54,9 +46,44 @@
             </div>
         </div>
     </div>
-
-<br>
+    
+    <br>
 </div> <!-- ends for container -->
+
+<!-- End the Conversation Warning Modal -->
+<div id="end_conversation_modal" class="modal" tabindex="0">
+    <div class="modal-content">
+        <h4>End the conversation</h4>
+        <p>Are you sure to end the conversation?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" id="end_conversation" class="modal-close waves-effect waves-black red white-text btn-flat">Yes</a>
+        <a href="#!" class="modal-close waves-effect waves-green blue white-text btn-flat">No</a>
+    </div>
+</div>
+
+<!-- Rate the Answer Modal -->
+<div id="rate_answer_modal" class="modal">
+    <div class="modal-content">
+        <h4>The conversation has ended</h4>
+        <h6>Did the answer help you? Evaluate the experience.</h6>
+    </div>
+
+    <form id="rate_types" class="modal-content" action="#"></form>
+
+    <div class="modal-footer">
+        <a href="#!" id="rate_answer" class="modal-close waves-effect waves-green blue white-text btn-flat">Rate now!</a>
+        <a href="#!" class="modal-close waves-effect waves-black red white-text btn-flat">Cancel</a>
+    </div>
+</div>
+
+<!-- Rating Thanks Modal -->
+<div id="rating_thanks_modal" class="modal">
+    <div class="modal-content">
+        <h4>Thank you!</h4>
+        <h6>Redirecting to the home page...</h6>
+    </div>
+</div>
 
 <!-- Abuse Modal -->
 <div id="abuse_modal" class="modal" data-muid="data-muid">

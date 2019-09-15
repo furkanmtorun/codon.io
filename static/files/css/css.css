@@ -278,3 +278,12 @@ a > i {cursor: pointer !important;}
     background: #555 !important;
     color: #efefef !important;
 }
+
+#rate_answer a{
+    float: right;
+    padding-bottom: 20px;
+}
+
+.feedback-box {
+    padding: 0 24px !important;
+}
