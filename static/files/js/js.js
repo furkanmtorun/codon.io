@@ -297,7 +297,7 @@ $(document).ready(function() {
             data: JSON.stringify(temp_muid)
         })
             .done(function (data) {
-                alert("Abusement has been reported.");
+                M.toast({html: 'Abusement has been reported.'});
             });
     });
     
