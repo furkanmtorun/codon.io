@@ -151,6 +151,8 @@ $(document).ready(function() {
                             $('.chat_notification').html("Waiting for " + this.dataset.username + "'s response...")
                             $('.main-container').hide();
                             $('.chat-window').show();
+                            // Alert on leaving
+                            window.onbeforeunload = s => "";
                         });
                     });
                 }
@@ -158,13 +160,10 @@ $(document).ready(function() {
         }
     });
 
-
     // Change color theme
     $("#change_color_theme").click(function() {
         $("#chat-header").addClass("night-mode");
     });
-
-    
 
     // Questioner receives room id
     socket.on('receive room id', function(data) {
@@ -238,6 +237,8 @@ $(document).ready(function() {
             $('.chat_notification').html("You joined the chat")
             $('.main-container').hide();
             $('.chat-window').show();
+            // Alert on leaving
+            window.onbeforeunload = s => "";
             // Respondent sends message
             $('#send_message').on('click', function() {
                 let message = $('#message_input').val().trim();
