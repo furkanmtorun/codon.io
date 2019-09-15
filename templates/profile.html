@@ -13,7 +13,15 @@
                     </div>
                     <div class="card-content">
                         <span class="card-title valign-wrapper">@{{ profile_info.username }}
-                            <i class="material-icons green-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Available Now !">brightness_1</i>
+                            {% if profile_info.status_id == 1 %}
+                                <i class="material-icons green-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Available Now !">brightness_1</i>
+                            {% elif profile_info.status_id == 2 %}
+                                <i class="material-icons red-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Unavailable">brightness_1</i>
+                            {% elif profile_info.status_id == 3 %}
+                                <i class="material-icons orange-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Asking a Question">brightness_1</i>
+                            {% elif profile_info.status_id == 4 %}
+                                <i class="material-icons indigo-text accent-4 valign-wrapper status-circle tooltipped" data-position="right" data-tooltip="Answering a Question">brightness_1</i>
+                            {% endif %} 
                             <br>{{ profile_info.name }} 
                         </span>
                         <div class="stars">

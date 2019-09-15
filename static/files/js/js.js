@@ -207,7 +207,9 @@ $(document).ready(function() {
                     data: JSON.stringify(rate)
                 })
                 .done(function(data) {
-                    $("#rating_thanks_modal").modal('open');s
+                    $("#rating_thanks_modal").modal('open');
+                    // Alert on leaving
+                    window.onbeforeunload = null;
                     setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 2000);
                 });
             });
@@ -281,26 +283,28 @@ $(document).ready(function() {
             $("#abuse_modal").modal('open');
             console.log(muid);
         });
-
-        $("#report_abuse_btn").click(function () {
-            temp_muid = $("#abuse_modal").attr("data-muid");
-            $.ajax({
-                url: "/report_abuse",
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json; charset=UTF-8",
-                accepts: { json: "application/json" },
-                data: JSON.stringify(temp_muid)
-            })
-                .done(function (data) {
-                    alert("Abusement has been reported.");
-                });
-        });
+        
+    });
+    
+    $("#report_abuse_btn").click(function () {
+        temp_muid = $("#abuse_modal").attr("data-muid");
+        $.ajax({
+            url: "/report_abuse",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            accepts: { json: "application/json" },
+            data: JSON.stringify(temp_muid)
+        })
+            .done(function (data) {
+                M.toast({html: 'Abusement has been reported.'});
+            });
     });
     
     // The request is declined
     socket.on('request declined', function() {
         $('.chat-container').append("<div class='chat_notification'>Your request has been declined<br>Redirecting to the home page...</div>");
+        window.onbeforeunload = null;
         setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
 
     });
@@ -308,6 +312,7 @@ $(document).ready(function() {
     // The questioner ends the chat
     socket.on('questioner ends chat', function(data) {
         $('.chat-container').append("<div class='chat_notification'>" + data.questioner + " has ended the conversation<br>Redirecting to the home page...</div>");
+        window.onbeforeunload = null;
         setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
     });
     
