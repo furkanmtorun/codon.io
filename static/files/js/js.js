@@ -207,7 +207,9 @@ $(document).ready(function() {
                     data: JSON.stringify(rate)
                 })
                 .done(function(data) {
-                    $("#rating_thanks_modal").modal('open');s
+                    $("#rating_thanks_modal").modal('open');
+                    // Alert on leaving
+                    window.onbeforeunload = null;
                     setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 2000);
                 });
             });
@@ -301,6 +303,7 @@ $(document).ready(function() {
     // The request is declined
     socket.on('request declined', function() {
         $('.chat-container').append("<div class='chat_notification'>Your request has been declined<br>Redirecting to the home page...</div>");
+        window.onbeforeunload = null;
         setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
 
     });
@@ -308,6 +311,7 @@ $(document).ready(function() {
     // The questioner ends the chat
     socket.on('questioner ends chat', function(data) {
         $('.chat-container').append("<div class='chat_notification'>" + data.questioner + " has ended the conversation<br>Redirecting to the home page...</div>");
+        window.onbeforeunload = null;
         setTimeout(function(){ window.location.replace("http://127.0.0.1:5000/home"); }, 3000);
     });
     
