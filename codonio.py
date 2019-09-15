@@ -10,6 +10,10 @@ from flask_session import Session
 from flask_socketio import SocketIO, send, emit, join_room, leave_room, close_room
 import uuid, json
 from bson import json_util
+# Necessary packages for Background scheduling
+import schedule
+import time
+
 
 app = Flask(__name__)
 app.debug = True
@@ -501,16 +505,13 @@ def get_available_coders():
     update_available_users()
 
 
-# Finding out the bests of the week and month periodically
-@app.route("/ranking")
-def rating_system():
+# Finding out the bests of the week periodically
+def ranking_system_week():
     # Parameters and variables
     now = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
     next_week = (datetime.today() + timedelta(weeks=1)).strftime("%Y-%m-%d %H:%M:%S")
-    next_month = (datetime.today() + timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S") # not certain but roughly a month
     cur = mysql.connection.cursor()
     week_rating_types = [1,2,3]
-    month_rating_types = [4,5,6]
     
     # Determine the winners
     cur.execute("SELECT rated_about AS 'user_id', SUM(rating_types.value) AS 'score' FROM rating_logs INNER JOIN rating_types ON rating_logs.rate_type_id=rating_types.id " + 
@@ -518,26 +519,40 @@ def rating_system():
     winners_of_the_week = cur.fetchall()
     uids_winners_of_the_week = [winner_week["user_id"] for winner_week in winners_of_the_week]
     
+    # Upload the winners into the table
+    for user_id_week, rating_type_week in zip(uids_winners_of_the_week, week_rating_types):
+        cur.execute("INSERT INTO ranking_logs (user_id, ranking_type) VALUES (%s, %s)", (user_id_week, rating_type_week))
+        mysql.connection.commit()
+
+
+# Finding out the bests of the month periodically
+def ranking_system_month():
+    # Parameters and variables
+    now = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+    next_month = (datetime.today() + timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S") # not certain but roughly a month
+    cur = mysql.connection.cursor()
+    month_rating_types = [4,5,6]
+    
+    # Determine the winners
     cur.execute("SELECT rated_about AS 'user_id', SUM(rating_types.value) AS 'score' FROM rating_logs INNER JOIN rating_types ON rating_logs.rate_type_id=rating_types.id " +
                 "WHERE rating_logs.created_at BETWEEN %s AND %s GROUP BY rated_about ORDER BY score DESC LIMIT 3", (now, next_month))
     winners_of_the_month = cur.fetchall()
     uids_winners_of_the_month = [winner_month["user_id"] for winner_month in winners_of_the_month]
 
     # Upload the winners into the table
-    for user_id_week, rating_type_week in zip(uids_winners_of_the_week, week_rating_types):
-        cur.execute("INSERT INTO ranking_logs (user_id, ranking_type) VALUES (%s, %s)", (user_id_week, rating_type_week))
-        mysql.connection.commit()
-
     for user_id_month, rating_type_month in zip(uids_winners_of_the_month, month_rating_types):
         cur.execute("INSERT INTO ranking_logs (user_id, ranking_type) VALUES (%s, %s)", (user_id_month, rating_type_month))
         mysql.connection.commit()
 
-    return render_template("ranking.html", winners_of_the_month=winners_of_the_month, winners_of_the_week=winners_of_the_week)
 
+# Schedule ranking system periodically
+schedule.every(7).days.do(ranking_system_week)
+schedule.every(30).days.do(ranking_system_month)
     
-
 
 
 # codon.io
 if __name__ == "__main__":
     socketio.run(app)
+    while True:
+        schedule.run_pending()
