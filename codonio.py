@@ -478,7 +478,8 @@ def leave_chat(data):
     session['room'] = str(uuid.uuid4()) + '-' + session['username']
     join_room(session['room'])  
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE users SET room_id = %s WHERE username = %s",(session['room'], session['username']))
+    # Change user's status to 'available' : '1'  
+    cur.execute("UPDATE users SET room_id = %s, status_id = %s WHERE username = %s",(session['room'], 1, session['username']))
     mysql.connection.commit()
     update_available_users()
 
