@@ -155,7 +155,7 @@ def profile(username):
         # User statistics
         number_of_question = cur.execute("SELECT conversation_logs.id FROM conversation_logs INNER JOIN users ON users.username = %s WHERE questioner_id = users.id", [username])
         number_of_answer = cur.execute("SELECT conversation_logs.id FROM conversation_logs INNER JOIN users ON users.username = %s WHERE respondent_id = users.id", [username])
-        cur.execute("SELECT SUM(rating_types.value) AS point FROM rating_logs INNER JOIN users ON users.username=%s INNER JOIN rating_types ON rating_logs.rate_type_id=rating_types.id WHERE rated_about=users.id", [username])
+        cur.execute("SELECT IFNULL(SUM(rating_types.value), 0) AS point FROM rating_logs INNER JOIN users ON users.username=%s INNER JOIN rating_types ON rating_logs.rate_type_id=rating_types.id WHERE rated_about=users.id", [username])
         point = cur.fetchone()
         number_of_abusement = cur.execute("SELECT message_id,messages.user_id FROM `abuse_allegations` INNER JOIN users ON users.username=%s INNER JOIN messages ON message_id=messages.id WHERE user_id=users.id", [username])
         user_stats = (number_of_question, number_of_answer, point['point'], number_of_abusement)
