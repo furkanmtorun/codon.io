@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 14 Eyl 2019, 19:59:04
--- Sunucu sürümü: 10.1.38-MariaDB
--- PHP Sürümü: 5.6.40
+-- Üretim Zamanı: 15 Eyl 2019, 09:49:17
+-- Sunucu sürümü: 10.1.36-MariaDB
+-- PHP Sürümü: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -67,15 +67,14 @@ CREATE TABLE `conversation_skills` (
 -- --------------------------------------------------------
 
 --
--- Tablo için tablo yapısı `error_reports`
+-- Tablo için tablo yapısı `feedbacks`
 --
 
-CREATE TABLE `error_reports` (
+CREATE TABLE `feedbacks` (
   `id` int(11) NOT NULL,
-  `conversation_id` int(11) NOT NULL,
   `reported_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `report` text NOT NULL
+  `feedback` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -560,11 +559,10 @@ ALTER TABLE `conversation_skills`
   ADD KEY `skill_id` (`skill_id`);
 
 --
--- Tablo için indeksler `error_reports`
+-- Tablo için indeksler `feedbacks`
 --
-ALTER TABLE `error_reports`
+ALTER TABLE `feedbacks`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `conversation_id` (`conversation_id`),
   ADD KEY `reported_by` (`reported_by`);
 
 --
@@ -669,9 +667,9 @@ ALTER TABLE `conversation_skills`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Tablo için AUTO_INCREMENT değeri `error_reports`
+-- Tablo için AUTO_INCREMENT değeri `feedbacks`
 --
-ALTER TABLE `error_reports`
+ALTER TABLE `feedbacks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -766,11 +764,10 @@ ALTER TABLE `conversation_skills`
   ADD CONSTRAINT `conversation_topics_fk0` FOREIGN KEY (`conversation_id`) REFERENCES `conversation_logs` (`id`);
 
 --
--- Tablo kısıtlamaları `error_reports`
+-- Tablo kısıtlamaları `feedbacks`
 --
-ALTER TABLE `error_reports`
-  ADD CONSTRAINT `error_reports_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `conversation_logs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `error_reports_ibfk_2` FOREIGN KEY (`reported_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `feedbacks`
+  ADD CONSTRAINT `feedbacks_ibfk_2` FOREIGN KEY (`reported_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Tablo kısıtlamaları `messages`
