@@ -283,21 +283,22 @@ $(document).ready(function() {
             $("#abuse_modal").modal('open');
             console.log(muid);
         });
-
-        $("#report_abuse_btn").click(function () {
-            temp_muid = $("#abuse_modal").attr("data-muid");
-            $.ajax({
-                url: "/report_abuse",
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json; charset=UTF-8",
-                accepts: { json: "application/json" },
-                data: JSON.stringify(temp_muid)
-            })
-                .done(function (data) {
-                    alert("Abusement has been reported.");
-                });
-        });
+        
+    });
+    
+    $("#report_abuse_btn").click(function () {
+        temp_muid = $("#abuse_modal").attr("data-muid");
+        $.ajax({
+            url: "/report_abuse",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            accepts: { json: "application/json" },
+            data: JSON.stringify(temp_muid)
+        })
+            .done(function (data) {
+                alert("Abusement has been reported.");
+            });
     });
     
     // The request is declined
