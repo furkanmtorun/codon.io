@@ -14,11 +14,10 @@ from bson import json_util
 import schedule
 import time
 
-
 app = Flask(__name__)
 app.debug = True
 
-# Set the configs
+# Set the configs from configs.yml
 with open("./configs.yml") as f:
     configs = yaml.load(f, Loader=yaml.SafeLoader)
 app.config["SECRET_KEY"] = configs["SECRET_KEY"]
@@ -31,7 +30,7 @@ app.config["MYSQL_DB"] = configs["MYSQL_DB"]
 app.config["MYSQL_CURSORCLASS"] = configs["MYSQL_CURSORCLASS"]
 mysql = MySQL(app)
 
-# Conversion from message type to color
+# Conversion from message type to the color
 msg_type_to_color = {
     'success': 'green lighten-1',
     'error': 'red',
@@ -39,23 +38,16 @@ msg_type_to_color = {
     'announcement': 'purple lighten-1'
 }
 
-# Index Page
+
+# Redirect to the index page
 @app.route("/")
 def redirect_home():
     return redirect(url_for("index"))
 
+# Index Page
 @app.route("/index")
 def index():
     return render_template("index.html")
-
-
-# Get whole list of skills for auto-complete in the profile page
-@app.route("/get-skills")
-def get_skills():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM skill_list")
-    skills = cur.fetchall()
-    return jsonify(skills)
 
 
 
@@ -132,6 +124,17 @@ def is_logged_in(f):
 	return wrap
 
 
+
+# Logout Page
+@app.route("/logout")
+@is_logged_in
+def logout():
+    session.clear()
+    flash("You logged out!", msg_type_to_color['success'])
+    return redirect(url_for("index"))
+
+
+
 # Home Page
 @app.route("/home")
 @is_logged_in
@@ -170,46 +173,17 @@ def profile(username):
     
 
 
-# Get the rate types for rating answers
-@app.route("/get-rate-types")
-def get_rate_types():
+# Get the whole list of skills for auto-complete in the profile page
+@app.route("/get-skills")
+def get_skills():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT id, name FROM rating_types")
-    rating_types = cur.fetchall()
-    return jsonify(rating_types)
-
-
-    
-# Rate the answer
-@app.route("/rate-answer", methods=["GET", "POST"])
-def rate_answer():
-    cur = mysql.connection.cursor()
-    data = request.get_json()
-    # Get the respondent id
-    cur.execute("SELECT respondent_id FROM conversation_logs WHERE id = %s", [data['conversation_id']])
-    rated_about = cur.fetchone()
-    # Insert the rate into the DB
-    cur.execute("INSERT INTO rating_logs (rated_by, rated_about, rate_type_id) VALUES (%s, %s, %s)", (session['user_id'], rated_about['respondent_id'], data['rate_type_id']))
-    mysql.connection.commit()
-    return jsonify() 
+    cur.execute("SELECT * FROM skill_list")
+    skills = cur.fetchall()
+    return jsonify(skills) 
 
 
 
-# Report abuse
-@app.route("/report_abuse", methods=["GET", "POST"])
-def report_abuse():
-    cur = mysql.connection.cursor()
-    muid = request.get_json()
-    cur.execute("SELECT id FROM messages WHERE mes_uniq_id= %s", [muid])
-    mes_info = cur.fetchone()
-    message_id = mes_info['id']
-    cur.execute("INSERT INTO abuse_allegations (message_id, complained_by) VALUES (%s, %s)", (message_id, session['user_id']))
-    mysql.connection.commit()
-    return jsonify()
-
-
-
-# Give feedback
+# Give a feedback
 @app.route("/give-feedback", methods=["GET", "POST"])
 def give_feedback():
     cur = mysql.connection.cursor()
@@ -221,7 +195,7 @@ def give_feedback():
 
 
 
-# Adding new skills | INNER JOIN Bakalim
+# Add new skills
 @app.route("/update_skills", methods=["GET", "POST"])
 def update_skills():
     cur = mysql.connection.cursor()
@@ -236,7 +210,7 @@ def update_skills():
 
     
 
-# Removing skills
+# Remove skills
 @app.route("/remove_skills", methods=["GET", "POST"])
 def remove_skills():
     cur = mysql.connection.cursor()
@@ -301,15 +275,6 @@ def settings():
 
 
 
-# Logout Page
-@app.route("/logout")
-@is_logged_in
-def logout():
-    session.clear()
-    flash("You logged out!", msg_type_to_color['success'])
-    return redirect(url_for("index"))
-
-
 
 # Delete account
 @app.route("/delete_account", methods=["GET", "POST"])
@@ -324,14 +289,47 @@ def delete_account():
     return redirect(url_for("index"))
 
 
-# Scoring event
-
-
 
 # 404 Error Page
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+
+# CHAT WINDOW
+# Get the rate types for rating answers
+@app.route("/get-rate-types")
+def get_rate_types():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT id, name FROM rating_types")
+    rating_types = cur.fetchall()
+    return jsonify(rating_types)
+
+# Rate the answer
+@app.route("/rate-answer", methods=["GET", "POST"])
+def rate_answer():
+    cur = mysql.connection.cursor()
+    data = request.get_json()
+    # Get the respondent id
+    cur.execute("SELECT respondent_id FROM conversation_logs WHERE id = %s", [data['conversation_id']])
+    rated_about = cur.fetchone()
+    # Insert the rate into the DB
+    cur.execute("INSERT INTO rating_logs (rated_by, rated_about, rate_type_id) VALUES (%s, %s, %s)", (session['user_id'], rated_about['respondent_id'], data['rate_type_id']))
+    mysql.connection.commit()
+    return jsonify() 
+
+# Report abuse
+@app.route("/report_abuse", methods=["GET", "POST"])
+def report_abuse():
+    cur = mysql.connection.cursor()
+    muid = request.get_json()
+    cur.execute("SELECT id FROM messages WHERE mes_uniq_id= %s", [muid])
+    mes_info = cur.fetchone()
+    message_id = mes_info['id']
+    cur.execute("INSERT INTO abuse_allegations (message_id, complained_by) VALUES (%s, %s)", (message_id, session['user_id']))
+    mysql.connection.commit()
+    return jsonify()
 
 
 # Socket.io
@@ -357,7 +355,7 @@ def change_user_status(username, status, room_id):
     cur.close()
 
 
-# Join the personal room / It is mandatory that for every single request user will join the same room
+# Join the personal room / It is mandatory that user will join the same room for every single request
 @socketio.on('join', namespace='/session')
 @is_logged_in
 def on_join():
@@ -406,7 +404,6 @@ def on_request(data):
     # Update available users
     update_available_users()
     cur.close()
-
 
 # Respondent joins the chat room
 @socketio.on('join chat room', namespace='/session')
