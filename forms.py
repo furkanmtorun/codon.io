@@ -5,8 +5,8 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=3, max=100)])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=3, max=100), EqualTo('password', message= 'Password do not match!')])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=100)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=8, max=100), EqualTo('password', message= 'Password do not match!')])
 
 class LoginForm(FlaskForm):
     username = StringField('Username or Email', validators=[DataRequired()])
@@ -22,4 +22,4 @@ class ProfileForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField('Old Password', validators=[DataRequired()])
     password = PasswordField('New Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), Length(min=3, max=100), EqualTo('password', message= 'Password do not match!')])
+    confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), Length(min=8, max=100), EqualTo('password', message= 'Password do not match!')])

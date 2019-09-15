@@ -9,12 +9,13 @@
         <li><a href="{{ url_for('settings') }}">Settings</a></li>
         <li id="logout"><a href="{{ url_for('logout') }}">Log out</a></li>
     {% else %}
-        <li><a href="#!">one</a></li>
-        <li><a href="#!">two</a></li>
+        <li><a href="#!">Free and Realtime</a></li>
+        <li><a href="#!">Open-source</a></li>
         <li class="divider"></li>
-        <li><a href="#!">soon</a></li>
+        <li><a href="#!">QA Platform</a></li>
     {% endif %}
 </ul>
+
 <!-- Fixed Header Menu -->
 <nav class="white lighten-1">
     <div class="nav-wrapper container">
@@ -34,8 +35,10 @@
     </ul>
     </div>
 </nav>
+
 <!-- Mobil Menu -->
 <ul class="sidenav" id="mobile-demo">
-    <li><a href="mobile.html">Mobile</a></li>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('login') }}">Log in</a></li>
 </ul>
 <br>
