@@ -5,3 +5,10 @@ MYSQL_USER : "root"
 MYSQL_PASSWORD : ""
 MYSQL_DB : "codon.io"
 MYSQL_CURSORCLASS : "DictCursor"
+MAIL_SERVER: "smtp.gmail.com"
+MAIL_PORT: 465
+MAIL_USERNAME: "YourGmailAccount"
+MAIL_PASSWORD: "YourPassword"
+MAIL_USE_TLS: False
+MAIL_USE_SSL: False
+MAIL_DEFAULT_SENDER: "help@codon.io"

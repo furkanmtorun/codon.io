@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, session, jsonify, request
-from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm
+from forms import RegistrationForm, LoginForm, ProfileForm, ChangePasswordForm, ForgotPasswordForm
 from flask_mysqldb import MySQL
 from passlib.hash import sha256_crypt
 from datetime import timedelta, datetime
@@ -13,6 +13,8 @@ from bson import json_util
 # Necessary packages for Background scheduling
 import schedule
 import time
+# Email
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 app.debug = True
@@ -29,6 +31,16 @@ app.config["MYSQL_PASSWORD"] = configs["MYSQL_PASSWORD"]
 app.config["MYSQL_DB"] = configs["MYSQL_DB"]
 app.config["MYSQL_CURSORCLASS"] = configs["MYSQL_CURSORCLASS"]
 mysql = MySQL(app)
+# Config Email Server
+# Please, check whether you can use your gmail account in less secure apps
+app.config['MAIL_SERVER'] = configs["MAIL_SERVER"]
+app.config['MAIL_PORT'] = configs["MAIL_PORT"]
+app.config['MAIL_USERNAME'] = configs["MAIL_USERNAME"]
+app.config['MAIL_PASSWORD'] = configs["MAIL_PASSWORD"]
+app.config['MAIL_USE_TLS'] = configs["MAIL_USE_TLS"]
+app.config['MAIL_USE_SSL'] = configs["MAIL_USE_SSL"]
+app.config['MAIL_DEFAULT_SENDER'] = configs["MAIL_DEFAULT_SENDER"]
+mail = Mail(app)
 
 # Conversion from message type to the color
 msg_type_to_color = {
@@ -110,6 +122,25 @@ def login():
 
         return render_template("login.html", form=form, title="Login")
 
+
+# Forgot Password
+@app.route("/forgot_password", methods=["GET", "POST"])
+def forgot_password():
+    form = ForgotPasswordForm()
+    if form.validate_on_submit():
+        #MySQL Integration
+        cur = mysql.connection.cursor()
+        result = cur.execute("SELECT password FROM users WHERE email = %s", [form.email.data])
+        if result > 0:
+            data = cur.fetchone()
+            password = data["password"]
+            msg = Message('Reset my codon.io password!', recipients = [form.email.data])
+            msg.body = "Here is your password: " + password 
+            mail.send(msg)
+            flash("We sent the required information to your email adress!", msg_type_to_color["success"])
+        else:
+            flash("Email not found!", msg_type_to_color["error"])
+    return render_template("forgot_password.html", form=form)
 
 
 # Logging
