@@ -70,5 +70,5 @@ Just open the project folder in the terminal or any IDE as you preffered and typ
 
 ## Contribution to the project
 We would be verry happy to see your feedback and contribution on the project. 
-If you would like to join, jut let us know :)  
+If you would like to join, just let us know :)  
  
