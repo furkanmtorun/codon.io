@@ -66,9 +66,11 @@ Just open the project folder in the terminal or any IDE as you preffered and typ
 
 *Python 3 has been used in the process of development and is recommended. If you have installed both Python 2 and Python 3, you need to specifiy it in the command as `python3 codon.io`*.
 
-**The project is ready on your local device from that link:** `[**127.0.0.1:5000**](127.0.0.1:5000)`
+**The project is ready on your local device from that link:** 
+`127.0.0.1:5000`
 
 ## Contribution to the project
 We would be verry happy to see your feedback and contribution on the project. 
+
 If you would like to join, just let us know :)  
  
