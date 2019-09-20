@@ -17,7 +17,7 @@ We as undergrad students from departments of genetics and electronics always fac
 
 ## How to build that web site in my computer? (locally)
 
-You can either download our project files directly as "**.zip**" format above or clone the project folder through Git with the command bloew.
+You can either download our project files directly as "**.zip**" format above or clone the project folder through Git with the command below.
 
 `git clone https://github.com/furkanmtorun/codon.io.git`
   
