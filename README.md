@@ -64,13 +64,21 @@ Just open the project folder in the terminal or any IDE as you preffered and typ
 `python codon.io`
 
 
-*Python 3 has been used in the process of development and is recommended. If you have installed both Python 2 and Python 3, you need to specifiy it in the command as `python3 codon.io`*.
+*Python 3 has been used in the process of development and is recommended. If you have installed both Python 2 and Python 3, you need to specifiy it in the command as* `python3 codon.io`.
 
 **The project is ready on your local device from that link:** 
 `127.0.0.1:5000`
 
 ## Contribution to the project
-We would be verry happy to see your feedback and contribution on the project. 
+We would be very happy to see your feedbacks and contributions on the project. 
 
-If you would like to join, just let us know :)  
- 
+**If you would like to join, just let us know :)**
+
+Furkan Torun : [furkanmtorun@gmail.com](mailto:furkanmtorun@gmail.com)
+Bilal Kabas : [bilalkabas@icloud.com](mailto:bilalkabas@icloud.com)
+
+## Screenshots
+![Profile Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/branch/screenshots/profile.png)
+![Settings Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/branch/screenshots/settings.png)
+![Home Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/branch/screenshots/home.png)
+![Chat Window](https://raw.githubusercontent.com/furkanmtorun/codon.io/branch/screenshots/chat.png)
