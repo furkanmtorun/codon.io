@@ -1,10 +1,12 @@
-# What is codon.io?
+# codon.io
+
+## What is codon.io?
 
 **codon.io** is a new platform that enables people who code to ask questions and get the answers in real-time and freely.
 
 > **Do not let a single code line make you crazy!**
 
-# Motivation behind the project
+## Motivation behind the project
 
 We as undergrad students from departments of genetics and electronics always face a number of problem while coding and waiting a rapid answer for the questions and would like to offer a solution for that problem. 
 
