@@ -119,7 +119,7 @@ def login():
                     flash("Invalid login!", msg_type_to_color["error"])
             else:
                 flash("Username or email not found!", msg_type_to_color["error"])
-
+        cur.close()
         return render_template("login.html", form=form, title="Login")
 
 
@@ -140,6 +140,7 @@ def forgot_password():
             flash("We sent the required information to your email adress!", msg_type_to_color["success"])
         else:
             flash("Email not found!", msg_type_to_color["error"])
+    cur.close()
     return render_template("forgot_password.html", form=form)
 
 
@@ -197,9 +198,11 @@ def profile(username):
         point = cur.fetchone()
         number_of_abusement = cur.execute("SELECT message_id,messages.user_id FROM `abuse_allegations` INNER JOIN users ON users.username=%s INNER JOIN messages ON message_id=messages.id WHERE user_id=users.id", [username])
         user_stats = (number_of_question, number_of_answer, point['point'], number_of_abusement)
+        cur.close()
         return render_template("profile.html", title="Profile", profile_info=profile_info, skills_info=skills_info, user_stats=user_stats)
     else:
         flash("There is no such a user", msg_type_to_color["error"])
+        cur.close()
         return redirect(url_for("home"))
     
 
@@ -210,6 +213,7 @@ def get_skills():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM skill_list")
     skills = cur.fetchall()
+    cur.close()
     return jsonify(skills) 
 
 
@@ -237,6 +241,7 @@ def update_skills():
         skill_id = skill['id']
         cur.execute("INSERT INTO skills (user_id, skill_id) VALUES (%s, %s)", (session['user_id'], skill_id))
         mysql.connection.commit()
+    cur.close()
     return jsonify()
 
     
@@ -251,6 +256,7 @@ def remove_skills():
     skill_id = skill['id']
     cur.execute("DELETE FROM skills WHERE user_id = %s AND skill_id = %s", (session['user_id'], skill_id))
     mysql.connection.commit()
+    cur.close()
     return jsonify()
 
 
@@ -335,6 +341,7 @@ def get_rate_types():
     cur = mysql.connection.cursor()
     cur.execute("SELECT id, name FROM rating_types")
     rating_types = cur.fetchall()
+    cur.close()
     return jsonify(rating_types)
 
 # Rate the answer
@@ -348,6 +355,7 @@ def rate_answer():
     # Insert the rate into the DB
     cur.execute("INSERT INTO rating_logs (rated_by, rated_about, rate_type_id) VALUES (%s, %s, %s)", (session['user_id'], rated_about['respondent_id'], data['rate_type_id']))
     mysql.connection.commit()
+    cur.close()
     return jsonify() 
 
 # Report abuse
@@ -360,6 +368,7 @@ def report_abuse():
     message_id = mes_info['id']
     cur.execute("INSERT INTO abuse_allegations (message_id, complained_by) VALUES (%s, %s)", (message_id, session['user_id']))
     mysql.connection.commit()
+    cur.close()
     return jsonify()
 
 
@@ -514,6 +523,7 @@ def leave_chat(data):
     cur.execute("UPDATE users SET room_id = %s, status_id = %s WHERE username = %s",(session['room'], 1, session['username']))
     mysql.connection.commit()
     update_available_users()
+    cur.close()
 
 
 # Logout
@@ -538,13 +548,13 @@ def get_available_coders():
 def ranking_system_week():
     # Parameters and variables
     now = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-    next_week = (datetime.today() + timedelta(weeks=1)).strftime("%Y-%m-%d %H:%M:%S")
+    previous_week = (datetime.today() - timedelta(weeks=1)).strftime("%Y-%m-%d %H:%M:%S")
     cur = mysql.connection.cursor()
     week_rating_types = [1,2,3]
     
     # Determine the winners
     cur.execute("SELECT rated_about AS 'user_id', SUM(rating_types.value) AS 'score' FROM rating_logs INNER JOIN rating_types ON rating_logs.rate_type_id=rating_types.id " + 
-                "WHERE rating_logs.created_at BETWEEN %s AND %s GROUP BY rated_about ORDER BY score DESC LIMIT 3", (now, next_week))
+                "WHERE rating_logs.created_at BETWEEN %s AND %s GROUP BY rated_about ORDER BY score DESC LIMIT 3", (previous_week, now))
     winners_of_the_week = cur.fetchall()
     uids_winners_of_the_week = [winner_week["user_id"] for winner_week in winners_of_the_week]
     
@@ -552,19 +562,20 @@ def ranking_system_week():
     for user_id_week, rating_type_week in zip(uids_winners_of_the_week, week_rating_types):
         cur.execute("INSERT INTO ranking_logs (user_id, ranking_type) VALUES (%s, %s)", (user_id_week, rating_type_week))
         mysql.connection.commit()
+    cur.close()
 
 
 # Finding out the bests of the month periodically
 def ranking_system_month():
     # Parameters and variables
     now = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-    next_month = (datetime.today() + timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S") # not certain but roughly a month
+    previous_month = (datetime.today() - timedelta(days=30)).strftime("%Y-%m-%d %H:%M:%S") # not certain but roughly a month
     cur = mysql.connection.cursor()
     month_rating_types = [4,5,6]
     
     # Determine the winners
     cur.execute("SELECT rated_about AS 'user_id', SUM(rating_types.value) AS 'score' FROM rating_logs INNER JOIN rating_types ON rating_logs.rate_type_id=rating_types.id " +
-                "WHERE rating_logs.created_at BETWEEN %s AND %s GROUP BY rated_about ORDER BY score DESC LIMIT 3", (now, next_month))
+                "WHERE rating_logs.created_at BETWEEN %s AND %s GROUP BY rated_about ORDER BY score DESC LIMIT 3", (previous_month, now))
     winners_of_the_month = cur.fetchall()
     uids_winners_of_the_month = [winner_month["user_id"] for winner_month in winners_of_the_month]
 
@@ -572,6 +583,7 @@ def ranking_system_month():
     for user_id_month, rating_type_month in zip(uids_winners_of_the_month, month_rating_types):
         cur.execute("INSERT INTO ranking_logs (user_id, ranking_type) VALUES (%s, %s)", (user_id_month, rating_type_month))
         mysql.connection.commit()
+    cur.close()
 
 
 # Schedule ranking system periodically
