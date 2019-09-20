@@ -78,7 +78,7 @@ Furkan Torun : [furkanmtorun@gmail.com](mailto:furkanmtorun@gmail.com)
 Bilal Kabas : [bilalkabas@icloud.com](mailto:bilalkabas@icloud.com)
 
 ## Screenshots
-![Profile Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/profile.png)
-![Settings Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/settings.png)
-![Home Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/home.png)
-![Chat Window](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/chat.png)
+![Profile Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/profile.png?token=AL3BHZUSCFZJMBEHCUHLME25RXMLO)
+![Settings Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/settings.png?token=AL3BHZU5SE2PETTDEO7KAIC5RXMN6)
+![Home Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/home.png?token=AL3BHZQM2PULYNQFHEXL5O25RXMOE)
+![Chat Window](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/chat.png?token=AL3BHZR4VZCDRAWZCO7UTIS5RXMOK)
