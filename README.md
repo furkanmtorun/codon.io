@@ -37,7 +37,7 @@ After the successful installation, you need to make our db schema available. To 
 
 
 > Please, be aware that, you need to type your database name as
-> "codon.io" or you need to alter it from "**configs.yml**" file
+> "**codon.io**" or you need to alter it from "**configs.yml**" file
 > changing "**MYSQL_DB**" variable.
 
 Then, you are almost ready to go!
