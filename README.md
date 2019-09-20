@@ -77,6 +77,7 @@ We would be very happy to see your feedbacks and contributions on the project.
 **If you would like to join, just let us know :)**
 
 Furkan Torun : [furkanmtorun@gmail.com](mailto:furkanmtorun@gmail.com)
+
 Bilal Kabas : [bilalkabas@icloud.com](mailto:bilalkabas@icloud.com)
 
 ## Screenshots
