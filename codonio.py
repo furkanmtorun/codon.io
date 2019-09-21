@@ -114,12 +114,14 @@ def login():
                     flash("Welcome @" + form.username.data + "!", msg_type_to_color["success"])
                     cur.execute("INSERT INTO user_logs (user_id,ip) VALUES (%s, %s)", [session['user_id'], request.remote_addr])
                     mysql.connection.commit()
+                    cur.close()
                     return redirect(url_for("home"))
                 else:
+                    cur.close()
                     flash("Invalid login!", msg_type_to_color["error"])
             else:
+                cur.close()
                 flash("Username or email not found!", msg_type_to_color["error"])
-        cur.close()
         return render_template("login.html", form=form, title="Login")
 
 
@@ -132,15 +134,17 @@ def forgot_password():
         cur = mysql.connection.cursor()
         result = cur.execute("SELECT password FROM users WHERE email = %s", [form.email.data])
         if result > 0:
-            data = cur.fetchone()
-            password = data["password"]
+            newPassword = str(uuid.uuid4())
+            cur.execute("UPDATE users SET password = %s WHERE email = %s", (sha256_crypt.hash(str(newPassword)), form.email.data))
+            mysql.connection.commit()
             msg = Message('Reset my codon.io password!', recipients = [form.email.data])
-            msg.body = "Here is your password: " + password 
+            msg.body = "Here is your new password: " + newPassword
             mail.send(msg)
+            cur.close()
             flash("We sent the required information to your email adress!", msg_type_to_color["success"])
         else:
+            cur.close()
             flash("Email not found!", msg_type_to_color["error"])
-    cur.close()
     return render_template("forgot_password.html", form=form)
 
 
