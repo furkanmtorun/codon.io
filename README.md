@@ -23,9 +23,18 @@ You can either download our project files directly as "**.zip**" format above or
 
 `git clone https://github.com/furkanmtorun/codon.io.git`
   
- Due to the fact that we have used several Python packages, you need to install them if you not already. To make this job easier, we have listed the needed packages in the file named "**requirements.txt**" and you can directly install all the needed packages at once:
- 
+ Due to the fact that we have used several Python packages, you need to install them if you not already. To make this job easier, we have listed the needed packages in the file named "**requirements.txt**" in the project folder and you can directly install all the needed packages at once:
+
+To change the directory for entering the inside of the project folder, type this command:
+
+`cd codon.io`
+
+Then,
+
 `pip install -r requirements.txt`
+
+> If you face a problem in the process of installation of **mysqlclient** package, you can check that answer out: [https://stackoverflow.com/a/51164104](https://stackoverflow.com/a/51164104)
+
 
 Then, if you did not install earlier, you have to install a local web server to upload project database schema and make the connection available. In this regard, you may download and install [XAMPP](https://www.apachefriends.org/tr/index.html) (free and easy-to-use) according to your operation system.  
 
@@ -82,14 +91,14 @@ Bilal Kabas : [bilalkabas@icloud.com](mailto:bilalkabas@icloud.com)
 
 ## Screenshots
 
-Profile Page
-![Profile Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/profile.png?token=AL3BHZUSCFZJMBEHCUHLME25RXMLO)
+**Profile Page**
+![Profile Page](https://user-images.githubusercontent.com/49681382/65806668-568c7b00-e193-11e9-9033-451508182330.png)
 
-Settings Page
-![Settings Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/settings.png?token=AL3BHZU5SE2PETTDEO7KAIC5RXMN6)
+**Settings Page**
+![Settings Page](https://user-images.githubusercontent.com/49681382/65806696-7459e000-e193-11e9-8232-98cdd9dcbc40.png)
 
-Home Page
-![Home Page](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/home.png?token=AL3BHZQM2PULYNQFHEXL5O25RXMOE)
+**Home Page**
+![Home Page](https://user-images.githubusercontent.com/49681382/65806732-a2d7bb00-e193-11e9-96e3-e600877fdf7c.png)
 
-Chat Window
-![Chat Window](https://raw.githubusercontent.com/furkanmtorun/codon.io/master/screenshots/chat.png?token=AL3BHZR4VZCDRAWZCO7UTIS5RXMOK)
+**Chat Window**
+![Chat Window](https://user-images.githubusercontent.com/49681382/65806707-850a5600-e193-11e9-9549-6fb772e52933.png)
