@@ -5,6 +5,7 @@
 **codon.io** is a new platform that enables people who code to ask questions and get the answers in real-time and freely.
 
 > **Do not let a single code line make you crazy!**
+> **Important Note:** This project is not affiliated with the domain name "codon.io".
 
 ## Motivation behind the project
 
@@ -104,6 +105,3 @@ Bilal Kabas : [bilalkabas@icloud.com](mailto:bilalkabas@icloud.com)
 ![Chat Window](https://user-images.githubusercontent.com/49681382/65806707-850a5600-e193-11e9-9549-6fb772e52933.png)
 
 
-**Important Note**
-
-This project is not affiliated with the domain name "codon.io".
