@@ -5,6 +5,7 @@
 **codon.io** is a new platform that enables people who code to ask questions and get the answers in real-time and freely.
 
 > **Do not let a single code line make you crazy!**
+
 > **Important Note:** This project is not affiliated with the domain name "codon.io".
 
 ## Motivation behind the project
