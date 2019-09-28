@@ -102,3 +102,7 @@ Bilal Kabas : [bilalkabas@icloud.com](mailto:bilalkabas@icloud.com)
 
 **Chat Window**
 ![Chat Window](https://user-images.githubusercontent.com/49681382/65806707-850a5600-e193-11e9-9549-6fb772e52933.png)
+
+
+**Imprtant Note**
+This project is not affiliated with the domain name "codon.io".
