@@ -33,7 +33,7 @@ Then,
 
 `pip install -r requirements.txt`
 
-> If you face a problem in the process of installation of **mysqlclient** package, you can check that answer out: [https://stackoverflow.com/a/51164104](https://stackoverflow.com/a/51164104)
+> If you face a problem during the installation of **mysqlclient** package, you can check that answer out: [https://stackoverflow.com/a/51164104](https://stackoverflow.com/a/51164104)
 
 
 Then, if you did not install earlier, you have to install a local web server to upload project database schema and make the connection available. In this regard, you may download and install [XAMPP](https://www.apachefriends.org/tr/index.html) (free and easy-to-use) according to your operation system.  
