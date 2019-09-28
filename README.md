@@ -25,7 +25,7 @@ You can either download our project files directly as "**.zip**" format above or
   
  Due to the fact that we have used several Python packages, you need to install them if you not already. To make this job easier, we have listed the necessary packages in the file named "**requirements.txt**" in the project folder and you can directly install all the necessary packages at once:
 
-To change the directory for entering the inside of the project folder, type this command:
+To change the directory in order to access the project folder, type this command:
 
 `cd codon.io`
 
